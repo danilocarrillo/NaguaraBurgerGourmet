@@ -1,0 +1,933 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Naguará Burger Gourmet · Handmade · Fort Lauderdale</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,800;1,600&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<script>
+  // Tweakable defaults — the host rewrites this block in place.
+  window.__TWEAKS__ = /*EDITMODE-BEGIN*/{
+    "palette": "espresso",
+    "hero": "badge",
+    "menuLayout": "grid",
+    "showRibbon": true
+  }/*EDITMODE-END*/;
+</script>
+<style>
+  /* ---------- Tokens ---------- */
+  :root {
+    --bg:        #1f1410;
+    --bg-2:      #2a1c16;
+    --paper:     #efe3cc;
+    --paper-2:   #e5d5b8;
+    --ink:       #1a1009;
+    --cream:     #f4e9d3;
+    --ember:     #e08a3c;
+    --ember-2:   #c0661f;
+    --mustard:   #d9a441;
+    --olive:     #6b6a2b;
+    --tomato:    #a9371f;
+    --bronze:    #8a5a2b;
+    --line:      rgba(239, 227, 204, 0.14);
+    --line-ink:  rgba(26, 16, 9, 0.18);
+    --shadow:    0 30px 60px -20px rgba(0,0,0,.55);
+  }
+  /* Alt palette: sunbaked — lighter, more paper-forward */
+  html[data-palette="sunbaked"] {
+    --bg:        #2d1d13;
+    --bg-2:      #3a2517;
+    --paper:     #f6ecd6;
+    --paper-2:   #ead9b7;
+    --ember:     #e68a2e;
+    --mustard:   #e6b53a;
+    --olive:     #7a7a30;
+  }
+  /* Alt palette: charcoal — more modern, higher contrast */
+  html[data-palette="charcoal"] {
+    --bg:        #121010;
+    --bg-2:      #1a1616;
+    --paper:     #f2ead8;
+    --paper-2:   #d9cbae;
+    --ember:     #ee8a36;
+    --mustard:   #e4a93a;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  html { background: var(--bg); color: var(--paper); scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: 17px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    color: var(--paper);
+    background:
+      radial-gradient(1200px 600px at 80% -10%, rgba(224,138,60,0.12), transparent 60%),
+      radial-gradient(900px 500px at -10% 30%, rgba(169,55,31,0.08), transparent 60%),
+      var(--bg);
+    background-attachment: fixed;
+  }
+
+  h1, h2, h3, h4 { font-family: 'Playfair Display', Georgia, serif; font-weight: 700; letter-spacing: -0.01em; }
+  .serif-italic { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 600; }
+  .mono { font-family: 'JetBrains Mono', ui-monospace, monospace; }
+  .upper { text-transform: uppercase; letter-spacing: 0.18em; }
+
+  /* ---------- Layout ---------- */
+  .wrap { max-width: 1240px; margin: 0 auto; padding: 0 32px; }
+  @media (max-width: 680px) { .wrap { padding: 0 20px; } }
+
+  /* ---------- Top nav ---------- */
+  .nav {
+    position: sticky; top: 0; z-index: 40;
+    backdrop-filter: blur(10px);
+    background: color-mix(in oklab, var(--bg) 78%, transparent);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-inner {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 0;
+  }
+  .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit; }
+  .nav-logo img { width: 44px; height: 44px; border-radius: 50%; display: block; }
+  .nav-logo .name { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 18px; color: var(--cream); }
+  .nav-logo .sub { font-size: 10.5px; letter-spacing: .22em; color: var(--ember); text-transform: uppercase; font-weight: 600; }
+  .nav-links { display: flex; gap: 28px; }
+  .nav-links a {
+    color: var(--paper); text-decoration: none;
+    font-size: 13.5px; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 500;
+    padding: 8px 0; border-bottom: 1px solid transparent;
+    transition: border-color .2s, color .2s;
+  }
+  .nav-links a:hover { color: var(--ember); border-color: var(--ember); }
+  .nav-cta {
+    background: var(--ember); color: var(--ink) !important;
+    padding: 10px 18px !important; border-radius: 999px;
+    font-weight: 700 !important; letter-spacing: .1em !important;
+    border: none !important;
+  }
+  .nav-cta:hover { background: var(--mustard); border: none !important; }
+  @media (max-width: 880px) {
+    .nav-links { display: none; }
+    .nav-cta { display: inline-block; }
+  }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    position: relative;
+    padding: 80px 0 120px;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: ""; position: absolute; inset: 0;
+    background-image:
+      radial-gradient(rgba(244,233,211,0.06) 1px, transparent 1px);
+    background-size: 22px 22px;
+    mask-image: radial-gradient(ellipse at center, #000 40%, transparent 80%);
+    pointer-events: none;
+  }
+  .hero-grid {
+    display: grid; grid-template-columns: 1.1fr 1fr; gap: 60px; align-items: center;
+    position: relative;
+  }
+  @media (max-width: 900px) { .hero-grid { grid-template-columns: 1fr; gap: 40px; } }
+
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 10px;
+    color: var(--ember); font-size: 12px; letter-spacing: .28em; text-transform: uppercase; font-weight: 600;
+  }
+  .eyebrow::before {
+    content: ""; width: 28px; height: 1px; background: var(--ember); display: inline-block;
+  }
+  .hero h1 {
+    font-size: clamp(48px, 7vw, 92px);
+    line-height: 0.96; margin: 18px 0 20px;
+    color: var(--cream);
+  }
+  .hero h1 em {
+    font-style: italic; color: var(--ember); font-weight: 600;
+  }
+  .hero p.lede {
+    font-size: 19px; max-width: 44ch; color: color-mix(in oklab, var(--paper) 82%, transparent);
+    margin: 0 0 32px;
+  }
+  .hero-cta {
+    display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 40px;
+  }
+  .btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 16px 26px; border-radius: 999px;
+    font-weight: 700; font-size: 14.5px; letter-spacing: .12em; text-transform: uppercase;
+    text-decoration: none; border: 1px solid transparent; cursor: pointer;
+    transition: transform .15s ease, background .2s, color .2s, border-color .2s;
+  }
+  .btn:hover { transform: translateY(-1px); }
+  .btn-primary { background: var(--ember); color: var(--ink); }
+  .btn-primary:hover { background: var(--mustard); }
+  .btn-ghost { background: transparent; color: var(--cream); border-color: var(--line); }
+  .btn-ghost:hover { border-color: var(--ember); color: var(--ember); }
+
+  .hero-meta {
+    display: flex; gap: 32px; flex-wrap: wrap;
+    padding-top: 28px; border-top: 1px solid var(--line);
+    font-size: 13px; letter-spacing: .06em;
+  }
+  .hero-meta div { min-width: 140px; }
+  .hero-meta .k { color: var(--ember); font-size: 11px; letter-spacing: .2em; text-transform: uppercase; margin-bottom: 6px; font-weight: 600; }
+  .hero-meta .v { color: var(--cream); font-size: 14px; }
+
+  /* Badge hero (logo-forward) */
+  .hero-badge {
+    position: relative; display: flex; justify-content: center; align-items: center;
+  }
+  .hero-badge .plate {
+    position: relative;
+    width: min(480px, 100%); aspect-ratio: 1;
+    display: grid; place-items: center;
+  }
+  .hero-badge .plate::before,
+  .hero-badge .plate::after {
+    content: ""; position: absolute; border-radius: 50%;
+    border: 1px dashed rgba(224,138,60,0.35);
+  }
+  .hero-badge .plate::before { inset: -10px; }
+  .hero-badge .plate::after { inset: -40px; border-style: solid; border-color: rgba(224,138,60,0.12); }
+  .hero-badge img {
+    width: 92%; height: auto; display: block;
+    filter: drop-shadow(0 30px 60px rgba(0,0,0,.6));
+    animation: float 7s ease-in-out infinite;
+  }
+  @keyframes float {
+    0%,100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-10px) rotate(-1.2deg); }
+  }
+  .hero-badge .chip {
+    position: absolute; background: var(--paper); color: var(--ink);
+    padding: 10px 16px; border-radius: 999px;
+    font-size: 11px; letter-spacing: .22em; font-weight: 700; text-transform: uppercase;
+    box-shadow: var(--shadow);
+  }
+  .hero-badge .chip.tl { top: 6%; left: -10px; transform: rotate(-6deg); }
+  .hero-badge .chip.br { bottom: 8%; right: -4px; transform: rotate(4deg); background: var(--ember); }
+  .hero-badge .chip.ml { bottom: 38%; left: -28px; transform: rotate(-10deg); background: var(--cream); }
+
+  /* Type-forward hero variant */
+  html[data-hero="type"] .hero-badge { display: none; }
+  html[data-hero="type"] .hero-grid { grid-template-columns: 1fr; text-align: center; }
+  html[data-hero="type"] .hero p.lede { margin-left: auto; margin-right: auto; }
+  html[data-hero="type"] .hero-cta { justify-content: center; }
+  html[data-hero="type"] .hero h1 { font-size: clamp(64px, 12vw, 180px); }
+  html[data-hero="type"] .hero-meta { justify-content: center; }
+
+  /* ---------- Ribbon ---------- */
+  .ribbon {
+    background: var(--ember);
+    color: var(--ink);
+    padding: 18px 0;
+    overflow: hidden;
+    border-top: 1px solid rgba(0,0,0,0.12);
+    border-bottom: 1px solid rgba(0,0,0,0.12);
+  }
+  .ribbon-track {
+    display: flex; gap: 48px; white-space: nowrap;
+    animation: scroll 40s linear infinite;
+    font-family: 'Playfair Display', serif; font-style: italic;
+    font-size: 22px; font-weight: 600;
+  }
+  .ribbon-track span { display: inline-flex; align-items: center; gap: 48px; }
+  .ribbon .dot { display: inline-block; width: 8px; height: 8px; background: var(--ink); border-radius: 50%; }
+  @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  html[data-ribbon="false"] .ribbon { display: none; }
+
+  /* ---------- Section scaffolding ---------- */
+  section { padding: 100px 0; position: relative; }
+  .sec-head { display: flex; align-items: end; justify-content: space-between; gap: 32px; margin-bottom: 48px; }
+  .sec-head h2 { font-size: clamp(36px, 5vw, 64px); line-height: 1; margin: 12px 0 0; color: var(--cream); }
+  .sec-head .num { color: var(--ember); font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: .2em; }
+  .sec-head p { max-width: 44ch; margin: 0; color: color-mix(in oklab, var(--paper) 70%, transparent); }
+  @media (max-width: 800px) { .sec-head { flex-direction: column; align-items: flex-start; } }
+
+  /* ---------- Menu ---------- */
+  .menu {
+    background:
+      linear-gradient(180deg, transparent, rgba(0,0,0,.25) 60%),
+      var(--bg-2);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .cat-tabs {
+    display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 40px;
+    border-top: 1px solid var(--line); padding-top: 24px;
+  }
+  .cat-tab {
+    background: transparent; border: 1px solid var(--line); color: var(--paper);
+    padding: 10px 18px; border-radius: 999px;
+    font-size: 12.5px; letter-spacing: .14em; text-transform: uppercase; font-weight: 600;
+    cursor: pointer; transition: all .15s;
+    font-family: inherit;
+  }
+  .cat-tab:hover { color: var(--ember); border-color: var(--ember); }
+  .cat-tab[aria-selected="true"] { background: var(--ember); color: var(--ink); border-color: var(--ember); }
+
+  .menu-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr);
+    gap: 8px 48px;
+  }
+  @media (max-width: 800px) { .menu-grid { grid-template-columns: 1fr; gap: 4px; } }
+  html[data-menu="list"] .menu-grid { grid-template-columns: 1fr; gap: 0; }
+
+  .item {
+    display: grid; grid-template-columns: 56px 1fr auto;
+    gap: 18px; align-items: start;
+    padding: 22px 0;
+    border-bottom: 1px dashed var(--line);
+  }
+  .item:last-child { border-bottom: 0; }
+  .item-img {
+    width: 56px; height: 56px; border-radius: 10px;
+    background:
+      repeating-linear-gradient(45deg, rgba(244,233,211,0.08) 0 4px, transparent 4px 10px),
+      color-mix(in oklab, var(--paper) 14%, var(--bg-2));
+    border: 1px solid var(--line);
+    display: grid; place-items: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px; color: color-mix(in oklab, var(--paper) 55%, transparent);
+    text-transform: uppercase; letter-spacing: .1em;
+    flex-shrink: 0;
+  }
+  .item h3 {
+    font-size: 20px; margin: 0 0 6px; color: var(--cream); font-weight: 700;
+  }
+  .item .desc {
+    margin: 0; font-size: 14px; line-height: 1.5;
+    color: color-mix(in oklab, var(--paper) 70%, transparent);
+  }
+  .item .tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+  .item .tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: .1em; text-transform: uppercase;
+    padding: 3px 8px; border-radius: 4px;
+    background: rgba(224,138,60,0.12); color: var(--ember); border: 1px solid rgba(224,138,60,0.25);
+  }
+  .item .tag.veg { color: #a9c179; background: rgba(169,193,121,0.1); border-color: rgba(169,193,121,0.25); }
+  .item .tag.hot { color: #e89a7a; background: rgba(232,154,122,0.12); border-color: rgba(232,154,122,0.3); }
+
+  .price {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px; color: var(--ember); font-weight: 700;
+    white-space: nowrap;
+  }
+  .price small { font-size: 13px; color: color-mix(in oklab, var(--paper) 55%, transparent); font-weight: 400; display: block; margin-top: 2px; font-family: 'DM Sans', sans-serif; letter-spacing: .05em; }
+
+  .cat-pane { display: none; }
+  .cat-pane[data-active="true"] { display: block; animation: fade .3s ease; }
+  @keyframes fade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+  .cat-intro {
+    display: grid; grid-template-columns: 1fr 1.2fr; gap: 48px;
+    padding: 32px; border: 1px solid var(--line); border-radius: 16px;
+    background: rgba(0,0,0,0.22);
+    margin-bottom: 32px;
+  }
+  @media (max-width: 800px) { .cat-intro { grid-template-columns: 1fr; gap: 24px; } }
+  .cat-intro .big {
+    font-family: 'Playfair Display', serif; font-style: italic;
+    font-size: clamp(28px, 3vw, 40px); line-height: 1.1; color: var(--cream);
+    margin: 0;
+  }
+  .cat-intro p { margin: 0; font-size: 15px; color: color-mix(in oklab, var(--paper) 78%, transparent); }
+  .cat-intro .big::first-letter { color: var(--ember); }
+
+  /* ---------- Story / Pepito ---------- */
+  .story {
+    padding: 140px 0;
+    background:
+      linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%);
+  }
+  .story-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+  @media (max-width: 800px) { .story-grid { grid-template-columns: 1fr; } }
+  .story blockquote {
+    margin: 0; font-family: 'Playfair Display', serif; font-style: italic;
+    font-size: clamp(24px, 2.6vw, 36px); line-height: 1.3; color: var(--cream);
+  }
+  .story blockquote::before { content: "\201C"; color: var(--ember); font-size: 72px; line-height: 0; position: relative; top: 18px; margin-right: 4px; }
+  .story .attr { margin-top: 28px; color: var(--ember); font-size: 12px; letter-spacing: .22em; text-transform: uppercase; font-weight: 600; }
+
+  .story-image {
+    aspect-ratio: 4/5; border-radius: 12px;
+    background:
+      repeating-linear-gradient(45deg, rgba(244,233,211,0.06) 0 6px, transparent 6px 14px),
+      linear-gradient(160deg, rgba(224,138,60,0.12), rgba(169,55,31,0.12));
+    border: 1px solid var(--line);
+    display: grid; place-items: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: .2em; text-transform: uppercase;
+    color: color-mix(in oklab, var(--paper) 60%, transparent);
+    position: relative;
+  }
+  .story-image::after { content: "pepito · foto 4:5"; }
+  .story-image .stamp {
+    position: absolute; top: 20px; right: 20px;
+    width: 90px; height: 90px; border-radius: 50%;
+    border: 2px dashed var(--ember); color: var(--ember);
+    display: grid; place-items: center;
+    font-family: 'Playfair Display', serif; font-style: italic; font-size: 13px;
+    transform: rotate(-12deg);
+    line-height: 1.1; text-align: center;
+  }
+
+  /* ---------- Location ---------- */
+  .location { padding: 120px 0; }
+  .loc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; }
+  @media (max-width: 800px) { .loc-grid { grid-template-columns: 1fr; } }
+  .loc-card {
+    padding: 40px; border: 1px solid var(--line); border-radius: 16px;
+    background: rgba(0,0,0,0.2);
+  }
+  .loc-card h3 { margin: 0 0 20px; color: var(--cream); font-size: 26px; }
+  .loc-row { display: grid; grid-template-columns: 120px 1fr; gap: 16px; padding: 14px 0; border-bottom: 1px dashed var(--line); align-items: baseline; }
+  .loc-row:last-child { border-bottom: 0; }
+  .loc-row .k { color: var(--ember); font-size: 11px; letter-spacing: .22em; text-transform: uppercase; font-weight: 600; }
+  .loc-row .v { color: var(--cream); font-size: 15px; }
+
+  .map {
+    aspect-ratio: 1; border-radius: 16px;
+    background:
+      repeating-linear-gradient(0deg, rgba(244,233,211,0.05) 0 1px, transparent 1px 48px),
+      repeating-linear-gradient(90deg, rgba(244,233,211,0.05) 0 1px, transparent 1px 48px),
+      linear-gradient(160deg, var(--bg-2), var(--bg));
+    border: 1px solid var(--line);
+    position: relative; overflow: hidden;
+  }
+  .map .pin {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    width: 18px; height: 18px; border-radius: 50%;
+    background: var(--ember);
+    box-shadow: 0 0 0 8px rgba(224,138,60,0.25), 0 0 0 18px rgba(224,138,60,0.12);
+  }
+  .map .label {
+    position: absolute; bottom: 20px; left: 20px; right: 20px;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    letter-spacing: .15em; color: color-mix(in oklab, var(--paper) 60%, transparent);
+    text-transform: uppercase;
+    display: flex; justify-content: space-between;
+  }
+  .map .road {
+    position: absolute; left: 0; right: 0; top: 62%; height: 2px;
+    background: var(--ember); opacity: .25;
+  }
+
+  /* ---------- Footer ---------- */
+  footer { padding: 60px 0 40px; border-top: 1px solid var(--line); }
+  .foot {
+    display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px;
+  }
+  @media (max-width: 700px) { .foot { grid-template-columns: 1fr; } }
+  .foot h4 { font-size: 12px; letter-spacing: .22em; text-transform: uppercase; color: var(--ember); margin: 0 0 14px; font-family: 'DM Sans', sans-serif; font-weight: 700; }
+  .foot a { color: var(--paper); text-decoration: none; display: block; padding: 4px 0; font-size: 14px; }
+  .foot a:hover { color: var(--ember); }
+  .foot-bottom { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; font-size: 12px; letter-spacing: .1em; color: color-mix(in oklab, var(--paper) 55%, transparent); flex-wrap: wrap; gap: 12px; }
+
+  /* ---------- Tweaks panel ---------- */
+  #tweaks {
+    position: fixed; bottom: 24px; right: 24px; z-index: 100;
+    background: var(--paper); color: var(--ink);
+    border-radius: 14px; padding: 18px;
+    box-shadow: 0 20px 50px rgba(0,0,0,.5);
+    font-family: 'DM Sans', sans-serif; font-size: 13px;
+    min-width: 240px;
+    display: none;
+    border: 1px solid var(--bronze);
+  }
+  #tweaks.on { display: block; }
+  #tweaks h5 { margin: 0 0 12px; font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 700; }
+  #tweaks .row { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 8px 0; border-top: 1px solid var(--line-ink); }
+  #tweaks .row:first-of-type { border-top: 0; }
+  #tweaks label { font-weight: 600; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; }
+  #tweaks select, #tweaks input[type=checkbox] {
+    font-family: inherit; font-size: 12px; padding: 4px 8px;
+    border: 1px solid var(--bronze); border-radius: 6px; background: var(--cream);
+  }
+</style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav class="nav">
+  <div class="wrap nav-inner">
+    <a href="#" class="nav-logo">
+      <img src="assets/naguara-logo.png" alt="Naguará Burger">
+      <span>
+        <span class="name">Naguará Burger</span><br>
+        <span class="sub">Handmade · Gourmet</span>
+      </span>
+    </a>
+    <div class="nav-links">
+      <a href="#menu">Menú</a>
+      <a href="#pepitos">Pepitos</a>
+      <a href="#historia">Historia</a>
+      <a href="#ubicacion">Ubicación</a>
+      <a class="nav-cta" href="https://wa.me/17866266849" target="_blank" rel="noopener">Ordenar</a>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow">Est. 2025 · Fort Lauderdale, FL</span>
+      <h1>Sabor <em>venezolano</em>, hecho a la parrilla.</h1>
+      <p class="lede">Hamburguesas artesanales, pepitos cargados y clásicos criollos. Cocinamos pocas, las hacemos bien — y las servimos desde nuestro food truck en Griffin Road.</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#menu">Ver el menú →</a>
+        <a class="btn btn-ghost" href="https://wa.me/17866266849" target="_blank" rel="noopener">Pedir por WhatsApp</a>
+      </div>
+      <div class="hero-meta">
+        <div><div class="k">Horario</div><div class="v">Dom–Jue · 6pm–11pm<br>Vie–Sáb · 6pm–1am</div></div>
+        <div><div class="k">Dirección</div><div class="v">4385 Griffin Rd<br>Fort Lauderdale, FL 33314</div></div>
+        <div><div class="k">WhatsApp</div><div class="v">+1 (786) 626-6849</div></div>
+      </div>
+    </div>
+    <div class="hero-badge">
+      <div class="plate">
+        <img src="assets/naguara-logo.png" alt="Logo Naguará Burger Gourmet">
+        <div class="chip tl">100% Handmade</div>
+        <div class="chip ml">Food Truck</div>
+        <div class="chip br">Open tonight</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Marquee ribbon -->
+<div class="ribbon">
+  <div class="ribbon-track">
+    <span>
+      <em>Naguará!</em> <span class="dot"></span> Smashed to order <span class="dot"></span> Pan brioche artesanal <span class="dot"></span> Carne Angus <span class="dot"></span> Salsas de la casa <span class="dot"></span> Desde Venezuela, para Florida <span class="dot"></span>
+    </span>
+    <span aria-hidden="true">
+      <em>Naguará!</em> <span class="dot"></span> Smashed to order <span class="dot"></span> Pan brioche artesanal <span class="dot"></span> Carne Angus <span class="dot"></span> Salsas de la casa <span class="dot"></span> Desde Venezuela, para Florida <span class="dot"></span>
+    </span>
+  </div>
+</div>
+
+<!-- Menu -->
+<section class="menu" id="menu">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <span class="num">01 / Menú</span>
+        <h2>Lo que sale de la plancha</h2>
+      </div>
+      <p>Cuatro secciones, todo preparado al momento. Los precios son referenciales — confirma por WhatsApp al hacer tu pedido.</p>
+    </div>
+
+    <div class="cat-tabs" role="tablist">
+      <button class="cat-tab" role="tab" aria-selected="true" data-cat="burgers">Hamburguesas</button>
+      <button class="cat-tab" role="tab" aria-selected="false" data-cat="pepitos">Pepitos</button>
+      <button class="cat-tab" role="tab" aria-selected="false" data-cat="criolla">Cocina criolla</button>
+      <button class="cat-tab" role="tab" aria-selected="false" data-cat="extras">Postres, bebidas & extras</button>
+    </div>
+
+    <!-- Burgers -->
+    <div class="cat-pane" id="pane-burgers" data-active="true">
+      <div class="cat-intro">
+        <h3 class="big">Hamburguesas gourmet, hechas como se deben.</h3>
+        <p>Carne Angus molida en casa, pan brioche del día, queso derretido al punto. Cada burger lleva salsas de la casa — y el nombre cuenta una historia.</p>
+      </div>
+      <div class="menu-grid">
+        <div class="item">
+          <div class="item-img">BURGER · 1</div>
+          <div>
+            <h3>La Naguará</h3>
+            <p class="desc">Doble carne Angus, queso cheddar fundido, cebolla caramelizada, tocino y salsa de la casa.</p>
+            <div class="tags"><span class="tag">firma</span><span class="tag">doble</span></div>
+          </div>
+          <div class="price">$14<small>single · $11</small></div>
+        </div>
+        <div class="item">
+          <div class="item-img">BURGER · 2</div>
+          <div>
+            <h3>La Caraqueña</h3>
+            <p class="desc">Smash burger con queso amarillo, papitas juliana, repollo, tomate y salsa rosada criolla.</p>
+            <div class="tags"><span class="tag">smash</span></div>
+          </div>
+          <div class="price">$12</div>
+        </div>
+        <div class="item">
+          <div class="item-img">BURGER · 3</div>
+          <div>
+            <h3>La Maracucha</h3>
+            <p class="desc">Carne al punto, queso de mano, aguacate, plátano maduro frito y mayo de ajo.</p>
+            <div class="tags"><span class="tag">tropical</span></div>
+          </div>
+          <div class="price">$13</div>
+        </div>
+        <div class="item">
+          <div class="item-img">BURGER · 4</div>
+          <div>
+            <h3>La Llanera</h3>
+            <p class="desc">Angus, provolone, cebolla asada, tocineta crocante, rúgula y reducción de guayaba.</p>
+            <div class="tags"><span class="tag">ahumada</span></div>
+          </div>
+          <div class="price">$13.5</div>
+        </div>
+        <div class="item">
+          <div class="item-img">BURGER · 5</div>
+          <div>
+            <h3>La Gocha</h3>
+            <p class="desc">Triple carne, triple queso, tocineta, cebolla frita — no es para todo el mundo.</p>
+            <div class="tags"><span class="hot tag">picante opcional</span><span class="tag">XL</span></div>
+          </div>
+          <div class="price">$17</div>
+        </div>
+        <div class="item">
+          <div class="item-img">BURGER · 6</div>
+          <div>
+            <h3>La Verdecita</h3>
+            <p class="desc">Medallón de frijoles negros y quinoa, queso de cabra, guacamole fresco.</p>
+            <div class="tags"><span class="veg tag">vegetariana</span></div>
+          </div>
+          <div class="price">$12</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pepitos -->
+    <div class="cat-pane" id="pane-pepitos">
+      <div class="cat-intro">
+        <h3 class="big">El pepito: ícono de la calle venezolana.</h3>
+        <p>Pan cargado de carne, pollo o mixto, bañado en salsas. Nació en los años 80 en Caracas, Valencia y Maracaibo como la mejor comida de madrugada — y aquí lo honramos.</p>
+      </div>
+      <div class="menu-grid">
+        <div class="item">
+          <div class="item-img">PEPITO · 1</div>
+          <div>
+            <h3>Pepito de Carne</h3>
+            <p class="desc">Solomo en tiras, queso amarillo, lechuga, tomate, papitas juliana y todas las salsas.</p>
+            <div class="tags"><span class="tag">clásico</span></div>
+          </div>
+          <div class="price">$13</div>
+        </div>
+        <div class="item">
+          <div class="item-img">PEPITO · 2</div>
+          <div>
+            <h3>Pepito de Pollo</h3>
+            <p class="desc">Pechuga a la plancha, queso fundido, vegetales frescos y la salsa de la casa.</p>
+          </div>
+          <div class="price">$12</div>
+        </div>
+        <div class="item">
+          <div class="item-img">PEPITO · 3</div>
+          <div>
+            <h3>Pepito Mixto</h3>
+            <p class="desc">Carne + pollo, tocineta, doble queso, aguacate y papitas crujientes.</p>
+            <div class="tags"><span class="tag">recomendado</span></div>
+          </div>
+          <div class="price">$15</div>
+        </div>
+        <div class="item">
+          <div class="item-img">PEPITO · 4</div>
+          <div>
+            <h3>Pepito Naguará</h3>
+            <p class="desc">Nuestra versión: triple proteína, cuatro salsas, queso de mano derretido, cebolla crispy.</p>
+            <div class="tags"><span class="tag">firma</span><span class="hot tag">cargado</span></div>
+          </div>
+          <div class="price">$17</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Criolla -->
+    <div class="cat-pane" id="pane-criolla">
+      <div class="cat-intro">
+        <h3 class="big">La cocina criolla, sin atajos.</h3>
+        <p>Arepas, empanadas, patacones y algún clásico de fin de semana. Ingredientes frescos, masa del día, sabor de casa.</p>
+      </div>
+      <div class="menu-grid">
+        <div class="item">
+          <div class="item-img">AREPA · 1</div>
+          <div>
+            <h3>Arepa Reina Pepiada</h3>
+            <p class="desc">Pollo mechado, aguacate, mayonesa casera — la más pedida del país.</p>
+          </div>
+          <div class="price">$9</div>
+        </div>
+        <div class="item">
+          <div class="item-img">AREPA · 2</div>
+          <div>
+            <h3>Arepa Pelúa</h3>
+            <p class="desc">Carne mechada y queso amarillo derretido. Simple y perfecta.</p>
+          </div>
+          <div class="price">$9</div>
+        </div>
+        <div class="item">
+          <div class="item-img">PATACÓN</div>
+          <div>
+            <h3>Patacón Zuliano</h3>
+            <p class="desc">Plátano verde aplastado, carne mechada o pollo, queso, lechuga, tomate y salsas.</p>
+            <div class="tags"><span class="tag">abundante</span></div>
+          </div>
+          <div class="price">$14</div>
+        </div>
+        <div class="item">
+          <div class="item-img">EMPANADA</div>
+          <div>
+            <h3>Empanadas (x2)</h3>
+            <p class="desc">Masa de maíz crocante, rellenas de carne, pollo, queso o cazón. A elección.</p>
+          </div>
+          <div class="price">$7</div>
+        </div>
+        <div class="item">
+          <div class="item-img">TEQUEÑO</div>
+          <div>
+            <h3>Tequeños (x6)</h3>
+            <p class="desc">Masa envuelta sobre queso blanco, fritos al momento. Con guasacaca o rosada.</p>
+          </div>
+          <div class="price">$8</div>
+        </div>
+        <div class="item">
+          <div class="item-img">CACHAPA</div>
+          <div>
+            <h3>Cachapa con queso</h3>
+            <p class="desc">Tortilla dulce de maíz tierno, queso de mano derretido, mantequilla.</p>
+            <div class="tags"><span class="veg tag">vegetariana</span></div>
+          </div>
+          <div class="price">$11</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Extras -->
+    <div class="cat-pane" id="pane-extras">
+      <div class="cat-intro">
+        <h3 class="big">Lo dulce, lo frío, lo que acompaña.</h3>
+        <p>Postres hechos a mano, bebidas clásicas venezolanas, y todo lo que completa la mesa.</p>
+      </div>
+      <div class="menu-grid">
+        <div class="item">
+          <div class="item-img">POSTRE</div>
+          <div>
+            <h3>Quesillo</h3>
+            <p class="desc">El flan venezolano con caramelo. Textura sedosa, dulzor justo.</p>
+          </div>
+          <div class="price">$6</div>
+        </div>
+        <div class="item">
+          <div class="item-img">POSTRE</div>
+          <div>
+            <h3>Tres leches</h3>
+            <p class="desc">Bizcocho empapado, nata montada, canela. Handcrafted.</p>
+          </div>
+          <div class="price">$6</div>
+        </div>
+        <div class="item">
+          <div class="item-img">BEBIDA</div>
+          <div>
+            <h3>Chicha criolla</h3>
+            <p class="desc">Arroz, leche, canela, vainilla. Servida bien fría.</p>
+          </div>
+          <div class="price">$5</div>
+        </div>
+        <div class="item">
+          <div class="item-img">BEBIDA</div>
+          <div>
+            <h3>Papelón con limón</h3>
+            <p class="desc">Refresco tradicional de caña de azúcar y limón fresco.</p>
+          </div>
+          <div class="price">$4</div>
+        </div>
+        <div class="item">
+          <div class="item-img">EXTRA</div>
+          <div>
+            <h3>Papas de la casa</h3>
+            <p class="desc">Corte rústico, especias, salsa rosada. Para compartir (o no).</p>
+          </div>
+          <div class="price">$5</div>
+        </div>
+        <div class="item">
+          <div class="item-img">EXTRA</div>
+          <div>
+            <h3>Yuca frita</h3>
+            <p class="desc">Crocante por fuera, tierna por dentro. Con mojo de ajo.</p>
+          </div>
+          <div class="price">$5</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Story -->
+<section class="story" id="historia">
+  <div class="wrap story-grid">
+    <div>
+      <span class="eyebrow">Historia · Pepito 101</span>
+      <blockquote>
+        El pepito es uno de los íconos más queridos de la comida callejera venezolana — creatividad y sencillez en un solo pan, servido al calor de la noche urbana.
+      </blockquote>
+      <div class="attr">— sobre el origen del pepito, años 80</div>
+      <p style="margin-top: 32px; max-width: 52ch; color: color-mix(in oklab, var(--paper) 75%, transparent);">
+        Nació como una versión local del sandwich de carne, inspirado en los subs y hoagies. El nombre — "pepito", apodo cariñoso en español — marcaba su espíritu: informal, sabroso, de la calle. En <strong style="color: var(--cream);">Caracas, Valencia y Maracaibo</strong>, se convirtió en la alternativa nocturna a la arepa y la hamburguesa. Aquí en Fort Lauderdale lo servimos fiel al original — solo que con un poco más de queso.
+      </p>
+    </div>
+    <div class="story-image">
+      <div class="stamp">Desde<br>1980's</div>
+    </div>
+  </div>
+</section>
+
+<!-- Location -->
+<section class="location" id="ubicacion">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <span class="num">02 / Ubicación</span>
+        <h2>Nos encuentras en Griffin Road</h2>
+      </div>
+      <p>Food truck al lado de Brigitt Flowers. Parqueo gratis. Acepta pickup y delivery por WhatsApp.</p>
+    </div>
+    <div class="loc-grid">
+      <div class="loc-card">
+        <h3>Visítanos</h3>
+        <div class="loc-row"><span class="k">Dirección</span><span class="v">4385 Griffin Rd<br>Fort Lauderdale, FL 33314</span></div>
+        <div class="loc-row"><span class="k">Referencia</span><span class="v">Al lado de Brigitt Flowers (food truck)</span></div>
+        <div class="loc-row"><span class="k">Horario</span><span class="v">Dom–Jue · 6:00pm – 11:00pm<br>Vie–Sáb · 6:00pm – 1:00am</span></div>
+        <div class="loc-row"><span class="k">WhatsApp</span><span class="v">+1 (786) 626-6849</span></div>
+        <div class="loc-row"><span class="k">Pedidos</span><span class="v"><a href="https://wa.me/17866266849" target="_blank" rel="noopener" style="color: var(--ember); text-decoration: none; border-bottom: 1px solid var(--ember);">wa.me/17866266849</a></span></div>
+        <div style="margin-top: 24px;">
+          <a href="https://wa.me/17866266849" class="btn btn-primary" target="_blank" rel="noopener">Hacer pedido ahora</a>
+        </div>
+      </div>
+      <div class="map" aria-label="Mapa ilustrativo">
+        <div class="road"></div>
+        <div class="pin"></div>
+        <div class="label">
+          <span>Griffin Rd · 26.08°N</span>
+          <span>Fort Lauderdale</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div>
+        <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 16px;">
+          <img src="assets/naguara-logo.png" alt="" style="width: 56px; height: 56px; border-radius: 50%;">
+          <div>
+            <div style="font-family: 'Playfair Display', serif; font-size: 22px; color: var(--cream);">Naguará Burger</div>
+            <div style="font-size: 11px; letter-spacing: .22em; text-transform: uppercase; color: var(--ember); font-weight: 700;">Handmade · Gourmet · Est. 2025</div>
+          </div>
+        </div>
+        <p style="max-width: 40ch; color: color-mix(in oklab, var(--paper) 70%, transparent); font-size: 14px;">
+          Food truck venezolano en Fort Lauderdale. Hamburguesas, pepitos y cocina criolla, hechos al momento.
+        </p>
+      </div>
+      <div>
+        <h4>Menú</h4>
+        <a href="#menu">Hamburguesas</a>
+        <a href="#menu">Pepitos</a>
+        <a href="#menu">Cocina criolla</a>
+        <a href="#menu">Postres & bebidas</a>
+      </div>
+      <div>
+        <h4>Contacto</h4>
+        <a href="https://wa.me/17866266849" target="_blank" rel="noopener">WhatsApp</a>
+        <a href="#ubicacion">Ubicación</a>
+        <a href="#historia">Nuestra historia</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2025 Naguará Burger Gourmet · 4385 Griffin Rd, Fort Lauderdale</span>
+      <span>Hecho con sabor venezolano</span>
+    </div>
+  </div>
+</footer>
+
+<!-- Tweaks panel -->
+<div id="tweaks">
+  <h5>Tweaks</h5>
+  <div class="row">
+    <label for="tw-palette">Palette</label>
+    <select id="tw-palette">
+      <option value="espresso">Espresso</option>
+      <option value="sunbaked">Sunbaked</option>
+      <option value="charcoal">Charcoal</option>
+    </select>
+  </div>
+  <div class="row">
+    <label for="tw-hero">Hero</label>
+    <select id="tw-hero">
+      <option value="badge">Badge-forward</option>
+      <option value="type">Type-forward</option>
+    </select>
+  </div>
+  <div class="row">
+    <label for="tw-menu">Menú layout</label>
+    <select id="tw-menu">
+      <option value="grid">Dos columnas</option>
+      <option value="list">Una columna</option>
+    </select>
+  </div>
+  <div class="row">
+    <label for="tw-ribbon">Ribbon</label>
+    <input type="checkbox" id="tw-ribbon">
+  </div>
+</div>
+
+<script>
+  // ----- Menu tabs -----
+  const tabs = document.querySelectorAll('.cat-tab');
+  const panes = document.querySelectorAll('.cat-pane');
+  tabs.forEach(t => t.addEventListener('click', () => {
+    tabs.forEach(x => x.setAttribute('aria-selected', 'false'));
+    t.setAttribute('aria-selected', 'true');
+    const cat = t.dataset.cat;
+    panes.forEach(p => p.setAttribute('data-active', p.id === 'pane-' + cat ? 'true' : 'false'));
+  }));
+
+  // ----- Tweaks -----
+  const TW = Object.assign({}, window.__TWEAKS__);
+  function applyTweaks() {
+    document.documentElement.dataset.palette = TW.palette;
+    document.documentElement.dataset.hero = TW.hero;
+    document.documentElement.dataset.menu = TW.menuLayout;
+    document.documentElement.dataset.ribbon = TW.showRibbon ? 'true' : 'false';
+    // sync controls
+    const p = document.getElementById('tw-palette'); if (p) p.value = TW.palette;
+    const h = document.getElementById('tw-hero'); if (h) h.value = TW.hero;
+    const m = document.getElementById('tw-menu'); if (m) m.value = TW.menuLayout;
+    const r = document.getElementById('tw-ribbon'); if (r) r.checked = !!TW.showRibbon;
+  }
+  applyTweaks();
+
+  function update(k, v) {
+    TW[k] = v;
+    applyTweaks();
+    try { window.parent.postMessage({ type: '__edit_mode_set_keys', edits: { [k]: v } }, '*'); } catch(e) {}
+  }
+
+  // Register edit-mode listener BEFORE announcing availability
+  window.addEventListener('message', (e) => {
+    const d = e.data || {};
+    if (d.type === '__activate_edit_mode') document.getElementById('tweaks').classList.add('on');
+    if (d.type === '__deactivate_edit_mode') document.getElementById('tweaks').classList.remove('on');
+  });
+  try { window.parent.postMessage({ type: '__edit_mode_available' }, '*'); } catch(e) {}
+
+  document.getElementById('tw-palette').addEventListener('change', e => update('palette', e.target.value));
+  document.getElementById('tw-hero').addEventListener('change', e => update('hero', e.target.value));
+  document.getElementById('tw-menu').addEventListener('change', e => update('menuLayout', e.target.value));
+  document.getElementById('tw-ribbon').addEventListener('change', e => update('showRibbon', e.target.checked));
+</script>
+
+</body>
+</html>

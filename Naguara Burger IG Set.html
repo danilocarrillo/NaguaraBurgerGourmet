@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Naguará Burger · Instagram post set</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600;1,700&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+  window.__TWEAKS__ = /*EDITMODE-BEGIN*/{
+    "animate": true,
+    "grainIntensity": "high",
+    "cornerAccent": true
+  }/*EDITMODE-END*/;
+</script>
+<style>
+  html, body { margin: 0; padding: 0; background: #0e0806; color: #efe3cc; font-family: 'DM Sans', sans-serif; }
+  /* Grain overlay — reused via .grain class */
+  .grain {
+    position: absolute; inset: 0; pointer-events: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.95 0 0 0 0 0.88 0 0 0 0 0.75 0 0 0 0.55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    mix-blend-mode: overlay; opacity: 0.22;
+  }
+  html[data-grain="low"] .grain { opacity: 0.10; }
+  html[data-grain="high"] .grain { opacity: 0.38; }
+  html[data-corners="false"] .post > div:first-child + div { display: none; }
+
+  /* Subtle motion on hover (per post) */
+  .post img { transition: transform 0.6s cubic-bezier(.2,.7,.2,1); }
+  html[data-animate="true"] .dc-artboard-card:hover .post img { transform: scale(1.02) rotate(-0.5deg); }
+
+  /* Badge pulse on post 1 */
+  html[data-animate="true"] .post[data-anim="pulse"] img {
+    animation: breathe 6s ease-in-out infinite;
+  }
+  @keyframes breathe {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+  }
+
+  /* Tweak panel */
+  #tweaks {
+    position: fixed; bottom: 24px; right: 24px; z-index: 1000;
+    background: #efe3cc; color: #1a1009;
+    border-radius: 14px; padding: 18px 20px;
+    box-shadow: 0 20px 50px rgba(0,0,0,.55);
+    font-family: 'DM Sans', sans-serif; font-size: 13px;
+    min-width: 260px; display: none;
+    border: 1px solid #8a5a2b;
+  }
+  #tweaks.on { display: block; }
+  #tweaks h5 { margin: 0 0 14px; font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; }
+  #tweaks .row { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 10px 0; border-top: 1px solid rgba(26,16,9,0.12); }
+  #tweaks .row:first-of-type { border-top: 0; }
+  #tweaks label { font-weight: 600; font-size: 11px; letter-spacing: .1em; text-transform: uppercase; }
+  #tweaks select, #tweaks input[type=checkbox] {
+    font-family: inherit; font-size: 12px; padding: 5px 8px;
+    border: 1px solid #8a5a2b; border-radius: 6px; background: #f4e9d3;
+  }
+</style>
+</head>
+<body>
+
+<div id="root"></div>
+
+<!-- Tweaks -->
+<div id="tweaks">
+  <h5>Tweaks</h5>
+  <div class="row">
+    <label for="tw-anim">Motion</label>
+    <input type="checkbox" id="tw-anim">
+  </div>
+  <div class="row">
+    <label for="tw-grain">Grano</label>
+    <select id="tw-grain">
+      <option value="low">Bajo</option>
+      <option value="medium">Medio</option>
+      <option value="high">Alto</option>
+    </select>
+  </div>
+  <div class="row">
+    <label for="tw-corners">Marcos esquinas</label>
+    <input type="checkbox" id="tw-corners">
+  </div>
+</div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel" src="../design-canvas.jsx"></script>
+<script type="text/babel" src="post-components.jsx"></script>
+
+<script type="text/babel">
+  const { DesignCanvas, DCSection, DCArtboard } = window;
+
+  function App() {
+    return (
+      <DesignCanvas title="Naguará Burger · Instagram Set" subtitle="9 posts · 1080×1350 · vintage craft Venezuelan">
+        <DCSection id="brand" title="Brand & announcement">
+          <DCArtboard id="p1" label="01 · Logo badge" width={1080} height={1350}>
+            <div data-anim="pulse" style={{ width: '100%', height: '100%' }}>
+              <PostLogo />
+            </div>
+          </DCArtboard>
+          <DCArtboard id="p2" label="02 · ¡Ya abrimos!" width={1080} height={1350}>
+            <PostOpen />
+          </DCArtboard>
+          <DCArtboard id="p9" label="09 · Pedí por WhatsApp" width={1080} height={1350}>
+            <PostCTA />
+          </DCArtboard>
+        </DCSection>
+
+        <DCSection id="menu" title="Menú highlights">
+          <DCArtboard id="p3" label="03 · La Naguará (firma)" width={1080} height={1350}>
+            <PostSignature />
+          </DCArtboard>
+          <DCArtboard id="p4" label="04 · Menú completo" width={1080} height={1350}>
+            <PostMenu />
+          </DCArtboard>
+          <DCArtboard id="p6" label="06 · Combo ticket" width={1080} height={1350}>
+            <PostTicket />
+          </DCArtboard>
+        </DCSection>
+
+        <DCSection id="story" title="Historia & logística">
+          <DCArtboard id="p5" label="05 · Historia del pepito" width={1080} height={1350}>
+            <PostPepito />
+          </DCArtboard>
+          <DCArtboard id="p7" label="07 · Ubicación" width={1080} height={1350}>
+            <PostLocation />
+          </DCArtboard>
+          <DCArtboard id="p8" label="08 · Horario" width={1080} height={1350}>
+            <PostHours />
+          </DCArtboard>
+        </DCSection>
+      </DesignCanvas>
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+
+  // ---- Tweaks wiring ----
+  const TW = Object.assign({}, window.__TWEAKS__);
+  function applyTweaks() {
+    document.documentElement.dataset.animate = TW.animate ? 'true' : 'false';
+    document.documentElement.dataset.grain = TW.grainIntensity;
+    document.documentElement.dataset.corners = TW.cornerAccent ? 'true' : 'false';
+    const a = document.getElementById('tw-anim'); if (a) a.checked = !!TW.animate;
+    const g = document.getElementById('tw-grain'); if (g) g.value = TW.grainIntensity;
+    const c = document.getElementById('tw-corners'); if (c) c.checked = !!TW.cornerAccent;
+  }
+  applyTweaks();
+  function update(k, v) {
+    TW[k] = v; applyTweaks();
+    try { window.parent.postMessage({ type: '__edit_mode_set_keys', edits: { [k]: v } }, '*'); } catch(e) {}
+  }
+  window.addEventListener('message', (e) => {
+    const d = e.data || {};
+    if (d.type === '__activate_edit_mode') document.getElementById('tweaks').classList.add('on');
+    if (d.type === '__deactivate_edit_mode') document.getElementById('tweaks').classList.remove('on');
+  });
+  try { window.parent.postMessage({ type: '__edit_mode_available' }, '*'); } catch(e) {}
+
+  document.getElementById('tw-anim').addEventListener('change', e => update('animate', e.target.checked));
+  document.getElementById('tw-grain').addEventListener('change', e => update('grainIntensity', e.target.value));
+  document.getElementById('tw-corners').addEventListener('change', e => update('cornerAccent', e.target.checked));
+</script>
+
+</body>
+</html>
