@@ -1,0 +1,277 @@
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#FAF6EE;color:#1A1410;width:100%;overflow-x:hidden}
+a{text-decoration:none;color:inherit}
+
+/* NAV */
+.mn{background:#1A1410;padding:0 28px;display:flex;align-items:center;justify-content:space-between;height:50px}
+.ml{color:#F5C12E;font-size:14px;font-weight:700;font-family:Georgia,serif}
+.mi{display:flex;align-items:center;gap:2px}
+.ma{display:flex;flex-direction:column;align-items:center;padding:6px 12px;border-radius:4px}
+.ma.r{background:#F5C12E}
+.mn1{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#FAF6EE;white-space:nowrap}
+.mn2{font-size:8px;text-transform:uppercase;color:#BA8D15;margin-top:1px}
+.ma.r .mn1{color:#1A1410}.ma.r .mn2{color:#854F0B}
+.msep{width:0.5px;height:24px;background:#2e2620;margin:0 2px}
+.ms{background:#0f0c08;padding:0 28px;display:flex;align-items:center;height:32px;overflow-x:auto;border-bottom:0.5px solid #2a2218}
+.ms::-webkit-scrollbar{display:none}
+.msl{display:inline-block;padding:0 12px;font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:#6a5a40;white-space:nowrap;line-height:32px;border-right:0.5px solid #2a2218}
+.msl.h{color:#BA8D15}.msl.a{color:#F5C12E}
+.tr{height:3px;display:flex}
+.tr span{flex:1}
+
+/* HERO BLOG */
+.bh{background:#1A1410;padding:48px 4% 36px}
+.bh-tag{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:#BA8D15;display:block;margin-bottom:10px}
+.bh-title{font-family:Georgia,serif;font-size:34px;font-weight:900;color:#F5C12E;line-height:1.1;margin-bottom:10px}
+.bh-sub{font-size:12px;color:#c0a878;line-height:1.8;max-width:540px;font-weight:300;margin-bottom:28px}
+.bh-autor{display:flex;align-items:center;gap:10px}
+.bh-av{width:36px;height:36px;border-radius:50%;background:#2a2218;border:1.5px solid #BA8D15;display:flex;align-items:center;justify-content:center;font-family:Georgia,serif;font-size:13px;color:#F5C12E;font-weight:700;flex-shrink:0}
+.bh-an{font-size:10px;font-weight:700;color:#FAF6EE;letter-spacing:.06em;text-transform:uppercase}
+.bh-as{font-size:9px;color:#6a5a40;margin-top:1px}
+
+/* CORRIENTES */
+.co{background:#FAF6EE;padding:0 4%;border-bottom:0.5px solid #e0d8c8}
+.co-inner{display:flex;overflow-x:auto;gap:0}
+.co-inner::-webkit-scrollbar{display:none}
+.cc{flex:1;min-width:0;padding:20px 0 0;border-right:0.5px solid #e0d8c8;cursor:pointer;transition:background .2s}
+.cc:last-child{border-right:none}
+.cc:hover{background:#F5EDD8}
+.cc.active{background:#fff;border-bottom:2.5px solid #F5C12E}
+.cc-num{font-size:8px;letter-spacing:.15em;color:#BA8D15;text-transform:uppercase;padding:0 20px;display:block;margin-bottom:4px}
+.cc-name{font-family:Georgia,serif;font-size:14px;font-weight:700;color:#1A1410;padding:0 20px;display:block;margin-bottom:6px;line-height:1.2}
+.cc-desc{font-size:10px;color:#8a7a60;padding:0 20px;line-height:1.6;display:block;margin-bottom:14px}
+.cc-bar{height:2px;width:100%}
+
+/* DESCRIPCIÓN CORRIENTE ACTIVA */
+.cd{padding:22px 4%;background:#fff;border-bottom:0.5px solid #e0d8c8;display:none}
+.cd.show{display:flex;gap:32px;align-items:flex-start;flex-wrap:wrap}
+.cd-text{flex:1;min-width:200px}
+.cd-label{font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:#BA8D15;display:block;margin-bottom:6px}
+.cd-titulo{font-family:Georgia,serif;font-size:18px;font-weight:700;color:#1A1410;margin-bottom:8px}
+.cd-desc{font-size:11px;color:#5a4e3a;line-height:1.8;font-weight:300}
+.cd-links{display:flex;flex-direction:column;gap:6px;min-width:160px}
+.cd-link{font-size:10px;font-weight:700;padding:8px 14px;border-radius:4px;text-align:center;display:block}
+
+/* FILTRO DE CATEGORÍAS */
+.cf{background:#0f0c08;padding:0 4%;display:flex;align-items:center;height:36px;overflow-x:auto;gap:0;border-bottom:0.5px solid #2a2218}
+.cf::-webkit-scrollbar{display:none}
+.cf-label{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:#3a3028;white-space:nowrap;margin-right:16px;flex-shrink:0}
+.cf-btn{font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:#6a5a40;white-space:nowrap;padding:0 14px;height:36px;display:flex;align-items:center;border-right:0.5px solid #1e1a14;cursor:pointer;transition:color .15s;flex-shrink:0}
+.cf-btn:hover{color:#BA8D15}
+.cf-btn.on{color:#F5C12E}
+
+/* SEPARADOR FEED */
+.sf{padding:18px 4% 10px;background:#FAF6EE;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.sf-label{font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:#8a7a60}
+.sf-count{font-size:9px;color:#BA8D15;letter-spacing:.06em}
+
+/* MOBILE */
+#mt{display:none}
+.mh{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;flex-shrink:0}
+.mh span{display:block;width:20px;height:2px;background:#FAF6EE;border-radius:2px}
+.mm{display:none;background:#0f0c08;flex-direction:column;max-height:0;overflow:hidden;transition:max-height .3s ease}
+#mt:checked~.mm{max-height:620px}
+.mml{display:flex;align-items:center;justify-content:space-between;padding:11px 22px;border-bottom:0.5px solid #1e1a14;text-decoration:none}
+.mmn{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:#FAF6EE}
+.mms{font-size:9px;color:#BA8D15}
+.mma{color:#3a3028;font-size:13px}
+.mml.r .mmn{color:#F5C12E}
+.mmd{height:0.5px;background:#2a2218;margin:3px 0}
+.mmsl{display:flex;align-items:center;justify-content:space-between;padding:8px 22px;border-bottom:0.5px solid #1e1a14;text-decoration:none}
+.mmsn{font-size:10px;letter-spacing:.05em;text-transform:uppercase;color:#6a5a40}
+
+@media(max-width:640px){
+  .mn{padding:0 14px}.mi{display:none}.mh{display:flex}.mm{display:flex}.ms{display:none}
+  .bh{padding:32px 4% 28px}.bh-title{font-size:24px}
+  .co-inner{flex-direction:column}
+  .cc{border-right:none;border-bottom:0.5px solid #e0d8c8;padding:14px 0 0}
+  .cc.active{border-bottom:2.5px solid #F5C12E}
+  .cd.show{flex-direction:column}
+  .cf{gap:0}
+}
+</style>
+
+<input type="checkbox" id="mt">
+
+<!-- NAV -->
+<nav class="mn">
+  <a href="https://www.danilocarrillo.com" target="_top" class="ml">Danilo Carrillo.</a>
+  <div class="mi">
+    <a href="https://www.danilocarrillo.com" target="_top" class="ma r"><span class="mn1">Naguara</span><span class="mn2">El Rey</span></a>
+    <div class="msep"></div>
+    <a href="https://www.danilocarrillo.com/inicio" target="_top" class="ma"><span class="mn1">Líder 4×4</span><span class="mn2">Liderazgo</span></a>
+    <a href="https://www.danilocarrillo.com/category/globos-y-flores" target="_top" class="ma"><span class="mn1">Flowers</span><span class="mn2">Eventos</span></a>
+    <a href="https://www.danilocarrillo.com/category/radical-cd" target="_top" class="ma"><span class="mn1">DC Radical</span><span class="mn2">Moda</span></a>
+  </div>
+  <label for="mt" class="mh" aria-label="Menú"><span></span><span></span><span></span></label>
+</nav>
+
+<!-- MENÚ MOBILE (movido aquí: justo debajo del nav, para que se abra a la vista) -->
+<div class="mm">
+  <a href="https://www.danilocarrillo.com" target="_top" class="mml r"><div><div class="mmn">Naguara Burger</div><div class="mms">El Rey</div></div><span class="mma">→</span></a>
+  <a href="https://www.danilocarrillo.com/inicio" target="_top" class="mml"><div><div class="mmn">Líder 4×4</div><div class="mms">Liderazgo</div></div><span class="mma">→</span></a>
+  <a href="https://www.danilocarrillo.com/category/globos-y-flores" target="_top" class="mml"><div><div class="mmn">Flowers Today</div><div class="mms">Flores · Eventos</div></div><span class="mma">→</span></a>
+  <a href="https://www.danilocarrillo.com/category/radical-cd" target="_top" class="mml"><div><div class="mmn">DC Radical</div><div class="mms">Moda urbana</div></div><span class="mma">→</span></a>
+  <div class="mmd"></div>
+  <a href="https://www.danilocarrillo.com/blog" target="_top" class="mmsl"><span class="mmsn" style="color:#F5C12E">Inspírate</span><span class="mma" style="font-size:11px">→</span></a>
+  <a href="https://www.danilocarrillo.com/projects-3" target="_top" class="mmsl"><span class="mmsn">Integra</span><span class="mma" style="font-size:11px">→</span></a>
+  <a href="https://www.danilocarrillo.com/services-9" target="_top" class="mmsl"><span class="mmsn">Invita</span><span class="mma" style="font-size:11px">→</span></a>
+  <a href="https://www.danilocarrillo.com/services-4-1" target="_top" class="mmsl"><span class="mmsn">Diagnóstico</span><span class="mma" style="font-size:11px">→</span></a>
+  <a href="https://www.danilocarrillo.com/general-1" target="_top" class="mmsl"><span class="mmsn">Libros</span><span class="mma" style="font-size:11px">→</span></a>
+  <a href="https://www.danilocarrillo.com/s-projects-side-by-side" target="_top" class="mmsl"><span class="mmsn">Matrimonios 3.0</span><span class="mma" style="font-size:11px">→</span></a>
+  <a href="https://www.danilocarrillo.com/contactanos" target="_top" class="mmsl"><span class="mmsn">Descarga gratuita</span><span class="mma" style="font-size:11px">→</span></a>
+  <a href="https://www.danilocarrillo.com/podcast" target="_top" class="mmsl"><span class="mmsn">Podcast</span><span class="mma" style="font-size:11px">→</span></a>
+  <a href="https://www.danilocarrillo.com/about-1" target="_top" class="mmsl"><span class="mmsn">Movilización</span><span class="mma" style="font-size:11px">→</span></a>
+  <a href="https://www.danilocarrillo.com/book-online" target="_top" class="mmsl"><span class="mmsn">Coach</span><span class="mma" style="font-size:11px">→</span></a>
+</div>
+
+<!-- SUBnav -->
+<div class="ms">
+  <a href="https://www.danilocarrillo.com/blog" target="_top" class="msl a">Inspírate</a>
+  <a href="https://www.danilocarrillo.com/projects-3" target="_top" class="msl h">Integra</a>
+  <a href="https://www.danilocarrillo.com/services-9" target="_top" class="msl h">Invita</a>
+  <a href="https://www.danilocarrillo.com/services-4-1" target="_top" class="msl">Diagnóstico</a>
+  <a href="https://www.danilocarrillo.com/general-1" target="_top" class="msl">Libros</a>
+  <a href="https://www.danilocarrillo.com/contactanos" target="_top" class="msl">Descarga gratuita</a>
+  <a href="https://www.danilocarrillo.com/s-projects-side-by-side" target="_top" class="msl">Matrimonios 3.0</a>
+  <a href="https://www.danilocarrillo.com/podcast" target="_top" class="msl">Podcast</a>
+  <a href="https://www.danilocarrillo.com/about-1" target="_top" class="msl">Movilización</a>
+  <a href="https://www.danilocarrillo.com/book-online" target="_top" class="msl">Coach</a>
+</div>
+
+<!-- BARRA DE COLOR -->
+<div class="tr">
+  <span style="background:#F5C12E"></span>
+  <span style="background:#1A3D8F"></span>
+  <span style="background:#C41E3A"></span>
+</div>
+
+<!-- HERO -->
+<div class="bh">
+  <span class="bh-tag">Blog · Danilo Carrillo</span>
+  <h1 class="bh-title">Una sola vida.<br>Cuatro corrientes.</h1>
+  <p class="bh-sub">Negocios, matrimonio, liderazgo e ideas — escritas desde la plancha, el pacto, el método y la teología. No hay separación entre lo que se vive y lo que se escribe.</p>
+  <div class="bh-autor">
+    <div class="bh-av">DC</div>
+    <div>
+      <div class="bh-an">Danilo Carrillo</div>
+      <div class="bh-as">Teólogo · Emprendedor · M.Th.M · Hialeah, Florida</div>
+    </div>
+  </div>
+</div>
+
+<!-- CORRIENTES -->
+<div class="co">
+  <div class="co-inner">
+
+    <div class="cc active" onclick="selectCorriente(this,0)">
+      <span class="cc-num">01</span>
+      <span class="cc-name">Negocios &<br>Emprendimiento</span>
+      <span class="cc-desc">El food truck, la economía del migrante, el dólar, los 8 principios, BAM.</span>
+      <div class="cc-bar" style="background:#E8581C"></div>
+    </div>
+
+    <div class="cc" onclick="selectCorriente(this,1)">
+      <span class="cc-num">02</span>
+      <span class="cc-name">Matrimonio</span>
+      <span class="cc-desc">El pacto, la crisis, el perdón, la confianza. 21 años construyendo.</span>
+      <div class="cc-bar" style="background:#D4537E"></div>
+    </div>
+
+    <div class="cc" onclick="selectCorriente(this,2)">
+      <span class="cc-num">03</span>
+      <span class="cc-name">Líder 4×4</span>
+      <span class="cc-desc">La persona y el método. Los nueve autos, los cuatro terrenos, el diagnóstico.</span>
+      <div class="cc-bar" style="background:#F5C12E"></div>
+    </div>
+
+    <div class="cc" onclick="selectCorriente(this,3)">
+      <span class="cc-num">04</span>
+      <span class="cc-name">Ideas &<br>Teopolítica</span>
+      <span class="cc-desc">Venezuela, geopolítica, fe y poder. Lo que un teólogo ve que un analista no ve.</span>
+      <div class="cc-bar" style="background:#1A3D8F"></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- DETALLE CORRIENTE ACTIVA -->
+<div id="cd0" class="cd show">
+  <div class="cd-text">
+    <span class="cd-label" style="color:#E8581C">Negocios & Emprendimiento</span>
+    <div class="cd-titulo">La economía que ningún economista mide.</div>
+    <p class="cd-desc">Cada noche, después de cerrar el food truck, un hombre maneja de regreso a casa haciendo la misma cuenta. Estos posts vienen de ahí — de la plancha, del migrante que sostiene un país que todavía no le garantiza quedarse, del negocio como misión.</p>
+  </div>
+  <div class="cd-links">
+    <a href="https://a.co/d/04CngrEQ" target="_blank" class="cd-link" style="background:#E8581C;color:#fff">El Precio del Dólar →</a>
+    <a href="https://www.danilocarrillo.com/blog/categories/naguara-vida-personal" target="_top" class="cd-link" style="background:#1A1410;color:#F5C12E">Ver posts →</a>
+  </div>
+</div>
+
+<div id="cd1" class="cd">
+  <div class="cd-text">
+    <span class="cd-label" style="color:#D4537E">Matrimonio</span>
+    <div class="cd-titulo">El pacto no es un sentimiento. Es una decisión que se renueva.</div>
+    <p class="cd-desc">21 años de matrimonio no se escriben desde la teoría. Se escriben desde las conversaciones que postergamos, los silencios que dejamos crecer, y la arquitectura del perdón real. Aquí está la serie completa.</p>
+  </div>
+  <div class="cd-links">
+    <a href="https://a.co/d/07XFNYMF" target="_blank" class="cd-link" style="background:#D4537E;color:#fff">Matrimonios en Crisis →</a>
+    <a href="https://www.danilocarrillo.com/blog/categories/matrimonio" target="_top" class="cd-link" style="background:#1A1410;color:#F5C12E">Ver posts →</a>
+  </div>
+</div>
+
+<div id="cd2" class="cd">
+  <div class="cd-text">
+    <span class="cd-label" style="color:#C9A04F">Líder 4×4</span>
+    <div class="cd-titulo">Un solo ser. Cuatro dimensiones. Cuatro esferas. Nueve autos.</div>
+    <p class="cd-desc">No lo llamo método porque suene académico. Lo llamo método porque es lo único que sobrevive cuando el entusiasmo ya no está. Estos posts son el método vivido — con presión real, en terrenos reales.</p>
+  </div>
+  <div class="cd-links">
+    <a href="https://www.danilocarrillo.com/services-4-1" target="_top" class="cd-link" style="background:#F5C12E;color:#1A1410">Diagnóstico 4×4 →</a>
+    <a href="https://www.danilocarrillo.com/blog/categories/método-líder-4-4" target="_top" class="cd-link" style="background:#1A1410;color:#F5C12E">Ver posts →</a>
+  </div>
+</div>
+
+<div id="cd3" class="cd">
+  <div class="cd-text">
+    <span class="cd-label" style="color:#1A3D8F">Ideas & Teopolítica</span>
+    <div class="cd-titulo">Lo que pasa afuera leído desde adentro.</div>
+    <p class="cd-desc">Venezuela, geopolítica, teología reformada, el mal institucionalizado, la fe como categoría política. Un teólogo con una plancha en la mano lee el mundo diferente. Estos posts son esa lectura.</p>
+  </div>
+  <div class="cd-links">
+    <a href="https://a.co/d/02sV9XAk" target="_blank" class="cd-link" style="background:#1A3D8F;color:#fff">Ética del Mal →</a>
+    <a href="https://www.danilocarrillo.com/blog/categories/analisis-geopolitica" target="_top" class="cd-link" style="background:#1A1410;color:#F5C12E">Ver posts →</a>
+  </div>
+</div>
+
+<!-- FILTRO DE CATEGORÍAS -->
+<div class="cf">
+  <span class="cf-label">Filtrar:</span>
+  <a href="https://www.danilocarrillo.com/blog" target="_top" class="cf-btn on">Todos</a>
+  <a href="https://www.danilocarrillo.com/blog/categories/naguara-vida-personal" target="_top" class="cf-btn">Negocios</a>
+  <a href="https://www.danilocarrillo.com/blog/categories/matrimonio" target="_top" class="cf-btn">Matrimonio</a>
+  <a href="https://www.danilocarrillo.com/blog/categories/método-líder-4-4" target="_top" class="cf-btn">Líder 4×4</a>
+  <a href="https://www.danilocarrillo.com/blog/categories/el-taller" target="_top" class="cf-btn">El Taller</a>
+  <a href="https://www.danilocarrillo.com/blog/categories/los-terrenos" target="_top" class="cf-btn">Los Terrenos</a>
+  <a href="https://www.danilocarrillo.com/blog/categories/analisis-geopolitica" target="_top" class="cf-btn">Teopolítica</a>
+  <a href="https://www.danilocarrillo.com/blog/categories/teologia" target="_top" class="cf-btn">Teología</a>
+  <a href="https://www.danilocarrillo.com/blog/categories/devocional" target="_top" class="cf-btn">Devocional</a>
+</div>
+
+<!-- SEPARADOR FEED -->
+<div class="sf">
+  <span class="sf-label">Entradas recientes</span>
+  <span class="sf-count" id="feed-cat">Todas las corrientes</span>
+</div>
+
+<script>
+const corrientes = ['Negocios & Emprendimiento','Matrimonio','Líder 4×4','Ideas & Teopolítica'];
+function selectCorriente(el, idx) {
+  document.querySelectorAll('.cc').forEach(c => c.classList.remove('active'));
+  document.querySelectorAll('.cd').forEach(c => c.classList.remove('show'));
+  el.classList.add('active');
+  document.getElementById('cd'+idx).classList.add('show');
+  document.getElementById('feed-cat').textContent = corrientes[idx];
+}
+</script>
