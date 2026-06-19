@@ -95,19 +95,22 @@ footer{background:#1f1812;border-top:1px solid rgba(201,149,47,.2)}
 .footer-link{color:var(--gold);font-size:13.5px;font-weight:500}
 
 /* ===========================================================
-   OVERLAYS — position:absolute (NO fixed) para que el modal
-   aparezca dentro del marco visible aun dentro del iframe de Wix.
-   Cada overlay cubre todo el documento (alto seteado por JS) y la
-   tarjeta/panel se ancla al punto que el usuario tocó.
+   OVERLAYS — position:fixed anclado al viewport visible del
+   iframe (el "marco del teléfono"). El overlay es un contenedor
+   flex que centra su contenido, de modo que la ventana SIEMPRE
+   aparece centrada en lo que el usuario ve, sin importar el
+   scroll del iframe ni de la página padre de Wix.
    =========================================================== */
-.drawer-overlay,.modal-overlay,.zoom-overlay{position:absolute;left:0;top:0;width:100%;display:none}
-.drawer-overlay{z-index:60}
+.drawer-overlay,.modal-overlay,.zoom-overlay{position:fixed;inset:0;width:100%;height:100%;display:none;align-items:center;justify-content:center;padding:14px;box-sizing:border-box}
+.drawer-overlay{z-index:60;align-items:stretch;justify-content:flex-end;padding:0}
 .modal-overlay{z-index:70}
 .zoom-overlay{z-index:80}
+/* Cuando se abren, el contenedor pasa a flex (JS pone .open) */
+.drawer-overlay.open,.modal-overlay.open,.zoom-overlay.open{display:flex}
 
 /* DRAWER */
-.drawer-bg{position:absolute;inset:0;background:rgba(15,11,7,.6)}
-.drawer{position:absolute;top:0;right:0;width:400px;max-width:92vw;height:min(640px,88vh);background:#2b211a;border:1px solid var(--border2);border-radius:16px 0 0 16px;box-shadow:-20px 0 50px rgba(0,0,0,.5);display:flex;flex-direction:column;overflow:hidden;animation:slideIn .26s cubic-bezier(.4,0,.2,1)}
+.drawer-bg{position:fixed;inset:0;background:rgba(15,11,7,.6)}
+.drawer{position:relative;width:400px;max-width:92vw;height:100%;max-height:100vh;background:#2b211a;border:1px solid var(--border2);border-radius:16px 0 0 16px;box-shadow:-20px 0 50px rgba(0,0,0,.5);display:flex;flex-direction:column;overflow:hidden;animation:slideIn .26s cubic-bezier(.4,0,.2,1)}
 .drawer-head{padding:20px 22px;border-bottom:1px solid rgba(201,149,47,.2);display:flex;align-items:center;justify-content:space-between}
 .drawer-title{font-family:'Bevan',serif;font-size:20px;color:#f3e8c9}
 .drawer-close{background:none;border:none;color:var(--txt2);font-size:24px;line-height:1}
@@ -130,8 +133,8 @@ footer{background:#1f1812;border-top:1px solid rgba(201,149,47,.2)}
 .checkout-note{text-align:center;color:var(--txt4);font-size:12px;margin-top:10px;font-weight:300}
 
 /* CONFIG MODAL */
-.modal-bg{position:absolute;inset:0;background:rgba(15,11,7,.72)}
-.modal-card{position:absolute;left:50%;transform:translateX(-50%);width:500px;max-width:94vw;display:flex;flex-direction:column;max-height:min(560px,88vh);background:#2b211a;border:1px solid var(--border2);border-radius:20px;box-shadow:0 24px 60px rgba(0,0,0,.55);overflow:hidden;animation:fadeUp .26s cubic-bezier(.4,0,.2,1)}
+.modal-bg{position:fixed;inset:0;background:rgba(15,11,7,.72)}
+.modal-card{position:relative;width:500px;max-width:94vw;display:flex;flex-direction:column;max-height:min(560px,90vh);background:#2b211a;border:1px solid var(--border2);border-radius:20px;box-shadow:0 24px 60px rgba(0,0,0,.55);overflow:hidden;animation:fadeUp .26s cubic-bezier(.4,0,.2,1)}
 .modal-handle{width:40px;height:4px;border-radius:999px;background:rgba(201,149,47,.3);margin:10px auto 0;flex-shrink:0}
 .modal-scroll{flex:1 1 auto;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
 .modal-photo{position:relative;height:160px;background:var(--bg3)}
@@ -158,13 +161,13 @@ footer{background:#1f1812;border-top:1px solid rgba(201,149,47,.2)}
 .confirm-btn:hover{filter:brightness(1.07)}
 
 /* ZOOM */
-.zoom-bg{position:absolute;inset:0;background:rgba(12,9,6,.92);cursor:zoom-out}
-.zoom-stage{position:absolute;left:50%;transform:translateX(-50%);width:94%;max-width:560px;display:flex;flex-direction:column;align-items:center;gap:16px;cursor:zoom-out}
+.zoom-bg{position:fixed;inset:0;background:rgba(12,9,6,.92);cursor:zoom-out}
+.zoom-stage{position:relative;width:94%;max-width:560px;display:flex;flex-direction:column;align-items:center;gap:16px;cursor:zoom-out}
 .zoom-img{max-width:100%;max-height:min(70vh,520px);object-fit:contain;border-radius:14px;box-shadow:0 30px 70px rgba(0,0,0,.6)}
 .zoom-name{font-family:'Bevan',serif;font-size:20px;color:#f3e8c9;text-align:center}
 
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-@keyframes fadeUp{from{opacity:0;transform:translate(-50%,14px)}to{opacity:1;transform:translate(-50%,0)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
 @keyframes slideIn{from{transform:translateX(100%)}to{transform:translateX(0)}}
 
 /* RESPONSIVE */
@@ -456,21 +459,6 @@ function changeLine(key, delta){
   refresh();
 }
 
-/* ─── POSICIONAMIENTO DE OVERLAYS (clave para Wix/iframe) ─── */
-function fullDocHeight(){
-  return Math.max(
-    document.body.scrollHeight, document.documentElement.scrollHeight,
-    document.body.offsetHeight, document.documentElement.offsetHeight,
-    window.innerHeight
-  );
-}
-/* Posición absoluta (en el documento) del borde superior del elemento tocado.
-   Funciona tanto si el iframe hace scroll interno como si lo hace la página padre. */
-function anchorYOf(el){
-  if(el){ const r = el.getBoundingClientRect(); return Math.max(0, r.top + window.scrollY); }
-  return window.scrollY;
-}
-
 /* ─── FULFILLMENT ─── */
 const FBAR_NOTES = {
   pickup:'Recogida en 4385 Griffin Rd, Fort Lauderdale · al lado de Brigitt Flowers',
@@ -607,16 +595,10 @@ function refresh(){
 
 /* ─── DRAWER ─── */
 function openDrawer(){
-  const ov = document.getElementById('drawer');
-  ov.style.height = fullDocHeight()+'px';
-  ov.style.display = 'block';
   refresh();
-  const panel = ov.querySelector('.drawer');
-  const y = anchorYOf(document.querySelector('.cart-btn'));
-  panel.style.top = y + 'px';
-  panel.scrollIntoView({block:'nearest'});
+  document.getElementById('drawer').classList.add('open');
 }
-function closeDrawer(){ document.getElementById('drawer').style.display='none'; }
+function closeDrawer(){ document.getElementById('drawer').classList.remove('open'); }
 
 /* ─── CONFIG MODAL ─── */
 function openConfig(id){
@@ -625,17 +607,11 @@ function openConfig(id){
   const def = vs.find(v=>v.def)||vs[0];
   configState = {itemId:id, variantId:def?def.id:null, addonIds:[], qty:1};
   renderModal();
-  const ov = document.getElementById('modal');
-  ov.style.height = fullDocHeight()+'px';
-  ov.style.display = 'block';
-  const card = document.getElementById('modal-card');
-  // anclar junto al producto tocado y centrarlo en la vista
-  let y = anchorYOf(document.querySelector(`.item-action[data-item="${id}"]`)) - 40;
-  y = Math.max(8, Math.min(y, fullDocHeight() - 80));
-  card.style.top = y + 'px';
-  card.scrollIntoView({block:'center'});
+  document.getElementById('modal').classList.add('open');
+  const sc = document.querySelector('#modal-card .modal-scroll');
+  if(sc) sc.scrollTop = 0;
 }
-function closeModal(){ document.getElementById('modal').style.display='none'; configState=null; }
+function closeModal(){ document.getElementById('modal').classList.remove('open'); configState=null; }
 
 function renderModal(){
   if(!configState) return;
@@ -714,16 +690,9 @@ function openZoom(id){
   if(!img) return;
   document.getElementById('zoom-img').src=img;
   document.getElementById('zoom-name').textContent=it.name;
-  const ov=document.getElementById('zoom');
-  ov.style.height = fullDocHeight()+'px';
-  ov.style.display = 'block';
-  const stage=document.getElementById('zoom-stage');
-  let y = anchorYOf(document.querySelector(`.item-action[data-item="${id}"]`)) - 60;
-  y = Math.max(8, Math.min(y, fullDocHeight() - 80));
-  stage.style.top = y + 'px';
-  stage.scrollIntoView({block:'center'});
+  document.getElementById('zoom').classList.add('open');
 }
-function closeZoom(){ document.getElementById('zoom').style.display='none'; }
+function closeZoom(){ document.getElementById('zoom').classList.remove('open'); }
 
 /* ─── WHATSAPP ─── */
 function sendOrder(){
