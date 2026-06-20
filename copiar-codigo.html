@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Copiar código · Naguará Burger</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#2b211a;color:#efe3c4;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.wrap{width:100%;max-width:560px}
+h1{font-size:22px;color:#C9952F;margin-bottom:6px}
+p{color:#cdbb97;font-size:14px;line-height:1.5;margin-bottom:16px}
+.btn{display:block;width:100%;background:#C9952F;color:#231a13;border:none;font-weight:700;font-size:18px;padding:18px;border-radius:14px;cursor:pointer;box-shadow:0 8px 22px rgba(201,149,47,.32);transition:filter .15s}
+.btn:active{filter:brightness(.92)}
+#msg{text-align:center;font-weight:600;color:#25D366;min-height:22px;margin:14px 0 6px}
+.steps{background:#241b14;border:1px solid rgba(201,149,47,.25);border-radius:12px;padding:14px 16px;margin-top:8px;font-size:13.5px;color:#cdbb97}
+.steps b{color:#efe3c4}
+textarea{width:100%;height:150px;margin-top:14px;background:#1f1812;color:#a9967a;border:1px solid rgba(201,149,47,.25);border-radius:10px;padding:10px;font-family:monospace;font-size:11px;white-space:pre;overflow:auto}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>📋 Menú WhatsApp · Naguará Burger</h1>
+  <p>Toca el botón para copiar TODO el código. Luego pégalo en el embed de tu página <b>/whatsapp</b> en Wix (borra antes el código viejo) y publica.</p>
+  <button class="btn" id="btn" onclick="copiar()">Copiar código del menú</button>
+  <p id="msg"></p>
+  <div class="steps">
+    <b>Después de copiar:</b><br>
+    1. Editor de Wix → página /whatsapp<br>
+    2. Clic en el bloque del menú → "Ingresar código"<br>
+    3. Borra todo lo de adentro y <b>pega</b> (mantén presionado → Pegar)<br>
+    4. Actualizar → Publicar
+  </div>
+  <textarea id="code" readonly spellcheck="false">
+&lt;!DOCTYPE html&gt;
+&lt;html lang="es"&gt;
+&lt;head&gt;
+&lt;meta charset="utf-8"&gt;
+&lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;
+&lt;title&gt;Naguará Burger Gourmet – Menú&lt;/title&gt;
+&lt;link rel="preconnect" href="https://fonts.googleapis.com"&gt;
+&lt;link href="https://fonts.googleapis.com/css2?family=Bevan:ital@0;1&amp;family=Jost:wght@300;400;500;600&amp;display=swap" rel="stylesheet"&gt;
+&lt;style&gt;
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --gold:#C9952F;--gold2:rgba(201,149,47,0.18);--gold3:rgba(201,149,47,0.32);
+  --bg:#2b211a;--bg2:#34281e;--bg3:#241b14;--bg4:#46362a;
+  --txt:#efe3c4;--txt2:#cdbb97;--txt3:#a9967a;--txt4:#7d6c54;
+  --border:rgba(201,149,47,0.22);--border2:rgba(201,149,47,0.28);
+}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);font-family:'Jost',sans-serif;color:var(--txt);overflow-x:hidden;min-height:100vh}
+/* Bloqueo del scroll de fondo mientras un overlay está abierto */
+html.ovl-open,body.ovl-open{overflow:hidden!important}
+img{max-width:100%;display:block}
+a{text-decoration:none}
+button{cursor:pointer;font-family:'Jost',sans-serif}
+
+/* HEADER */
+.header{position:sticky;top:0;z-index:40;background:rgba(31,24,18,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--border2)}
+.header-inner{max-width:1200px;margin:0 auto;padding:12px 24px;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.logo-header{height:52px;width:auto}
+.nav{flex:1 1 auto;display:flex;gap:4px;flex-wrap:wrap}
+.nav a{font-size:14px;letter-spacing:.04em;color:var(--txt2);padding:7px 14px;border-radius:999px;transition:all .18s}
+.nav a:hover{background:var(--gold2);color:var(--txt)}
+.cart-btn{display:flex;align-items:center;gap:8px;background:var(--gold);color:#231a13;border:none;font-weight:600;font-size:14px;padding:10px 18px;border-radius:999px;box-shadow:0 6px 18px var(--gold3);transition:filter .16s}
+.cart-btn:hover{filter:brightness(1.07)}
+.cart-count{background:#231a13;color:var(--gold);min-width:22px;height:22px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:700}
+
+/* HERO */
+.hero{max-width:1200px;margin:0 auto;padding:48px 24px 28px;display:grid;grid-template-columns:1.2fr .9fr;gap:44px;align-items:center}
+.hero-eyebrow{font-weight:500;letter-spacing:.34em;text-transform:uppercase;font-size:12px;color:var(--gold);margin-bottom:16px}
+.hero-title{font-family:'Bevan',serif;font-size:58px;line-height:1.02;margin-bottom:20px;color:#f3e8c9}
+.hero-title span{color:var(--gold)}
+.hero-sub{font-size:18px;line-height:1.55;color:var(--txt2);max-width:500px;margin-bottom:28px;font-weight:300}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap}
+.btn-primary{background:var(--gold);color:#231a13;font-weight:600;font-size:15px;padding:13px 26px;border-radius:999px;border:none;box-shadow:0 8px 22px var(--gold3);transition:filter .16s}
+.btn-primary:hover{filter:brightness(1.07)}
+.btn-ghost{border:1.5px solid rgba(201,149,47,.5);color:var(--txt);font-weight:500;font-size:15px;padding:12px 24px;border-radius:999px;background:transparent;transition:background .16s}
+.btn-ghost:hover{background:var(--gold2)}
+.hero-img-wrap{position:relative;justify-self:center}
+.hero-glow{position:absolute;inset:-6%;border-radius:50%;background:radial-gradient(circle at 50% 40%,rgba(201,149,47,.32),rgba(201,149,47,0) 68%)}
+.hero-img{position:relative;width:100%;max-width:340px;border-radius:22px;box-shadow:0 28px 56px rgba(0,0,0,.45)}
+
+/* FULFILLMENT BAR */
+.fbar-wrap{max-width:1200px;margin:0 auto;padding:8px 24px 0}
+.fbar{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:16px 20px;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.fbar-tabs{display:flex;gap:4px;background:var(--bg3);padding:4px;border-radius:999px}
+.ftab{border:none;font-weight:500;font-size:14px;padding:8px 18px;border-radius:999px;transition:all .18s;color:var(--txt2);background:transparent}
+.ftab.active{background:var(--gold);color:#231a13}
+.fbar-dot{color:var(--gold);font-weight:600}
+.fbar-note{margin-left:auto;color:var(--txt3);font-size:13px;text-align:right;max-width:320px}
+
+/* MENU */
+.menu-wrap{max-width:1200px;margin:0 auto;padding:38px 24px 80px}
+.cat-section{scroll-margin-top:92px;margin-top:44px}
+.cat-header{display:flex;align-items:baseline;gap:16px;margin-bottom:4px}
+.cat-title{font-family:'Bevan',serif;font-size:34px;color:#f3e8c9}
+.cat-divider{flex:1 1 auto;height:1px;background:linear-gradient(90deg,rgba(201,149,47,.5),rgba(201,149,47,0))}
+.cat-tagline{color:var(--gold);font-size:15px;font-style:italic;margin-bottom:24px}
+.items-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px}
+
+/* CARD */
+.item-card{background:var(--bg2);border:1px solid rgba(201,149,47,.16);border-radius:16px;overflow:hidden;display:flex;flex-direction:column;transition:transform .2s,box-shadow .2s}
+.item-card:hover{transform:translateY(-4px);box-shadow:0 18px 36px rgba(0,0,0,.4)}
+.item-photo{position:relative;height:175px;background:var(--bg3)}
+.item-photo img{width:100%;height:100%;object-fit:cover}
+.item-badge{position:absolute;top:10px;left:10px;background:var(--gold);color:#231a13;font-size:11px;font-weight:600;letter-spacing:.04em;padding:4px 10px;border-radius:999px;text-transform:uppercase}
+.item-photo-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:var(--txt4);font-size:13px}
+.item-body{padding:16px 16px 18px;display:flex;flex-direction:column;flex:1 1 auto}
+.item-name{font-weight:600;font-size:16px;color:#f3e8c9;margin-bottom:7px;line-height:1.25}
+.item-desc{color:var(--txt3);font-size:13px;line-height:1.5;font-weight:300;flex:1 1 auto;margin-bottom:14px}
+.item-footer{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.item-price{font-family:'Bevan',serif;font-size:20px;color:var(--gold)}
+.add-btn{display:flex;align-items:center;gap:6px;background:var(--gold2);color:var(--gold);border:1px solid rgba(201,149,47,.4);font-weight:600;font-size:13px;padding:8px 14px;border-radius:999px;transition:all .16s}
+.add-btn:hover{background:var(--gold);color:#231a13}
+.qty-ctrl{display:flex;align-items:center;gap:10px;background:var(--bg3);border-radius:999px;padding:4px}
+.qty-btn{width:28px;height:28px;border-radius:50%;border:none;font-size:16px;line-height:1;display:flex;align-items:center;justify-content:center;transition:all .16s}
+.qty-btn.dec{background:var(--bg4);color:var(--txt)}
+.qty-btn.inc{background:var(--gold);color:#231a13}
+.qty-num{min-width:16px;text-align:center;font-weight:600;font-size:15px}
+
+/* FOOTER */
+footer{background:#1f1812;border-top:1px solid rgba(201,149,47,.2)}
+.footer-inner{max-width:1200px;margin:0 auto;padding:42px 24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:32px}
+.footer-logo{height:64px;width:auto;margin-bottom:12px}
+.footer-txt{color:var(--txt3);font-size:13.5px;line-height:1.6;font-weight:300;max-width:260px}
+.footer-h{font-family:'Bevan',serif;font-size:15px;color:var(--gold);margin-bottom:12px;letter-spacing:.02em}
+.footer-p{color:var(--txt2);font-size:13.5px;line-height:1.7;font-weight:300}
+.footer-link{color:var(--gold);font-size:13.5px;font-weight:500}
+
+/* ════════════════════════════════════════════════════════════════
+   OVERLAYS (drawer / modal / zoom)
+   Antes usaban position:fixed, que dentro del iframe de Wix se ancla
+   al tope del iframe (no a la pantalla) y en móvil abre fuera de vista
+   y bloquea el scroll. Ahora son position:absolute y se anclan por JS
+   al elemento que el usuario tocó. Ver anchorPanel() abajo.
+   ════════════════════════════════════════════════════════════════ */
+
+/* DRAWER (carrito) */
+.drawer-overlay{position:absolute;top:0;left:0;width:100%;height:100%;z-index:60;animation:fadeIn .2s ease}
+.drawer-bg{position:absolute;inset:0;background:rgba(15,11,7,.6)}
+.drawer{position:absolute;right:10px;width:400px;max-width:calc(100% - 20px);max-height:560px;background:#2b211a;border:1px solid var(--border2);border-radius:16px;box-shadow:0 24px 60px rgba(0,0,0,.5);display:flex;flex-direction:column;overflow:hidden;animation:pop .24s cubic-bezier(.4,0,.2,1)}
+.drawer-head{padding:20px 22px;border-bottom:1px solid rgba(201,149,47,.2);display:flex;align-items:center;justify-content:space-between}
+.drawer-title{font-family:'Bevan',serif;font-size:20px;color:#f3e8c9}
+.drawer-close{background:none;border:none;color:var(--txt2);font-size:24px;line-height:1}
+.drawer-body{flex:1 1 auto;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:6px 22px}
+.drawer-empty{text-align:center;padding:64px 20px;color:var(--txt4)}
+.cart-line{display:flex;gap:12px;padding:16px 0;border-bottom:1px solid rgba(201,149,47,.12)}
+.cart-line-info{flex:1 1 auto}
+.cart-line-name{font-weight:600;font-size:14px;color:#f3e8c9;margin-bottom:3px}
+.cart-line-detail{color:var(--txt3);font-size:12px;line-height:1.4;margin-bottom:3px;font-weight:300}
+.cart-line-price{color:var(--gold);font-size:13px}
+.cart-line-total{width:60px;text-align:right;font-weight:600;font-size:14px;color:#f3e8c9;flex:0 0 auto}
+.drawer-fields{padding:16px 22px 4px;border-top:1px solid rgba(201,149,47,.22);background:var(--bg3);display:flex;flex-direction:column;gap:8px}
+.drawer-input{width:100%;background:#2b211a;border:1px solid var(--border2);color:var(--txt);font-family:'Jost',sans-serif;font-size:13.5px;padding:10px 13px;border-radius:10px;outline:none}
+.drawer-foot{padding:16px 22px 20px;border-top:1px solid rgba(201,149,47,.22);background:var(--bg3)}
+.subtotal-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:14px}
+.subtotal-lbl{color:var(--txt2);font-size:14px}
+.subtotal-amt{font-family:'Bevan',serif;font-size:24px;color:var(--gold)}
+.wa-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:#25D366;color:#0a3d1c;border:none;font-weight:600;font-size:16px;padding:14px;border-radius:12px;box-shadow:0 8px 20px rgba(37,211,102,.28);transition:filter .16s}
+.wa-btn:hover{filter:brightness(1.05)}
+.checkout-note{text-align:center;color:var(--txt4);font-size:12px;margin-top:10px;font-weight:300}
+
+/* CONFIG MODAL (menú de personalización) */
+.modal-overlay{position:absolute;top:0;left:0;width:100%;height:100%;z-index:70;animation:fadeIn .2s ease}
+.modal-bg{position:absolute;inset:0;background:rgba(15,11,7,.72)}
+.modal-card{position:absolute;left:0;right:0;margin:0 auto;width:500px;max-width:calc(100% - 20px);display:flex;flex-direction:column;max-height:560px;background:#2b211a;border:1px solid var(--border2);border-radius:18px;box-shadow:0 24px 60px rgba(0,0,0,.55);animation:pop .24s cubic-bezier(.4,0,.2,1)}
+.modal-handle{width:40px;height:4px;border-radius:999px;background:rgba(201,149,47,.3);margin:10px auto 0;flex-shrink:0}
+.modal-scroll{flex:1 1 auto;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+.modal-photo{position:relative;height:160px;background:var(--bg3)}
+.modal-photo img{width:100%;height:100%;object-fit:cover}
+.modal-close-btn{position:absolute;top:12px;right:12px;width:34px;height:34px;border-radius:50%;border:none;background:rgba(35,26,19,.82);color:var(--txt);font-size:20px;line-height:1;display:flex;align-items:center;justify-content:center}
+.modal-body{padding:20px 22px 22px;position:relative}
+.modal-name{font-family:'Bevan',serif;font-size:22px;color:#f3e8c9;margin-bottom:5px;line-height:1.1}
+.modal-desc{color:var(--txt3);font-size:13.5px;line-height:1.5;font-weight:300;margin-bottom:16px}
+.modal-sec-label{font-weight:600;letter-spacing:.12em;text-transform:uppercase;font-size:11px;color:var(--gold);margin-bottom:10px}
+.modal-sec{margin-bottom:16px}
+.variants-list{display:flex;flex-direction:column;gap:7px}
+.variant-btn{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;text-align:left;border-radius:11px;border:1.5px solid rgba(201,149,47,.3);background:transparent;color:var(--txt);font-size:14px;font-weight:500;padding:11px 14px;transition:all .15s}
+.variant-btn.selected{background:var(--gold);color:#231a13;border-color:var(--gold)}
+.variant-price{font-size:12.5px;opacity:.85;white-space:nowrap}
+.addons-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:7px}
+.addon-btn{display:flex;align-items:center;gap:8px;border-radius:11px;border:1.5px solid rgba(201,149,47,.2);background:var(--bg3);color:var(--txt);font-size:13px;font-weight:400;padding:9px 11px;text-align:left;transition:all .15s}
+.addon-btn.checked{border-color:var(--gold);background:var(--gold2)}
+.addon-check{flex:0 0 auto;width:19px;height:19px;border-radius:5px;border:1.5px solid var(--gold);background:transparent;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#231a13}
+.addon-check.on{background:var(--gold)}
+.addon-label{flex:1 1 auto;line-height:1.2}
+.addon-price{color:var(--gold);font-size:12px;white-space:nowrap}
+.modal-footer{flex-shrink:0;display:flex;align-items:center;gap:10px;border-top:1px solid rgba(201,149,47,.22);padding:13px 18px;padding-bottom:max(16px,env(safe-area-inset-bottom));background:#2b211a;border-radius:0 0 18px 18px}
+.confirm-btn{flex:1 1 auto;display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--gold);color:#231a13;border:none;font-weight:600;font-size:15px;padding:13px 20px;border-radius:13px;box-shadow:0 8px 20px var(--gold3);transition:filter .16s}
+.confirm-btn:hover{filter:brightness(1.07)}
+
+/* ZOOM */
+.zoom-overlay{position:absolute;top:0;left:0;width:100%;height:100%;z-index:80;background:rgba(12,9,6,.92);animation:fadeIn .2s ease;cursor:zoom-out}
+.zoom-inner{position:absolute;left:0;right:0;display:flex;flex-direction:column;align-items:center;gap:16px;padding:28px;box-sizing:border-box}
+.zoom-img{max-width:88vw;max-height:70vh;object-fit:contain;border-radius:14px;box-shadow:0 30px 70px rgba(0,0,0,.6)}
+.zoom-name{font-family:'Bevan',serif;font-size:20px;color:#f3e8c9;text-align:center}
+
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes pop{0%{transform:scale(.92);opacity:.4}100%{transform:scale(1);opacity:1}}
+
+/* RESPONSIVE */
+@media(max-width:760px){
+  .hero{grid-template-columns:1fr;gap:24px;padding:30px 16px 16px;text-align:center}
+  .hero-actions{justify-content:center}
+  .hero-title{font-size:40px}
+  .hero-img{max-width:240px;margin:0 auto}
+  .header-inner,.fbar-wrap,.menu-wrap,.footer-inner{padding-left:14px;padding-right:14px}
+  .cat-title{font-size:28px}
+  .fbar{gap:12px;padding:12px 14px}
+  .fbar-note{margin-left:0;text-align:left}
+}
+@media(max-width:480px){
+  .hero-title{font-size:34px}
+  .nav a{font-size:12px;padding:6px 11px}
+}
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;!-- ═══ HEADER ═══ --&gt;
+&lt;header class="header"&gt;
+  &lt;div class="header-inner"&gt;
+    &lt;img src="https://static.wixstatic.com/media/b71cfc_3dd7a8cce0134d13979b9cc962dea316~mv2.png" alt="Naguará Burger" class="logo-header" id="logo-header"&gt;
+    &lt;nav class="nav" id="nav"&gt;&lt;/nav&gt;
+    &lt;button class="cart-btn" onclick="openDrawer()"&gt;
+      Ver carrito
+      &lt;span class="cart-count" id="cart-count"&gt;0&lt;/span&gt;
+    &lt;/button&gt;
+  &lt;/div&gt;
+&lt;/header&gt;
+
+&lt;!-- ═══ HERO ═══ --&gt;
+&lt;section class="hero"&gt;
+  &lt;div&gt;
+    &lt;p class="hero-eyebrow"&gt;Food Truck · Fort Lauderdale&lt;/p&gt;
+    &lt;h1 class="hero-title"&gt;Naguará Burger&lt;br&gt;&lt;span&gt;Gourmet&lt;/span&gt;&lt;/h1&gt;
+    &lt;p class="hero-sub"&gt;Hamburguesas y hot dogs hechos a mano, donde el sabor venezolano se encuentra con lo gourmet. Fresco, urbano y a cualquier hora.&lt;/p&gt;
+    &lt;div class="hero-actions"&gt;
+      &lt;a href="#menu" class="btn-primary"&gt;Ver el menú&lt;/a&gt;
+      &lt;a href="https://wa.me/17866266849" target="_blank" class="btn-ghost"&gt;WhatsApp&lt;/a&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="hero-img-wrap"&gt;
+    &lt;div class="hero-glow"&gt;&lt;/div&gt;
+    &lt;img src="https://static.wixstatic.com/media/b71cfc_f768e29bd34548a9bf39883fbe684ce5~mv2.jpg" alt="Naguará Burger" class="hero-img" id="hero-img"&gt;
+  &lt;/div&gt;
+&lt;/section&gt;
+
+&lt;!-- ═══ FULFILLMENT BAR ═══ --&gt;
+&lt;section class="fbar-wrap"&gt;
+  &lt;div class="fbar"&gt;
+    &lt;div class="fbar-tabs"&gt;
+      &lt;button class="ftab active" onclick="setFulfillment('pickup',this)"&gt;Recogida&lt;/button&gt;
+      &lt;button class="ftab" onclick="setFulfillment('delivery',this)"&gt;Envío&lt;/button&gt;
+      &lt;button class="ftab" onclick="setFulfillment('dinein',this)"&gt;Comer aquí&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div&gt;&lt;span class="fbar-dot"&gt;●&lt;/span&gt; Aceptando pedidos · Hoy hasta 11:00 p.m.&lt;/div&gt;
+    &lt;div class="fbar-note" id="fbar-note"&gt;Recogida en 4385 Griffin Rd, Fort Lauderdale · al lado de Brigitt Flowers&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/section&gt;
+
+&lt;!-- ═══ MENU ═══ --&gt;
+&lt;main id="menu" class="menu-wrap"&gt;&lt;/main&gt;
+
+&lt;!-- ═══ FOOTER ═══ --&gt;
+&lt;footer&gt;
+  &lt;div class="footer-inner"&gt;
+    &lt;div&gt;
+      &lt;img src="https://static.wixstatic.com/media/b71cfc_3dd7a8cce0134d13979b9cc962dea316~mv2.png" alt="Naguará Burger" class="footer-logo"&gt;
+      &lt;p class="footer-txt"&gt;Comida urbana que fusiona el sabor venezolano con lo gourmet. Handmade · Gourmet · 2025.&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div&gt;
+      &lt;h4 class="footer-h"&gt;Visítanos&lt;/h4&gt;
+      &lt;p class="footer-p"&gt;4385 Griffin Road&lt;br&gt;Fort Lauderdale, FL 33314&lt;br&gt;Al lado de Brigitt Flowers&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div&gt;
+      &lt;h4 class="footer-h"&gt;Horario&lt;/h4&gt;
+      &lt;p class="footer-p" style="margin-bottom:10px"&gt;Dom – Jue: 6 a 11 p.m.&lt;br&gt;Vie – Sáb: 6 p.m. a 1 a.m.&lt;/p&gt;
+      &lt;a href="https://wa.me/17866266849" target="_blank" class="footer-link"&gt;WhatsApp: +1 (786) 626-6849&lt;/a&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/footer&gt;
+
+&lt;!-- ═══ CART DRAWER ═══ --&gt;
+&lt;div class="drawer-overlay" id="drawer" style="display:none"&gt;
+  &lt;div class="drawer-bg" onclick="closeDrawer()"&gt;&lt;/div&gt;
+  &lt;aside class="drawer"&gt;
+    &lt;div class="drawer-head"&gt;
+      &lt;h3 class="drawer-title"&gt;Tu pedido&lt;/h3&gt;
+      &lt;button class="drawer-close" onclick="closeDrawer()"&gt;×&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div class="drawer-body" id="drawer-body"&gt;&lt;/div&gt;
+    &lt;div class="drawer-fields" id="drawer-fields" style="display:none"&gt;
+      &lt;input class="drawer-input" placeholder="Tu nombre" id="inp-name" oninput="customer.name=this.value"&gt;
+      &lt;input class="drawer-input" placeholder="Teléfono / WhatsApp" id="inp-phone" oninput="customer.phone=this.value"&gt;
+      &lt;input class="drawer-input" id="inp-address" placeholder="Dirección de entrega" style="display:none" oninput="customer.address=this.value"&gt;
+      &lt;input class="drawer-input" placeholder="Notas (sin cebolla, salsas aparte…)" id="inp-notes" oninput="customer.notes=this.value"&gt;
+    &lt;/div&gt;
+    &lt;div class="drawer-foot"&gt;
+      &lt;div class="subtotal-row"&gt;
+        &lt;span class="subtotal-lbl"&gt;Subtotal&lt;/span&gt;
+        &lt;span class="subtotal-amt" id="subtotal"&gt;$0.00&lt;/span&gt;
+      &lt;/div&gt;
+      &lt;button class="wa-btn" onclick="sendOrder()"&gt;
+        &lt;span style="font-size:18px"&gt;✱&lt;/span&gt;
+        &lt;span&gt;Enviar pedido por WhatsApp&lt;/span&gt;
+      &lt;/button&gt;
+      &lt;p class="checkout-note" id="checkout-note"&gt;Recogida en Griffin Rd · pago al retirar&lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/aside&gt;
+&lt;/div&gt;
+
+&lt;!-- ═══ CONFIG MODAL ═══ --&gt;
+&lt;div class="modal-overlay" id="modal" style="display:none"&gt;
+  &lt;div class="modal-bg" onclick="closeModal()"&gt;&lt;/div&gt;
+  &lt;div class="modal-card" id="modal-card"&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- ═══ ZOOM LIGHTBOX ═══ --&gt;
+&lt;div class="zoom-overlay" id="zoom" style="display:none" onclick="closeZoom()"&gt;
+  &lt;div class="zoom-inner"&gt;
+    &lt;img class="zoom-img" id="zoom-img" src="" alt=""&gt;
+    &lt;p class="zoom-name" id="zoom-name"&gt;&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+/* ─── DATOS DEL MENÚ ─── */
+const GOLD = '#C9952F';
+
+const MENU = [
+  { id:'lo-nuevo', name:'Lo nuevo', tagline:'Lo que acaba de llegar a la plancha', items:[
+    { id:'chicken-wings', name:'Chicken Wings / Chicharrón de pollo', price:16.63, badge:'Nuevo',
+      desc:'7 alitas y muslos de pollo crujientes, acompañados de arepa o papas fritas.',
+      variants:[{id:'arepa',label:'Con arepa',delta:0,def:true},{id:'papas',label:'Con papas fritas',delta:0}] },
+  ]},
+  { id:'clasico', name:'Naguara Clásico', tagline:'Las que nos pusieron en el mapa', items:[
+    { id:'naguara-3p', name:'Naguará Burger 3 Proteínas', price:20.79, badge:'La de la casa',
+      desc:'Carne, pollo y cochino en una sola torre. La hamburguesa que lleva nuestro nombre.',
+      variants:[{id:'tres',label:'3 proteínas (carne, pollo, cochino)',delta:0,def:true},{id:'cuatro',label:'4 proteínas (+ chorizo)',delta:3.12}] },
+    { id:'house-hotdog', name:'Naguara House Hotdog', price:15.60, desc:'Pan de hot dog, salchicha, jamón, queso, coleslaw, papitas crujientes y salsas a elección.' },
+    { id:'polaca', name:'Hot Dog Salchicha Polaca 8"', price:13.52, badge:'Popular', desc:'Salchicha polaca envuelta en tocineta crujiente, en pan suave y cargado de sabor.' },
+    { id:'mechipan', name:'Mechipan 8"', price:16.64, desc:'Hot dog extralargo con carne mechada venezolana, servido en pan tostado.' },
+    { id:'special-hotdog', name:'Special Hot Dog Long 8"', price:10.40, desc:'Hot dog especial extralargo con todos los toppings de la casa.' },
+    { id:'hamburguesa', name:'Hamburguesa Clásica 150g', price:12.48, desc:'Carne fresca de 150g, queso, lechuga, tomate y nuestras salsas de la casa.',
+      variants:[{id:'sencilla',label:'Sencilla (150g)',delta:0,def:true},{id:'doble',label:'Doble carne',delta:4.16}] },
+    { id:'double-patty', name:'Double Patty Mixed Burger', price:15.60, desc:'Doble carne clásica con doble queso fundido. Para el hambre de verdad.' },
+    { id:'quesadilla', name:'Chicken Quesadilla', price:13.52, desc:'Tortilla de maíz con pollo sazonado al secreto venezolano y queso fundido.' },
+    { id:'maracucha', name:'Maracucha Burger', price:26.00, desc:'Pollo a la plancha, chuleta ahumada, chorizo, tajadas de plátano maduro y huevo frito.' },
+    { id:'picanha', name:'Picanha Burger', price:20.80, desc:'Picaña jugosa con dos tipos de queso y champiñones salteados al ajillo.' },
+    { id:'lechuga', name:'Lechuga Burger', price:12.48, desc:'Hojas de lechuga envolviendo carne fresca con queso fundido, papitas, tomate y salsas.' },
+  ]},
+  { id:'pepito', name:'Pepito Naguara', tagline:'El venezolano que no se rinde', items:[
+    { id:'pepito-12', name:'Pepito 12"', price:20.80, desc:'12 pulgadas de puro sabor. Elige tu combinación de proteínas.',
+      variants:[{id:'cuatro',label:'4 proteínas (carne, pollo, cerdo, chorizo)',price:20.80,def:true},{id:'carne-pollo',label:'Carne y pollo',price:26.00},{id:'carne',label:'Solo carne',price:31.20},{id:'sin-marmolado',label:'Sin marmolado',price:41.60}] },
+    { id:'pepito-8', name:'Pepito 8"', price:15.60, desc:'8 pulgadas repletas de proteína. Elige tu combinación.',
+      variants:[{id:'cuatro',label:'4 proteínas',price:15.60,def:true},{id:'dos',label:'2 proteínas',price:18.71},{id:'carne',label:'Solo carne',price:22.88},{id:'sin-marmolado',label:'Sin marmolado',price:31.20}] },
+  ]},
+  { id:'sabor', name:'Sabor Venezuela', tagline:'De donde venimos', items:[
+    { id:'hairy-queen', name:'Hairy Queen / Reina Peluda', price:16.64, badge:'Popular', desc:'Dos íconos en uno: reina pepiada y carne mechada con cheddar fundido.' },
+    { id:'pabellon-arepa', name:'Arepa de Pabellón', price:16.64, desc:'Arepa rellena de carne mechada, caraotas negras, tajada y queso.' },
+    { id:'chistorra', name:'Arepa de Chistorra y/o Chorizo', price:12.48, desc:'Sabrosa y crujiente por fuera, rellena de jugosa chistorra o chorizo.' },
+    { id:'reina-pepiada', name:'Reina Pepiada', price:10.40, desc:'La arepa más icónica de Venezuela: pollo y aguacate cremoso.' },
+    { id:'domino', name:'Dominó', price:10.40, desc:'Combinación simple y poderosa: caraotas negras y queso blanco rallado.' },
+    { id:'pelua', name:'La Pelúa', price:10.40, desc:'Arepa cargada de tradición: carne mechada y queso amarillo rallado.' },
+    { id:'cachapa-queso', name:'Cachapa con Queso de Mano', price:12.48, desc:'Cachapa dulce de maíz rellena de cremoso queso de mano.' },
+    { id:'cachapa-carne', name:'Cachapa con Carne y Queso', price:18.71, desc:'Cachapa de maíz cargada de carne mechada y queso fundido.' },
+    { id:'cachapa-picana', name:'Cachapa con Picaña a la Plancha', price:22.87, desc:'Cachapa con picaña a la plancha y queso fundido por encima.' },
+    { id:'arepa-cabimera', name:'Arepa Cabimera', price:18.72, badge:'Popular', desc:'Arepa frita en cubos con jamón, coleslaw, huevo y queso.',
+      variants:[{id:'carne-mechada',label:'Carne mechada',price:18.72,def:true},{id:'cuatro',label:'4 proteínas',price:22.88},{id:'dos',label:'2 proteínas',price:27.04},{id:'carne',label:'Solo carne',price:31.20}] },
+    { id:'arepa-maracucha', name:'Arepa Maracucha', price:16.63, desc:'Arepa contundente al estilo maracucho, cargada de proteína.' },
+    { id:'pabellon-criollo', name:'Pabellón Criollo', price:16.64, desc:'El plato nacional: carne mechada, caraotas, arroz blanco y tajadas.' },
+    { id:'picana-arepa', name:'Picaña Arepa', price:19.75, desc:'Arepa generosa rellena de picaña a la plancha.' },
+    { id:'arepa-salchicha', name:'Arepa con Salchicha y Salsa Rosada', price:10.40, desc:'Arepa rellena de salchicha, queso y nuestra salsa rosada.' },
+    { id:'arepa-diablo', name:'Arepa con Diablito y Queso Blanco', price:10.40, desc:'Arepa rellena de diablito y queso blanco fresco.' },
+    { id:'caesar-salad', name:'Ensalada César con Pollo', price:12.48, desc:'Lechuga romana crujiente, pollo a la plancha, crutones y aderezo de la casa.' },
+    { id:'sancocho', name:'Sancocho de Costilla', price:15.60, badge:'Por encargo', desc:'Por pedido anticipado. Costilla, verduras y maíz en caldo casero.' },
+    { id:'empanadas', name:'Empanadas', price:16.64, desc:'Las más ricas empanadas, con el relleno de tu elección.' },
+    { id:'empanada-pabellon', name:'Empanada de Pabellón', price:16.64, desc:'Empanada crujiente rellena de pabellón criollo.' },
+    { id:'patacon', name:'Patacón Maracucho', price:16.63, desc:'Plátano verde crujiente con queso y huevo.',
+      variants:[{id:'carne-mechada',label:'Carne mechada',price:16.63,def:true},{id:'cuatro',label:'4 proteínas',price:20.80},{id:'dos',label:'2 proteínas',price:24.96},{id:'carne',label:'Solo carne',price:29.12}] },
+    { id:'parrilla', name:'Parrilla / BBQ – Para Compartir', price:46.79, badge:'Para compartir', desc:'Gourmet Mixed Grill: una explosión de sabor con lo mejor de la parrilla.' },
+    { id:'semi-churrasco', name:'Semi Churrasco de Picaña o Solomo', price:24.95, desc:'240 g acompañados de tostones y pico de gallo.',
+      variants:[{id:'picana',label:'Picaña',delta:0,def:true},{id:'solomo',label:'Solomo',delta:0}] },
+    { id:'sausage-fries', name:'Salchipapas con Cheddar', price:12.48, desc:'Papas fritas crujientes coronadas con salchicha y cheddar fundido.',
+      addons:[{id:'maiz',label:'Maíz',price:1.56},{id:'tocineta',label:'Tocineta',price:2.08},{id:'pollo',label:'Pollo',price:3.12},{id:'cuarto-queso',label:'¼ queso de mano',price:2.08},{id:'medio-queso',label:'½ queso de mano',price:4.16}] },
+    { id:'pan-bistec', name:'Pan con Bistec 8"', price:12.48, desc:'Pan, bistec, tomate, lechuga y papitas, con salsas al gusto.' },
+  ]},
+  { id:'cerrar', name:'Para cerrar', tagline:'Postres, bebidas y extras hechos en casa', items:[
+    { id:'frescolita', name:'Frescolita', price:3.00, noAddons:true, desc:'El refresco venezolano de siempre, bien frío.' },
+    { id:'sodas', name:'Sodas', price:3.00, noAddons:true, desc:'Refrescos surtidos bien fríos.' },
+    { id:'papelon-limon', name:'Papelón con Limón', price:3.00, noAddons:true, desc:'Bebida refrescante de papelón y jugo de limón fresco.' },
+    { id:'passion-fruit', name:'Jugo de Parchita', price:5.00, noAddons:true, desc:'Jugo natural de parchita, dulce y refrescante.' },
+    { id:'nestea', name:'Nestea con Limón', price:3.00, noAddons:true, desc:'El clásico té frío de la casa con un toque de limón.' },
+  ]},
+];
+
+const DEFAULT_ADDONS = [
+  {id:'cuarto-queso',label:'¼ queso de mano',price:2.08},
+  {id:'medio-queso',label:'½ queso de mano',price:4.16},
+  {id:'queso',label:'Queso extra',price:1.56},
+  {id:'tocineta',label:'Tocineta crujiente',price:2.08},
+  {id:'huevo',label:'Huevo frito',price:1.56},
+  {id:'maduro',label:'Tajada de maduro',price:1.56},
+  {id:'aguacate',label:'Aguacate',price:2.08},
+  {id:'papas',label:'Papas fritas',price:3.12},
+];
+
+const AREPA_IDS = ['arepa-cabimera','pabellon-arepa','chistorra','reina-pepiada','domino','pelua','arepa-maracucha','picana-arepa','arepa-salchicha','arepa-diablo','hairy-queen'];
+const AREPA_ADDONS = [{id:'cuarto-queso',label:'¼ queso de mano',price:2.08},{id:'medio-queso',label:'½ queso de mano',price:4.16},{id:'huevo',label:'Huevo',price:1.56},{id:'tocineta',label:'Tocineta',price:1.56}];
+const BURGER_IDS = ['naguara-3p','hamburguesa','double-patty','maracucha','picanha','lechuga'];
+const BURGER_ADDONS = [{id:'cuarto-queso',label:'¼ queso de mano',price:2.08},{id:'medio-queso',label:'½ queso de mano',price:4.16},{id:'chistorra',label:'Chistorra',price:2.08},{id:'huevo',label:'Huevo',price:1.56},{id:'maduros',label:'Maduros',price:1.56},{id:'carne-mechada',label:'Carne mechada',price:5.20},{id:'pollo',label:'Pollo adicional',price:3.12},{id:'carne',label:'Carne adicional',price:3.12},{id:'queso',label:'Queso adicional',price:1.56}];
+
+/* ─── ESTADO ─── */
+let cart = {};
+let fulfillment = 'pickup';
+let customer = { name:'', phone:'', address:'', notes:'' };
+let configState = null;
+
+/* ─── HELPERS ─── */
+const money = n =&gt; '$' + n.toFixed(2);
+
+/* ─── OVERLAYS: posición robusta dentro del iframe de Wix ───
+   En móvil Wix expande el iframe a la altura del contenido y la página
+   de Wix hace el scroll. Con position:fixed los overlays se anclaban al
+   tope del iframe (fuera de pantalla) y bloqueaban el toque. Estos
+   helpers los anclan al elemento que el usuario tocó. */
+function lockScroll(){ document.documentElement.classList.add('ovl-open'); document.body.classList.add('ovl-open'); }
+function unlockScroll(){ document.documentElement.classList.remove('ovl-open'); document.body.classList.remove('ovl-open'); }
+
+function currentTrigger(sel){
+  const t = (window.event &amp;&amp; window.event.target) ? window.event.target : null;
+  return t ? t.closest(sel) : null;
+}
+
+function anchorPanel(triggerEl, panelEl){
+  if(!panelEl) return;
+  const docTop = window.pageYOffset || document.documentElement.scrollTop || 0;
+  let anchorY, anchorH;
+  if(triggerEl){
+    const r = triggerEl.getBoundingClientRect();
+    anchorY = r.top + docTop; anchorH = r.height;
+  } else {
+    anchorY = docTop + 24; anchorH = 0;
+  }
+  // centra el panel ya renderizado sobre el elemento tocado
+  const ph = panelEl.offsetHeight || 0;
+  panelEl.style.top = Math.max(8, anchorY + anchorH/2 - ph/2) + 'px';
+  // asegúrate de que quede a la vista (instantáneo) y luego bloquea el fondo
+  try{ panelEl.scrollIntoView({block:'nearest'}); }catch(e){}
+  lockScroll();
+}
+
+function itemById(id){ return MENU.flatMap(g=&gt;g.items).find(i=&gt;i.id===id); }
+function groupOf(id){ return MENU.find(g=&gt;g.items.some(i=&gt;i.id===id)); }
+
+function addonsFor(it){
+  if(it.noAddons) return [];
+  if(it.addons) return it.addons;
+  if(BURGER_IDS.includes(it.id)) return BURGER_ADDONS;
+  if(AREPA_IDS.includes(it.id)) return AREPA_ADDONS;
+  const g = groupOf(it.id);
+  if(g &amp;&amp; g.id==='cerrar') return [];
+  return DEFAULT_ADDONS;
+}
+
+function isCustomizable(it){
+  if(it.noAddons) return false;
+  const g = groupOf(it.id);
+  if(!g) return false;
+  if(g.id==='cerrar') return false;
+  return !!(it.variants || addonsFor(it).length &gt; 0);
+}
+
+function lineKey(itemId, variantId, addonIds){
+  return itemId+'|'+(variantId||'')+'|'+(addonIds||[]).slice().sort().join(',');
+}
+
+function unitPrice(it, variantId, addonIds){
+  const vs = it.variants || [];
+  const v = vs.find(v=&gt;v.id===variantId);
+  let p;
+  if(v){
+    if(v.price != null) p = v.price;
+    else p = it.price + (v.delta || 0);
+  } else {
+    p = it.price;
+  }
+  const addons = addonsFor(it);
+  (addonIds||[]).forEach(aid=&gt;{ const a=addons.find(a=&gt;a.id===aid); if(a) p+=a.price; });
+  return p;
+}
+
+function cartCount(){
+  return Object.values(cart).reduce((a,l)=&gt;a+l.qty,0);
+}
+function cartSubtotal(){
+  return Object.keys(cart).reduce((s,k)=&gt;{
+    const l=cart[k]; const it=itemById(l.itemId);
+    return s+unitPrice(it,l.variantId,l.addonIds)*l.qty;
+  },0);
+}
+function qtyForItem(id){
+  return Object.values(cart).filter(l=&gt;l.itemId===id).reduce((a,l)=&gt;a+l.qty,0);
+}
+
+function addLine(itemId, variantId, addonIds, n=1){
+  const key = lineKey(itemId, variantId, addonIds);
+  if(cart[key]) cart[key].qty += n;
+  else cart[key] = {itemId, variantId:variantId||null, addonIds:addonIds||[], qty:n};
+  refresh();
+}
+function changeLine(key, delta){
+  if(!cart[key]) return;
+  cart[key].qty += delta;
+  if(cart[key].qty&lt;=0) delete cart[key];
+  refresh();
+}
+
+/* ─── FULFILLMENT ─── */
+const FBAR_NOTES = {
+  pickup:'Recogida en 4385 Griffin Rd, Fort Lauderdale · al lado de Brigitt Flowers',
+  delivery:'Envío $12 · pedido mínimo $25 · zona Davie, FL',
+  dinein:'Comer en el food truck · 4385 Griffin Rd, Fort Lauderdale',
+};
+const CHECKOUT_NOTES = {
+  pickup:'Recogida en Griffin Rd · pago al retirar',
+  delivery:'Envío a Davie · pedido mínimo $25 · pago al recibir',
+  dinein:'Comer en el truck · pago en persona',
+};
+
+function setFulfillment(mode, btn){
+  fulfillment = mode;
+  document.querySelectorAll('.ftab').forEach(b=&gt;b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('fbar-note').textContent = FBAR_NOTES[mode];
+  document.getElementById('checkout-note').textContent = CHECKOUT_NOTES[mode];
+  const addr = document.getElementById('inp-address');
+  if(addr) addr.style.display = mode==='delivery' ? 'block' : 'none';
+}
+
+/* ─── RENDER MENU ─── */
+function buildMenu(){
+  const nav = document.getElementById('nav');
+  const main = document.getElementById('menu');
+  nav.innerHTML = MENU.map(g=&gt;`&lt;a href="#${g.id}"&gt;${g.name}&lt;/a&gt;`).join('');
+  main.innerHTML = MENU.map(g=&gt;`
+    &lt;section id="${g.id}" class="cat-section"&gt;
+      &lt;div class="cat-header"&gt;
+        &lt;h2 class="cat-title"&gt;${g.name}&lt;/h2&gt;
+        &lt;div class="cat-divider"&gt;&lt;/div&gt;
+      &lt;/div&gt;
+      &lt;p class="cat-tagline"&gt;${g.tagline}&lt;/p&gt;
+      &lt;div class="items-grid"&gt;
+        ${g.items.map(it=&gt;renderCard(it)).join('')}
+      &lt;/div&gt;
+    &lt;/section&gt;
+  `).join('');
+}
+
+function imgSrc(it){
+  if(window.NAGUARA_IMAGES &amp;&amp; window.NAGUARA_IMAGES[it.id]) return window.NAGUARA_IMAGES[it.id];
+  return '';
+}
+
+function renderCard(it){
+  const custom = isCustomizable(it);
+  const img = imgSrc(it);
+  const qty = qtyForItem(it.id);
+  const simpleKey = lineKey(it.id, null, []);
+
+  const photoHtml = `
+    &lt;div class="item-photo"&gt;
+      ${img ? `&lt;img src="${img}" alt="${it.name}" loading="lazy" onerror="this.parentElement.innerHTML='&lt;div class=item-photo-placeholder&gt;📷&lt;/div&gt;'"&gt;` : '&lt;div class="item-photo-placeholder"&gt;📷&lt;/div&gt;'}
+      ${it.badge ? `&lt;span class="item-badge"&gt;${it.badge}&lt;/span&gt;` : ''}
+      ${img ? `&lt;button onclick="openZoom('${it.id}')" title="Ver foto" style="position:absolute;bottom:10px;right:10px;width:32px;height:32px;border-radius:50%;border:none;background:rgba(35,26,19,.72);color:#efe3c4;font-size:14px;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);transition:all .16s" onmouseover="this.style.background='${GOLD}';this.style.color='#231a13'" onmouseout="this.style.background='rgba(35,26,19,.72)';this.style.color='#efe3c4'"&gt;⤢&lt;/button&gt;` : ''}
+    &lt;/div&gt;`;
+
+  let actionHtml;
+  if(custom){
+    actionHtml = `&lt;button class="add-btn" onclick="openConfig('${it.id}')"&gt;
+      Personalizar
+      ${qty&gt;0 ? `&lt;span style="background:${GOLD};color:#231a13;min-width:18px;height:18px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:700"&gt;${qty}&lt;/span&gt;` : ''}
+    &lt;/button&gt;`;
+  } else if(qty===0){
+    actionHtml = `&lt;button class="add-btn" onclick="addSimple('${it.id}')"&gt;Agregar&lt;/button&gt;`;
+  } else {
+    actionHtml = `&lt;div class="qty-ctrl"&gt;
+      &lt;button class="qty-btn dec" onclick="changeLine('${simpleKey}',-1)"&gt;−&lt;/button&gt;
+      &lt;span class="qty-num"&gt;${qty}&lt;/span&gt;
+      &lt;button class="qty-btn inc" onclick="changeLine('${simpleKey}',+1)"&gt;+&lt;/button&gt;
+    &lt;/div&gt;`;
+  }
+
+  const priceLabel = custom ? `Desde ${money(it.price)}` : money(it.price);
+
+  return `
+    &lt;article class="item-card"&gt;
+      ${photoHtml}
+      &lt;div class="item-body"&gt;
+        &lt;h3 class="item-name"&gt;${it.name}&lt;/h3&gt;
+        &lt;p class="item-desc"&gt;${it.desc}&lt;/p&gt;
+        &lt;div class="item-footer"&gt;
+          &lt;span class="item-price"&gt;${priceLabel}&lt;/span&gt;
+          &lt;span data-item="${it.id}"&gt;${actionHtml}&lt;/span&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/article&gt;`;
+}
+
+function addSimple(id){ addLine(id, null, [], 1); }
+
+/* ─── REFRESH (re-render cards + drawer) ─── */
+function refresh(){
+  // re-render item cards solo (no rebuild completo)
+  MENU.forEach(g=&gt;g.items.forEach(it=&gt;{
+    const card = document.querySelector(`[data-item="${it.id}"]`);
+    if(card){
+      const custom = isCustomizable(it);
+      const qty = qtyForItem(it.id);
+      const simpleKey = lineKey(it.id, null, []);
+      let a;
+      if(custom){
+        a = `&lt;button class="add-btn" onclick="openConfig('${it.id}')"&gt;Personalizar${qty&gt;0?` &lt;span style="background:${GOLD};color:#231a13;min-width:18px;height:18px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:700"&gt;${qty}&lt;/span&gt;`:''}&lt;/button&gt;`;
+      } else if(qty===0){
+        a = `&lt;button class="add-btn" onclick="addSimple('${it.id}')"&gt;Agregar&lt;/button&gt;`;
+      } else {
+        a = `&lt;div class="qty-ctrl"&gt;&lt;button class="qty-btn dec" onclick="changeLine('${simpleKey}',-1)"&gt;−&lt;/button&gt;&lt;span class="qty-num"&gt;${qty}&lt;/span&gt;&lt;button class="qty-btn inc" onclick="changeLine('${simpleKey}',+1)"&gt;+&lt;/button&gt;&lt;/div&gt;`;
+      }
+      card.innerHTML = a;
+    }
+  }));
+
+  // header count
+  document.getElementById('cart-count').textContent = cartCount();
+  document.getElementById('subtotal').textContent = money(cartSubtotal());
+
+  // drawer body
+  const body = document.getElementById('drawer-body');
+  const lines = Object.keys(cart);
+  if(lines.length===0){
+    body.innerHTML = `&lt;div class="drawer-empty"&gt;&lt;p style="font-family:'Bevan',serif;font-size:17px;color:#a9967a;margin-bottom:6px"&gt;Tu carrito está vacío&lt;/p&gt;&lt;p style="font-size:13px;font-weight:300"&gt;Agrega algo de la plancha 🔥&lt;/p&gt;&lt;/div&gt;`;
+    document.getElementById('drawer-fields').style.display='none';
+  } else {
+    body.innerHTML = lines.map(key=&gt;{
+      const l=cart[key]; const it=itemById(l.itemId);
+      const unit=unitPrice(it,l.variantId,l.addonIds);
+      const v=it.variants?it.variants.find(v=&gt;v.id===l.variantId):null;
+      const addons=addonsFor(it);
+      const parts=[];
+      if(v&amp;&amp;(it.variants||[]).length&gt;1) parts.push(v.label);
+      l.addonIds.forEach(aid=&gt;{const a=addons.find(a=&gt;a.id===aid);if(a)parts.push('+ '+a.label);});
+      return `&lt;div class="cart-line"&gt;
+        &lt;div class="cart-line-info"&gt;
+          &lt;p class="cart-line-name"&gt;${it.name}&lt;/p&gt;
+          ${parts.length?`&lt;p class="cart-line-detail"&gt;${parts.join(' · ')}&lt;/p&gt;`:''}
+          &lt;p class="cart-line-price"&gt;${money(unit)} c/u&lt;/p&gt;
+        &lt;/div&gt;
+        &lt;div class="qty-ctrl" style="height:30px"&gt;
+          &lt;button class="qty-btn dec" onclick="changeLine('${key}',-1)"&gt;−&lt;/button&gt;
+          &lt;span class="qty-num"&gt;${l.qty}&lt;/span&gt;
+          &lt;button class="qty-btn inc" onclick="changeLine('${key}',+1)"&gt;+&lt;/button&gt;
+        &lt;/div&gt;
+        &lt;div class="cart-line-total"&gt;${money(unit*l.qty)}&lt;/div&gt;
+      &lt;/div&gt;`;
+    }).join('');
+    document.getElementById('drawer-fields').style.display='flex';
+  }
+}
+
+/* ─── DRAWER ─── */
+function openDrawer(){
+  const trigger = currentTrigger('.cart-btn') || document.querySelector('.cart-btn');
+  const d = document.getElementById('drawer');
+  d.style.display='block';
+  refresh();
+  anchorPanel(trigger, d.querySelector('.drawer'));
+}
+function closeDrawer(){ document.getElementById('drawer').style.display='none'; unlockScroll(); }
+
+/* ─── CONFIG MODAL ─── */
+function openConfig(id){
+  const trigger = currentTrigger('.item-card');
+  const it = itemById(id);
+  const vs = it.variants||[];
+  const def = vs.find(v=&gt;v.def)||vs[0];
+  configState = {itemId:id, variantId:def?def.id:null, addonIds:[], qty:1};
+  renderModal();
+  document.getElementById('modal').style.display='block';
+  anchorPanel(trigger, document.getElementById('modal-card'));
+}
+function closeModal(){ document.getElementById('modal').style.display='none'; configState=null; unlockScroll(); }
+
+function renderModal(){
+  if(!configState) return;
+  const c=configState;
+  const it=itemById(c.itemId);
+  const vs=it.variants||[];
+  const addons=addonsFor(it);
+  const unit=unitPrice(it,c.variantId,c.addonIds);
+  const img=imgSrc(it);
+
+  document.getElementById('modal-card').innerHTML = `
+    &lt;div class="modal-handle"&gt;&lt;/div&gt;
+    &lt;div class="modal-scroll"&gt;
+      ${img?`&lt;div class="modal-photo"&gt;&lt;img src="${img}" alt="${it.name}"&gt;&lt;button class="modal-close-btn" onclick="closeModal()"&gt;×&lt;/button&gt;&lt;/div&gt;`:''}
+      &lt;div class="modal-body"&gt;
+        ${!img?`&lt;button class="modal-close-btn" style="position:absolute;top:14px;right:14px" onclick="closeModal()"&gt;×&lt;/button&gt;`:''}
+        &lt;h3 class="modal-name"&gt;${it.name}&lt;/h3&gt;
+        &lt;p class="modal-desc"&gt;${it.desc}&lt;/p&gt;
+        ${vs.length?`
+          &lt;div class="modal-sec"&gt;
+            &lt;p class="modal-sec-label"&gt;Elige tu opción&lt;/p&gt;
+            &lt;div class="variants-list"&gt;
+              ${vs.map(v=&gt;{
+                const vp = v.price!=null?money(v.price):(v.delta===0?'Incluido':(v.delta&gt;0?'+'+money(v.delta):'−'+money(-v.delta)));
+                return `&lt;button class="variant-btn${c.variantId===v.id?' selected':''}" onclick="selectVariant('${v.id}')"&gt;
+                  &lt;span&gt;${v.label}&lt;/span&gt;&lt;span class="variant-price"&gt;${vp}&lt;/span&gt;
+                &lt;/button&gt;`;
+              }).join('')}
+            &lt;/div&gt;
+          &lt;/div&gt;`:''}        ${addons.length?`
+          &lt;div class="modal-sec"&gt;
+            &lt;p class="modal-sec-label"&gt;Agrega extras&lt;/p&gt;
+            &lt;div class="addons-grid"&gt;
+              ${addons.map(a=&gt;{
+                const on=c.addonIds.includes(a.id);
+                return `&lt;button class="addon-btn${on?' checked':''}" onclick="toggleAddon('${a.id}')"&gt;
+                  &lt;span class="addon-check${on?' on':''}"&gt;${on?'✓':''}&lt;/span&gt;
+                  &lt;span class="addon-label"&gt;${a.label}&lt;/span&gt;
+                  &lt;span class="addon-price"&gt;+${money(a.price)}&lt;/span&gt;
+                &lt;/button&gt;`;
+              }).join('')}
+            &lt;/div&gt;
+          &lt;/div&gt;`:''}      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="modal-footer"&gt;
+      &lt;div class="qty-ctrl"&gt;
+        &lt;button class="qty-btn dec" onclick="configQty(-1)"&gt;−&lt;/button&gt;
+        &lt;span class="qty-num"&gt;${c.qty}&lt;/span&gt;
+        &lt;button class="qty-btn inc" onclick="configQty(+1)"&gt;+&lt;/button&gt;
+      &lt;/div&gt;
+      &lt;button class="confirm-btn" onclick="confirmConfig()"&gt;
+        &lt;span&gt;Agregar al pedido&lt;/span&gt;
+        &lt;span&gt;${money(unit*c.qty)}&lt;/span&gt;
+      &lt;/button&gt;
+    &lt;/div&gt;`;
+}
+
+function selectVariant(vid){ configState.variantId=vid; renderModal(); }
+function toggleAddon(aid){
+  const s=new Set(configState.addonIds);
+  if(s.has(aid)) s.delete(aid); else s.add(aid);
+  configState.addonIds=[...s];
+  renderModal();
+}
+function configQty(d){ configState.qty=Math.max(1,configState.qty+d); renderModal(); }
+function confirmConfig(){
+  const c=configState;
+  addLine(c.itemId, c.variantId, c.addonIds, c.qty);
+  closeModal();
+}
+
+/* ─── ZOOM ─── */
+function openZoom(id){
+  const trigger = currentTrigger('.item-card');
+  const it=itemById(id);
+  const img=imgSrc(it);
+  if(!img) return;
+  document.getElementById('zoom-img').src=img;
+  document.getElementById('zoom-name').textContent=it.name;
+  const z=document.getElementById('zoom');
+  z.style.display='block';
+  anchorPanel(trigger, z.querySelector('.zoom-inner'));
+}
+function closeZoom(){ document.getElementById('zoom').style.display='none'; unlockScroll(); }
+
+/* ─── WHATSAPP ─── */
+function sendOrder(){
+  const lines=Object.keys(cart);
+  if(!lines.length){ alert('Tu carrito está vacío'); return; }
+  const fLabels={pickup:'Recogida en el local',delivery:'Envío a domicilio',dinein:'Comer en el food truck'};
+  const L=['🍔 *NUEVO PEDIDO — NAGUARA BURGER*',''];
+  if(customer.name) L.push('👤 Cliente: '+customer.name);
+  if(customer.phone) L.push('📞 Teléfono: '+customer.phone);
+  L.push('🛵 Modalidad: '+fLabels[fulfillment]);
+  if(fulfillment==='delivery'&amp;&amp;customer.address) L.push('📍 Dirección: '+customer.address);
+  L.push('','*Pedido:*');
+  lines.forEach(key=&gt;{
+    const l=cart[key]; const it=itemById(l.itemId);
+    const unit=unitPrice(it,l.variantId,l.addonIds);
+    const v=it.variants?it.variants.find(v=&gt;v.id===l.variantId):null;
+    const addons=addonsFor(it);
+    L.push(`• ${l.qty}× ${it.name} — ${money(unit*l.qty)}`);
+    if(v&amp;&amp;(it.variants||[]).length&gt;1) L.push('    ↳ '+v.label);
+    l.addonIds.forEach(aid=&gt;{const a=addons.find(a=&gt;a.id===aid);if(a)L.push('    + '+a.label+' ('+money(a.price)+')');});
+  });
+  L.push('',`*Subtotal: ${money(cartSubtotal())}*`);
+  if(fulfillment==='delivery') L.push('_(+ envío $12 · se cobra al entregar)_');
+  L.push('💵 Pago: al momento de la entrega');
+  if(customer.notes){ L.push('','📝 Notas: '+customer.notes); }
+  window.open('https://wa.me/17866266849?text='+encodeURIComponent(L.join('\n')),'_blank');
+}
+
+/* ─── IMÁGENES ─── */
+window.NAGUARA_IMAGES = {
+  'chicken-wings'  :'https://static.wixstatic.com/media/b71cfc_5031bc3112694e95bfc5b514115c0299~mv2.jpg',
+  'naguara-3p'     :'https://static.wixstatic.com/media/b71cfc_f768e29bd34548a9bf39883fbe684ce5~mv2.jpg',
+  'house-hotdog'   :'https://static.wixstatic.com/media/b71cfc_1ee6f52f7a754263b0df933a60714561~mv2.jpg',
+  'polaca'         :'https://static.wixstatic.com/media/b71cfc_485d7864d36a4b8ba2bd16df8cd2bf3b~mv2.jpg',
+  'mechipan'       :'https://static.wixstatic.com/media/b71cfc_a0e126a6bb3846969ee93b85aeb071f8~mv2.jpg',
+  'special-hotdog' :'https://static.wixstatic.com/media/b71cfc_04e5a03467214ff4bdfa1df4a04b3be7~mv2.jpg',
+  'hamburguesa'    :'https://static.wixstatic.com/media/b71cfc_23d3c1cc62a644a494fcf9eadbac6413~mv2.jpg',
+  'double-patty'   :'https://static.wixstatic.com/media/b71cfc_67c6bb7c2d724707ada2dc26c56a0958~mv2.jpg',
+  'quesadilla'     :'https://static.wixstatic.com/media/b71cfc_d305c1a1bc084a579df6c0fdaa2ad2ca~mv2.jpg',
+  'maracucha'      :'https://static.wixstatic.com/media/b71cfc_ce9603eafc8f4e9ea50a8984ce46d48c~mv2.jpg',
+  'picanha'        :'https://static.wixstatic.com/media/b71cfc_d1116fb99be34c1399f2d227af52d319~mv2.jpg',
+  'lechuga'        :'https://static.wixstatic.com/media/b71cfc_1584848dd6aa438aac6209a9d7d243f1~mv2.jpg',
+  'pepito-12'      :'https://static.wixstatic.com/media/b71cfc_805a65a2993e4395b83bb63c85af8b31~mv2.jpg',
+  'pepito-8'       :'https://static.wixstatic.com/media/b71cfc_109f1155c7614365a3c745d2c16279e1~mv2.jpg',
+  'hairy-queen'    :'https://static.wixstatic.com/media/b71cfc_01add3017bdf45049927db0bdc887565~mv2.jpg',
+  'pabellon-arepa' :'https://static.wixstatic.com/media/b71cfc_75b49e60dfa24c0da0e11942ce9ae1ce~mv2.jpg',
+  'chistorra'      :'https://static.wixstatic.com/media/b71cfc_5c22185c4f5141618ed7037580a51c14~mv2.jpg',
+  'reina-pepiada'  :'https://static.wixstatic.com/media/b71cfc_90830a80fb4f430aa0eb8f73889d00a0~mv2.jpg',
+  'domino'         :'https://static.wixstatic.com/media/b71cfc_20c23289cf3748fb829fecedf8713624~mv2.jpg',
+  'pelua'          :'https://static.wixstatic.com/media/b71cfc_498b958682334b1c81b942be9ba43ee5~mv2.jpg',
+  'cachapa-queso'  :'https://static.wixstatic.com/media/b71cfc_880e80f731e0429a9077e1f5af2f87ab~mv2.jpg',
+  'cachapa-carne'  :'https://static.wixstatic.com/media/b71cfc_6327c96714c64905a4767d03b03802b7~mv2.jpg',
+  'cachapa-picana' :'https://static.wixstatic.com/media/b71cfc_90332b47284944a2aead80b832eb3b01~mv2.jpg',
+  'arepa-cabimera' :'https://static.wixstatic.com/media/b71cfc_1af5025ba2544b5585f9b8f4d5b415fa~mv2.jpg',
+  'arepa-maracucha':'https://static.wixstatic.com/media/b71cfc_0f7603d814a749eeb9cd012b8434a40a~mv2.jpg',
+  'pabellon-criollo':'https://static.wixstatic.com/media/b71cfc_f62007fc60644b958a6407175d7f15f7~mv2.jpg',
+  'picana-arepa'   :'https://static.wixstatic.com/media/b71cfc_61d43bd48a1e4f8caaa68616a9783a42~mv2.jpg',
+  'arepa-salchicha':'https://static.wixstatic.com/media/b71cfc_6d2fa69664fa4d5e85851ed55ba19b01~mv2.jpg',
+  'arepa-diablo'   :'https://static.wixstatic.com/media/b71cfc_1da299f86a3446e99c2084f1e371ba98~mv2.jpg',
+  'caesar-salad'   :'https://static.wixstatic.com/media/b71cfc_ef13d8b2d0e44e44b738cfa983517fbf~mv2.jpg',
+  'sancocho'       :'https://static.wixstatic.com/media/b71cfc_77f1a9d44bfc4a90b0b8215bc5d38269~mv2.jpg',
+  'empanadas'      :'https://static.wixstatic.com/media/b71cfc_8ee55e0e8ba24b3b8db928f1f815e750~mv2.jpg',
+  'empanada-pabellon':'https://static.wixstatic.com/media/b71cfc_d0d21cfaf73149708e2449c64af42854~mv2.jpg',
+  'patacon'        :'https://static.wixstatic.com/media/b71cfc_bc061dddac384ab1890d4ecfe3f7d3a1~mv2.jpg',
+  'parrilla'       :'https://static.wixstatic.com/media/b71cfc_49466223c0a64cbba0b768879fc9bba6~mv2.jpg',
+  'semi-churrasco' :'https://static.wixstatic.com/media/b71cfc_92be114bded743f0ae8b58319cbb9d3d~mv2.jpg',
+  'sausage-fries'  :'https://static.wixstatic.com/media/b71cfc_1e8602c870144748ab902916735234b6~mv2.jpg',
+  'pan-bistec'     :'https://static.wixstatic.com/media/b71cfc_2628b352fa17474a9679c30732a44f53~mv2.jpg',
+  'frescolita'     :'https://static.wixstatic.com/media/b71cfc_b2142e8abeea49958a5dc3a318670b66~mv2.jpg',
+  'sodas'          :'https://static.wixstatic.com/media/b71cfc_2d2e83d351334a3ea7ef144e0011bae4~mv2.jpg',
+  'papelon-limon'  :'https://static.wixstatic.com/media/b71cfc_ab8f5b91136e482a9071a04212701e18~mv2.jpg',
+  'passion-fruit'  :'https://static.wixstatic.com/media/b71cfc_b31f7e2e93e546b2a85c341da547859c~mv2.jpg',
+  'nestea'         :'https://static.wixstatic.com/media/b71cfc_ec0bdd98c88f416b9f2b56a4ea32bac9~mv2.jpg',
+};
+
+/* ─── INIT ─── */
+buildMenu();
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</textarea>
+</div>
+<script>
+function copiar(){
+  var ta=document.getElementById('code');
+  var txt=ta.value;
+  var btn=document.getElementById('btn');
+  var msg=document.getElementById('msg');
+  function ok(){ msg.textContent='✅ ¡Copiado! Ahora pégalo en Wix.'; btn.textContent='✅ Código copiado'; }
+  function manual(){ msg.textContent='Mantén presionado el recuadro de abajo → Seleccionar todo → Copiar.'; }
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(txt).then(ok).catch(fallback);
+  } else { fallback(); }
+  function fallback(){
+    ta.removeAttribute('readonly');
+    ta.focus(); ta.select();
+    try{ ta.setSelectionRange(0, txt.length); }catch(e){}
+    var done=false;
+    try{ done=document.execCommand('copy'); }catch(e){}
+    ta.setAttribute('readonly','');
+    done?ok():manual();
+  }
+}
+</script>
+</body>
+</html>
