@@ -397,7 +397,7 @@ const PostLocation = () => (
         NAGUARÁ BURGER
       </div>
       <div style={{ position: 'absolute', bottom: 20, left: 24, right: 24, display: 'flex', justifyContent: 'space-between', fontFamily: "'JetBrains Mono', monospace", fontSize: 12, letterSpacing: '0.2em', color: 'rgba(244,233,211,0.5)' }}>
-        <span>GRIFFIN RD · 25°N</span>
+        <span>GRIFFIN RD · 26.08°N</span>
         <span>FORT LAUDERDALE</span>
       </div>
     </div>
