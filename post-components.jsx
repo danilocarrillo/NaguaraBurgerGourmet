@@ -24,7 +24,7 @@ const PostBase = ({ children, bg = 'espresso', grain = true, className = '', sty
 
 // Small logo corner mark
 const LogoMark = ({ size = 96, style = {} }) => (
-  <img src="../assets/naguara-logo.png" alt="" style={{
+  <img src={window.__resources && window.__resources.logo} alt="" style={{
     width: size, height: size, borderRadius: '50%', display: 'block',
     filter: 'drop-shadow(0 8px 20px rgba(0,0,0,0.4))', ...style
   }} />
@@ -397,7 +397,7 @@ const PostLocation = () => (
         NAGUARÁ BURGER
       </div>
       <div style={{ position: 'absolute', bottom: 20, left: 24, right: 24, display: 'flex', justifyContent: 'space-between', fontFamily: "'JetBrains Mono', monospace", fontSize: 12, letterSpacing: '0.2em', color: 'rgba(244,233,211,0.5)' }}>
-        <span>GRIFFIN RD · 26.08°N</span>
+        <span>GRIFFIN RD · 25°N</span>
         <span>FORT LAUDERDALE</span>
       </div>
     </div>
