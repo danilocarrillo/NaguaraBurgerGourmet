@@ -90,26 +90,28 @@ async function main() {
     });
   }
 
-  // (c) Vertex AI (aiplatform.googleapis.com).
-  //     IMPORTANTE: Vertex NO acepta API keys de Google AI Studio. Requiere
-  //     OAuth2 / token de cuenta de servicio (Authorization: Bearer <token>)
-  //     y el ID de proyecto + región en la URL. Por eso un fetch directo desde
-  //     el navegador con ?key= NO sirve aquí. Lo intentamos igual para
-  //     documentar la respuesta (se espera 401/403 por falta de OAuth).
-  const PROJECT = process.env.GCP_PROJECT_ID || "gen-lang-client-0215751684";
-  const LOCATION = process.env.GCP_LOCATION || "us-central1";
-  const vertexModel = "gemini-2.0-flash-001";
-  const vertexUrl =
-    `https://${LOCATION}-aiplatform.googleapis.com/v1/projects/${PROJECT}` +
-    `/locations/${LOCATION}/publishers/google/models/${vertexModel}:generateContent`;
-  await probar(`(c) Vertex AI (espera OAuth) · ${vertexModel}`, vertexUrl, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "x-goog-api-key": API_KEY, // se prueba aunque Vertex normalmente ignora la API key
-    },
-    body: BODY,
-  });
+  // (c) Vertex AI EXPRESS MODE (aiplatform.googleapis.com).
+  //     CLAVE DEL ASUNTO: las claves que empiezan por "AQ." son del formato
+  //     nuevo, ligado a Vertex AI Express Mode. Express Mode SÍ acepta API key
+  //     (no requiere OAuth, a diferencia del Vertex completo) y se pasa por el
+  //     header x-goog-api-key. El endpoint Express es GLOBAL (sin proyecto ni
+  //     región en la URL):
+  //       https://aiplatform.googleapis.com/v1/publishers/google/models/MODELO:generateContent
+  //     Si tu clave AQ. da 429 free_tier en (a)/(b) pero 200 AQUÍ, esa es la
+  //     causa: la cuota de pago vive en Express, no en el endpoint nativo.
+  const EXPRESS_BASE =
+    "https://aiplatform.googleapis.com/v1/publishers/google/models";
+  for (const modelo of MODELOS) {
+    const url = `${EXPRESS_BASE}/${modelo}:generateContent`;
+    await probar(`(c) Vertex Express · header · ${modelo}`, url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-goog-api-key": API_KEY,
+      },
+      body: BODY,
+    });
+  }
 
   // --- Tabla resumen ----------------------------------------------------------
   console.log("\n\n" + "#".repeat(78));

@@ -808,19 +808,28 @@ $w.<span class="f">onReady</span>(<span class="k">function</span> () {
 // ══════════════════════════════════════
 const PIN_CORRECTO = '2229';   // ← Tu PIN. Cámbialo antes de publicar.
 
-// Motor IA: Gemini DIRECTO desde el navegador (como el original de ChatGPT).
-// La clave la pegas en el campo "Clave Gemini" arriba — se guarda en este
-// navegador. Se envía por ?key= (NO Bearer). Si un modelo da 404, cambia
-// GEMINI_MODEL (ej. 'gemini-1.5-flash').
+// Motor IA: Gemini DIRECTO desde el navegador. La clave la pegas en el campo
+// "Clave Gemini" arriba — se guarda en este navegador. Sin servidor ni Bearer.
 //
-// NOTA DE CUOTA (junio 2026): si gemini-2.0-flash devuelve 429 con
-// "free_tier_requests, limit: 0" pese a tener facturación activa (Tier 1),
-// es el bug de enrutamiento de cuota de Google. El único cambio útil dentro
-// de esta arquitectura (fetch directo desde el navegador) es probar otro
-// modelo aquí abajo: 2.5-flash suele enrutar a la cuota de pago. Cámbialo en
-// una sola línea y reactiva.
+// HAY DOS ENDPOINTS POSIBLES, según el tipo de clave:
+//  - NATIVO  (generativelanguage.googleapis.com): claves clásicas "AIza".
+//             La clave va por ?key=.
+//  - EXPRESS (aiplatform.googleapis.com, Vertex AI Express Mode): claves nuevas
+//             "AQ.". La clave va por header x-goog-api-key (NO requiere OAuth).
+//
+// IMPORTANTE (junio 2026): si tu clave empieza por "AQ." y el endpoint NATIVO
+// devuelve 429 "free_tier_requests, limit: 0" pese a tener facturación (Tier 1),
+// la cuota de pago vive en EXPRESS, no en el nativo. Por eso el modo por defecto
+// es 'express'. Pulsa "⚡ Probar conexión" para ver qué endpoint responde 200 y
+// deja MODO_API en el que funcione.
 const GEMINI_MODEL = 'gemini-2.5-flash';
-const GEMINI_URL   = 'https://generativelanguage.googleapis.com/v1beta/models/' + GEMINI_MODEL + ':generateContent';
+
+// 'express' = Vertex AI Express Mode (recomendado para claves AQ.)
+// 'nativo'  = Gemini Developer API (claves AIza por ?key=)
+const MODO_API = 'express';
+
+const URL_NATIVO  = 'https://generativelanguage.googleapis.com/v1beta/models/' + GEMINI_MODEL + ':generateContent';
+const URL_EXPRESS = 'https://aiplatform.googleapis.com/v1/publishers/google/models/' + GEMINI_MODEL + ':generateContent';
 // ══════════════════════════════════════
 
 // ── STATE ──
@@ -949,18 +958,36 @@ function sysPrompt() {
 // Espera ms milisegundos sin bloquear la interfaz (Promise + setTimeout).
 function esperar(ms) { return new Promise(function(res){ setTimeout(res, ms); }); }
 
+// Arma URL + headers según el modo: 'express' (clave por header x-goog-api-key)
+// o 'nativo' (clave por ?key=). Devuelve { url, headers }.
+function endpointGemini(modo, urlBase) {
+  if (modo === 'express') {
+    return {
+      url: urlBase,
+      headers: { 'Content-Type': 'application/json', 'x-goog-api-key': apiKey }
+    };
+  }
+  return {
+    url: urlBase + '?key=' + encodeURIComponent(apiKey),
+    headers: { 'Content-Type': 'application/json' }
+  };
+}
+
 // Hace el POST a Gemini reintentando SOLO ante 429 transitorios.
 // Máximo 2 reintentos, con backoff exponencial (1s, luego 2s). Devuelve la
 // Response sin leer su cuerpo (cada quien lee .json()/.text() según necesite).
-// OJO: si el 429 es "limit: 0" (cuota cero del bug de plataforma), el reintento
-// NO lo resuelve; solo ayuda con límites de tasa transitorios reales.
+// Usa el endpoint del modo activo (MODO_API). OJO: si el 429 es "limit: 0"
+// (cuota cero del bug de plataforma), el reintento NO lo resuelve; solo ayuda
+// con límites de tasa transitorios reales.
 async function fetchGemini(body) {
+  const urlBase = (MODO_API === 'express') ? URL_EXPRESS : URL_NATIVO;
+  const ep = endpointGemini(MODO_API, urlBase);
   const maxReintentos = 2;
   let r;
   for (let intento = 0; intento <= maxReintentos; intento++) {
-    r = await fetch(GEMINI_URL + '?key=' + encodeURIComponent(apiKey), {
+    r = await fetch(ep.url, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: ep.headers,
       body: JSON.stringify(body)
     });
     if (r.status !== 429 || intento === maxReintentos) return r;
@@ -1213,24 +1240,55 @@ async function guardarWix() {
   }
 }
 
-// ══ PROBAR CONEXIÓN · diagnóstico (Gemini directo) ══
+// ══ PROBAR CONEXIÓN · diagnóstico de 3 caminos (sin terminal) ══
+// Prueba, uno por uno y en tu navegador: (a) nativo por ?key=, (b) nativo por
+// header x-goog-api-key, (c) Vertex Express por header. Muestra el HTTP de cada
+// uno. El que dé 200 es el bueno: pon MODO_API acorde (express o nativo) arriba.
 async function probarConexion() {
   const log = document.getElementById('wix-log');
   if (!apiKey) { log.textContent = 'Primero pega tu clave de Gemini arriba y pulsa Activar.'; return; }
-  log.textContent = 'Probando Gemini (' + GEMINI_MODEL + ')...';
-  try {
-    // Usa el mismo fetch con reintento que la generación, para diagnosticar
-    // exactamente el mismo camino (incluye backoff ante 429 transitorios).
-    const r = await fetchGemini({ contents: [{ role: 'user', parts: [{ text: 'di OK' }] }] });
-    const txt = await r.text();
-    let estado;
-    if (r.ok) estado = ' — ✓ la clave SIRVE';
-    else if (r.status === 429) estado = ' — 429: cuota agotada o límite de tasa (mira el cuerpo: si dice "limit: 0" es el bug de cuota de Google)';
-    else estado = ' — la clave fue rechazada o falta habilitar la API';
-    log.textContent = 'HTTP ' + r.status + estado + '\n\nRespuesta cruda:\n' + txt.slice(0, 900);
-  } catch (e) {
-    log.textContent = 'No conectó: ' + e.message + '\n(Problema de red, no de la clave.)';
+  const cuerpo = { contents: [{ role: 'user', parts: [{ text: 'di OK' }] }] };
+
+  // Cada combinación a probar: etiqueta + cómo construir url/headers.
+  const pruebas = [
+    { etq: '(a) NATIVO  ?key=',        url: URL_NATIVO + '?key=' + encodeURIComponent(apiKey), headers: { 'Content-Type': 'application/json' } },
+    { etq: '(b) NATIVO  header',       url: URL_NATIVO,  headers: { 'Content-Type': 'application/json', 'x-goog-api-key': apiKey } },
+    { etq: '(c) EXPRESS header',       url: URL_EXPRESS, headers: { 'Content-Type': 'application/json', 'x-goog-api-key': apiKey } },
+  ];
+
+  log.textContent = 'Probando 3 caminos con ' + GEMINI_MODEL + '...\n';
+  let resumen = '';
+  let ganadora = '';
+  for (const p of pruebas) {
+    let linea;
+    try {
+      const r = await fetch(p.url, { method: 'POST', headers: p.headers, body: JSON.stringify(cuerpo) });
+      const txt = await r.text();
+      let marca = '';
+      if (r.ok) { marca = ' ✓ FUNCIONA (200)'; if (!ganadora) ganadora = p.etq; }
+      else if (r.status === 429 && txt.indexOf('limit: 0') !== -1) marca = ' ✗ 429 free_tier limit:0 (cuota no enrutada aquí)';
+      else if (r.status === 429) marca = ' ✗ 429 (límite de tasa)';
+      else if (r.status === 401 || r.status === 403) marca = ' ✗ ' + r.status + ' (auth/API no habilitada)';
+      else if (r.status === 404) marca = ' ✗ 404 (ruta/modelo no existe)';
+      else marca = ' ✗ ' + r.status;
+      linea = p.etq + ' → HTTP ' + r.status + marca;
+    } catch (e) {
+      linea = p.etq + ' → ERROR de red: ' + e.message;
+    }
+    resumen += linea + '\n';
+    log.textContent = 'Probando 3 caminos con ' + GEMINI_MODEL + '...\n\n' + resumen;
   }
+
+  if (ganadora) {
+    const modo = ganadora.indexOf('EXPRESS') !== -1 ? 'express' : 'nativo';
+    resumen += '\n>>> Camino bueno: ' + ganadora + '. Deja MODO_API = ' + "'" + modo + "'" + ' arriba.';
+    resumen += (modo === MODO_API)
+      ? '\n>>> Ya estás en ese modo: la generación debería funcionar.'
+      : '\n>>> MODO_API actual es ' + "'" + MODO_API + "'" + ': cámbialo a ' + "'" + modo + "'" + ' y republica.';
+  } else {
+    resumen += '\n>>> Ningún camino dio 200. Si todos son 429 limit:0, es el bug de cuota de Google: espera la propagación del prepago (~24h) o abre ticket.';
+  }
+  log.textContent = resumen;
 }
 
 // ══ CLAVE GEMINI · guardar en este navegador ══
