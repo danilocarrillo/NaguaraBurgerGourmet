@@ -1,0 +1,1269 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Escritorio DC</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --ink:    #0d0c0b;
+  --ink2:   #141210;
+  --ink3:   #1b1815;
+  --gold:   #c9a84c;
+  --gd:     rgba(201,168,76,.1);
+  --rust:   #bf5239;
+  --sage:   #4a7c6f;
+  --violet: #7c5cbf;
+  --blue:   #4a7cb5;
+  --pink:   #c06080;
+  --amber:  #bf9a39;
+  --parch:  #ede7d5;
+  --muted:  #6b5f4e;
+  --border: #252018;
+  --r:      10px;
+  --mono:   'DM Mono', monospace;
+}
+
+body {
+  background: var(--ink);
+  color: var(--parch);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  line-height: 1.65;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ══ PANTALLA PIN ══ */
+#pin-screen {
+  position: fixed; inset: 0;
+  background: var(--ink);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 28px; z-index: 999; padding: 24px;
+}
+.pin-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(28px,5vw,48px);
+  font-weight: 900;
+  text-align: center;
+  line-height: 1.1;
+}
+.pin-logo em { font-style: italic; color: var(--gold); }
+.pin-mono {
+  font-family: var(--mono);
+  font-size: 10px; letter-spacing: .18em;
+  text-transform: uppercase; color: var(--muted);
+  text-align: center;
+}
+.pin-input-wrap { display: flex; gap: 10px; }
+.pin-dot {
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: transparent;
+  transition: background .2s;
+}
+.pin-dot.filled { background: var(--gold); border-color: var(--gold); }
+.pin-hidden {
+  position: absolute; opacity: 0; pointer-events: none;
+  width: 1px; height: 1px;
+}
+.pin-pad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  max-width: 220px; width: 100%;
+}
+.pin-key {
+  background: var(--ink2);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 16px;
+  font-family: var(--mono);
+  font-size: 18px; font-weight: 500;
+  color: var(--parch);
+  cursor: pointer;
+  text-align: center;
+  transition: background .15s, border-color .15s;
+  user-select: none;
+}
+.pin-key:hover { background: var(--gd); border-color: var(--gold); }
+.pin-key:active { transform: scale(.95); }
+.pin-key.wide { grid-column: span 2; }
+.pin-error {
+  font-family: var(--mono); font-size: 11px;
+  color: var(--rust); letter-spacing: .08em;
+  min-height: 16px; text-align: center;
+}
+
+/* ══ APP ══ */
+#app { display: none; flex-direction: column; min-height: 100vh; }
+#app.visible { display: flex; }
+
+/* TOP BAR */
+.topbar {
+  position: sticky; top: 0; z-index: 50;
+  background: var(--ink2);
+  border-bottom: 1px solid var(--border);
+  padding: 10px 24px;
+  display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+}
+.topbar-brand {
+  font-family: 'Playfair Display', serif;
+  font-size: 15px; font-weight: 700;
+  color: var(--parch);
+  display: flex; align-items: center; gap: 8px;
+  white-space: nowrap;
+}
+.tb-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
+.topbar-sep { flex: 1; }
+.motor-badge {
+  font-family: var(--mono); font-size: 9px;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: var(--muted); white-space: nowrap;
+  display: flex; align-items: center; gap: 6px;
+}
+.motor-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--sage); flex-shrink: 0; }
+.topbar-cambiar {
+  font-family: var(--mono); font-size: 9px;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: var(--muted); background: none;
+  border: 1px solid var(--border); border-radius: 6px;
+  padding: 5px 12px; cursor: pointer;
+  transition: border-color .2s, color .2s; white-space: nowrap;
+}
+.topbar-cambiar:hover { border-color: var(--gold); color: var(--gold); }
+
+/* ══ PANTALLA ÁMBITO ══ */
+#screen-ambito {
+  flex: 1; display: none;
+  flex-direction: column; align-items: center;
+  justify-content: center; gap: 36px; padding: 40px 20px;
+}
+#screen-ambito.visible { display: flex; }
+.ambito-hero { text-align: center; }
+.ambito-hero h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(28px,4vw,46px); font-weight: 900; line-height: 1.08;
+}
+.ambito-hero h2 em { font-style: italic; color: var(--gold); }
+.ambito-hero p { font-size:14px; color:var(--muted); margin-top:10px; max-width:440px; line-height:1.7; }
+.ambito-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(185px,1fr));
+  gap: 12px; width: 100%; max-width: 840px;
+}
+.ac {
+  border: 1px solid var(--border); border-radius: 12px;
+  padding: 18px; cursor: pointer; background: var(--ink2);
+  display: flex; flex-direction: column; gap: 7px;
+  transition: border-color .2s, transform .15s;
+  position: relative; overflow: hidden;
+}
+.ac::after {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: var(--ac, var(--gold)); opacity: 0; transition: opacity .2s;
+}
+.ac:hover { border-color: var(--ac,var(--gold)); transform: translateY(-2px); }
+.ac:hover::after { opacity: 1; }
+.ac.sel { border-color: var(--ac,var(--gold)); }
+.ac.sel::after { opacity: 1; }
+.ac-icon { font-size: 20px; }
+.ac-name { font-family:'Playfair Display',serif; font-size:14px; font-weight:700; }
+.ac-desc { font-size:11px; color:var(--muted); line-height:1.5; }
+.ac-tag { font-family:var(--mono); font-size:9px; letter-spacing:.1em; text-transform:uppercase; color:var(--ac,var(--gold)); margin-top:2px; }
+.btn-entrar {
+  background: var(--gold); color: var(--ink);
+  border: none; border-radius: var(--r);
+  padding: 13px 32px; font-family:'DM Sans',sans-serif;
+  font-size:15px; font-weight:700; cursor:pointer;
+  display: none; transition: opacity .2s, transform .15s;
+}
+.btn-entrar.v { display: block; }
+.btn-entrar:hover { opacity:.88; transform:translateY(-1px); }
+
+/* ══ ESCRITORIO TABS ══ */
+#screen-escritorio { flex: 1; display: none; flex-direction: column; }
+#screen-escritorio.visible { display: flex; }
+
+.tabs-bar {
+  display: flex; background: var(--ink2);
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto; scrollbar-width: none;
+}
+.tabs-bar::-webkit-scrollbar { display: none; }
+.tb-btn {
+  flex-shrink: 0; padding: 13px 22px;
+  font-family: var(--mono); font-size: 10px;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: var(--muted); background: none; border: none;
+  border-bottom: 2px solid transparent; cursor: pointer;
+  display: flex; align-items: center; gap: 8px;
+  transition: color .2s, border-color .2s;
+}
+.tb-btn:hover { color: var(--parch); }
+.tb-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
+.tb-btn.done { color: var(--sage); }
+.tb-n {
+  width: 17px; height: 17px; border-radius: 50%;
+  background: var(--border); display: flex;
+  align-items: center; justify-content: center;
+  font-size: 9px; color: var(--muted);
+  transition: background .2s, color .2s;
+}
+.tb-btn.active .tb-n { background: var(--gold); color: var(--ink); }
+.tb-btn.done .tb-n  { background: var(--sage); color: var(--ink); }
+
+.panel { display: none; padding: 28px 32px 60px; flex-direction: column; gap: 22px; flex: 1; }
+.panel.active { display: flex; }
+
+/* ══ COMPONENTES ══ */
+.sec-label {
+  font-family: var(--mono); font-size: 9px;
+  letter-spacing: .16em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 8px;
+  display: flex; align-items: center; gap: 8px;
+}
+.sec-label::after { content:''; flex:1; height:1px; background:var(--border); }
+.panel-h {
+  font-family: 'Playfair Display', serif;
+  font-size: 24px; font-weight: 700; line-height: 1.15;
+}
+
+textarea, select, input[type="text"], input[type="password"] {
+  width: 100%; background: rgba(0,0,0,.35);
+  border: 1px solid var(--border); border-radius: var(--r);
+  padding: 10px 13px; font-family: 'DM Sans',sans-serif;
+  font-size: 14px; color: var(--parch); outline: none;
+  transition: border-color .2s; line-height: 1.65;
+}
+textarea { resize: vertical; }
+textarea:focus, select:focus, input:focus { border-color: var(--gold); }
+textarea::placeholder, input::placeholder { color: #282218; }
+select option { background: #141210; }
+
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.row3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+@media(max-width:600px){ .row2,.row3 { grid-template-columns:1fr; } }
+
+.fl { font-family:var(--mono); font-size:9px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:6px; }
+
+.out-box {
+  background: rgba(0,0,0,.35); border: 1px solid var(--border);
+  border-radius: var(--r); padding: 16px 18px;
+  font-size: 14px; line-height: 1.78; color: var(--parch);
+  min-height: 110px; white-space: pre-wrap; word-break: break-word;
+  transition: border-color .3s;
+}
+.out-box.lit { border-color: rgba(201,168,76,.2); }
+.oe { color: #282218; font-style: italic; font-size: 13px; }
+
+.btn {
+  border: none; border-radius: var(--r);
+  padding: 11px 22px; font-family: 'DM Sans',sans-serif;
+  font-size: 14px; font-weight: 600; cursor: pointer;
+  display: inline-flex; align-items: center; gap: 8px;
+  transition: opacity .2s, transform .15s;
+}
+.btn:hover { opacity:.85; transform:translateY(-1px); }
+.btn:disabled { opacity:.3; cursor:not-allowed; transform:none; }
+.bg  { background:var(--gold); color:var(--ink); }
+.bs  { background:var(--sage); color:#fff; }
+.bv  { background:var(--violet); color:#fff; }
+.br  { background:var(--rust); color:#fff; }
+
+.ghost {
+  background:transparent; border:1px solid var(--border);
+  border-radius:6px; padding:7px 13px;
+  font-family:var(--mono); font-size:10px;
+  letter-spacing:.08em; text-transform:uppercase;
+  color:var(--muted); cursor:pointer;
+  transition:border-color .2s, color .2s;
+}
+.ghost:hover { border-color:var(--gold); color:var(--gold); }
+
+.btn-next {
+  background: var(--sage); color:#fff; border:none;
+  border-radius:var(--r); padding:12px 28px;
+  font-family:'DM Sans',sans-serif; font-size:14px; font-weight:700;
+  cursor:pointer; align-self:flex-start;
+  transition: opacity .2s, transform .15s;
+}
+.btn-next:hover { opacity:.88; transform:translateY(-1px); }
+
+.btn-row { display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+
+.nota {
+  background:rgba(201,168,76,.05); border-left:3px solid rgba(201,168,76,.25);
+  border-radius: 0 var(--r) var(--r) 0; padding:12px 16px;
+  font-size:13px; color:var(--muted); line-height:1.65;
+}
+.nota strong { color:var(--gold); }
+.nota-s { border-left-color:rgba(74,124,111,.35); background:rgba(74,124,111,.05); }
+.nota-s strong { color:var(--sage); }
+.nota-v { border-left-color:rgba(124,92,191,.35); background:rgba(124,92,191,.05); }
+.nota-v strong { color:var(--violet); }
+
+/* Modos creativos */
+.modo-chips { display:flex; gap:8px; flex-wrap:wrap; }
+.mc {
+  border:1px solid var(--border); border-radius:8px;
+  padding:8px 15px; font-size:13px; color:var(--muted);
+  cursor:pointer; transition:all .2s;
+}
+.mc:hover { border-color:var(--violet); color:var(--violet); }
+.mc.active { border-color:var(--violet); background:rgba(124,92,191,.1); color:var(--violet); }
+.mpanel { display:none; flex-direction:column; gap:14px; }
+.mpanel.active { display:flex; }
+
+/* Wix status */
+.wix-log {
+  background:rgba(0,0,0,.4); border:1px solid var(--border);
+  border-radius:var(--r); padding:14px 16px;
+  font-family:var(--mono); font-size:12px; color:var(--muted);
+  line-height:1.7; min-height:80px; white-space:pre-wrap;
+}
+
+/* Colecciones */
+.col-chips { display:flex; flex-wrap:wrap; gap:8px; }
+.cc {
+  border:1px solid var(--border); border-radius:100px;
+  padding:5px 14px; font-family:var(--mono); font-size:10px;
+  letter-spacing:.08em; text-transform:uppercase;
+  color:var(--muted); cursor:pointer; transition:all .2s;
+}
+.cc:hover { border-color:var(--violet); color:var(--violet); }
+.cc.sel { border-color:var(--violet); background:rgba(124,92,191,.1); color:var(--violet); }
+
+/* Sesión box */
+.ses-box {
+  background:rgba(0,0,0,.35); border:1px solid var(--border);
+  border-radius:var(--r); overflow:hidden;
+}
+.ses-head {
+  padding:9px 14px; font-family:var(--mono); font-size:9px;
+  letter-spacing:.12em; text-transform:uppercase; color:var(--gold);
+  background:rgba(201,168,76,.04); border-bottom:1px solid var(--border);
+}
+.ses-body {
+  padding:12px 14px; font-size:13px; color:var(--muted);
+  line-height:1.7; white-space:pre-wrap;
+  max-height:160px; overflow-y:auto;
+}
+.ses-body::-webkit-scrollbar { width:3px; }
+.ses-body::-webkit-scrollbar-thumb { background:var(--border); border-radius:2px; }
+
+/* Spinner */
+.sp {
+  width:13px; height:13px;
+  border:2px solid rgba(255,255,255,.15);
+  border-top-color:currentColor; border-radius:50%;
+  animation:spin .65s linear infinite; display:inline-block;
+}
+@keyframes spin { to{transform:rotate(360deg)} }
+
+/* Instrucciones colapsables */
+details { border:1px solid var(--border); border-radius:var(--r); overflow:hidden; }
+summary {
+  padding:12px 16px; font-family:var(--mono); font-size:10px;
+  letter-spacing:.1em; text-transform:uppercase; color:var(--muted);
+  cursor:pointer; list-style:none; display:flex; align-items:center; gap:8px;
+  background:var(--ink2);
+}
+summary::before { content:'▸'; transition:transform .2s; }
+details[open] summary::before { transform:rotate(90deg); }
+.detail-body { padding:18px; display:flex; flex-direction:column; gap:12px; font-size:13px; color:var(--muted); line-height:1.7; }
+code {
+  font-family:var(--mono); font-size:12px;
+  background:rgba(0,0,0,.4); border:1px solid var(--border);
+  border-radius:4px; padding:1px 6px; color:var(--gold);
+}
+pre {
+  font-family:var(--mono); font-size:12px;
+  background:rgba(0,0,0,.45); border:1px solid var(--border);
+  border-radius:var(--r); padding:16px; color:var(--parch);
+  overflow-x:auto; line-height:1.7; white-space:pre;
+}
+pre .c { color:#4a5040; } /* comentario */
+pre .k { color:var(--gold); } /* keyword */
+pre .s { color:var(--sage); } /* string */
+pre .f { color:var(--violet); } /* function */
+
+@media(max-width:600px){
+  .panel { padding:18px 16px 48px; }
+  .topbar { padding:8px 14px; }
+  .ambito-grid { grid-template-columns:1fr 1fr; }
+}
+@media(prefers-reduced-motion:reduce){ *,.sp { animation:none!important; transition:none!important; } }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════
+     PANTALLA PIN
+═══════════════════════════ -->
+<div id="pin-screen">
+  <div>
+    <div class="pin-mono">danilocarrillo.com · Acceso privado</div>
+    <div class="pin-logo" style="margin-top:16px;">Escritorio<br><em>de escritura</em></div>
+  </div>
+  <div class="pin-input-wrap" id="pin-dots">
+    <div class="pin-dot" id="pd0"></div>
+    <div class="pin-dot" id="pd1"></div>
+    <div class="pin-dot" id="pd2"></div>
+    <div class="pin-dot" id="pd3"></div>
+  </div>
+  <div class="pin-pad">
+    <div class="pin-key" onclick="pinKey('1')">1</div>
+    <div class="pin-key" onclick="pinKey('2')">2</div>
+    <div class="pin-key" onclick="pinKey('3')">3</div>
+    <div class="pin-key" onclick="pinKey('4')">4</div>
+    <div class="pin-key" onclick="pinKey('5')">5</div>
+    <div class="pin-key" onclick="pinKey('6')">6</div>
+    <div class="pin-key" onclick="pinKey('7')">7</div>
+    <div class="pin-key" onclick="pinKey('8')">8</div>
+    <div class="pin-key" onclick="pinKey('9')">9</div>
+    <div class="pin-key" onclick="pinKey('del')" style="color:var(--muted)">⌫</div>
+    <div class="pin-key" onclick="pinKey('0')">0</div>
+    <div class="pin-key" onclick="pinKey('ok')" style="color:var(--gold)">OK</div>
+  </div>
+  <div class="pin-error" id="pin-error"></div>
+</div>
+
+<!-- ═══════════════════════════
+     APP
+═══════════════════════════ -->
+<div id="app">
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <div class="topbar-brand">
+      <div class="tb-dot" id="tb-dot"></div>
+      <span id="tb-nombre">—</span>
+    </div>
+    <button class="topbar-cambiar" onclick="volverAmbito()">← Cambiar ámbito</button>
+    <div class="topbar-sep"></div>
+    <input type="password" id="apiKey" placeholder="Clave Gemini (AQ. o AIza)" autocomplete="off" onchange="guardarClave()" style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.18);color:var(--ink);border-radius:8px;padding:6px 10px;font-size:12px;font-family:'JetBrains Mono',monospace;width:180px;outline:none;">
+    <button class="topbar-cambiar" onclick="guardarClave()" style="margin-left:6px;">Activar</button>
+    <div class="motor-badge" style="margin-left:8px;"><span class="motor-dot" id="motor-dot"></span><span id="motor-txt">Sin clave</span></div>
+  </div>
+
+  <!-- ═══ PANTALLA ÁMBITO ═══ -->
+  <div id="screen-ambito" class="visible">
+    <div class="ambito-hero">
+      <div class="pin-mono">Una sola vida · Una sola voz</div>
+      <h2 style="font-family:'Playfair Display',serif;font-size:clamp(28px,4vw,44px);font-weight:900;line-height:1.1;margin-top:14px;">¿Qué vas a<br><em style="font-style:italic;color:var(--gold);">escribir hoy?</em></h2>
+      <p style="font-size:14px;color:var(--muted);margin-top:12px;max-width:420px;margin-left:auto;margin-right:auto;line-height:1.7;">Elige el ámbito. La voz de Claude, el flujo y la colección de Wix se adaptan automáticamente.</p>
+    </div>
+    <div class="ambito-grid">
+      <div class="ac" style="--ac:#c9a84c" onclick="selAmbito(this,'teologia')">
+        <div class="ac-icon">✝️</div>
+        <div class="ac-name">Teología bíblica</div>
+        <div class="ac-desc">Exégesis, doctrina, comentario, ensayo teológico.</div>
+        <div class="ac-tag">Teología</div>
+      </div>
+      <div class="ac" style="--ac:#bf5239" onclick="selAmbito(this,'liderazgo')">
+        <div class="ac-icon">⚔️</div>
+        <div class="ac-name">Liderazgo · Líder 4×4</div>
+        <div class="ac-desc">9 autos griegos, esferas, energizadores, método.</div>
+        <div class="ac-tag">Liderazgo</div>
+      </div>
+      <div class="ac" style="--ac:#7c5cbf" onclick="selAmbito(this,'narrativa')">
+        <div class="ac-icon">📖</div>
+        <div class="ac-name">Narrativa inmersiva</div>
+        <div class="ac-desc">Libros, capítulos, escenas — Yarros × Han Kang.</div>
+        <div class="ac-tag">Narrativa</div>
+      </div>
+      <div class="ac" style="--ac:#c06080" onclick="selAmbito(this,'matrimonio')">
+        <div class="ac-icon">💍</div>
+        <div class="ac-name">Matrimonio y familia</div>
+        <div class="ac-desc">Serie Matrimonios en Crisis, artículos, reflexiones.</div>
+        <div class="ac-tag">Matrimonio</div>
+      </div>
+      <div class="ac" style="--ac:#4a7c6f" onclick="selAmbito(this,'emprendimiento')">
+        <div class="ac-icon">🔥</div>
+        <div class="ac-name">Emprendimiento</div>
+        <div class="ac-desc">Fe y trabajo integrados. Tú defines el contexto.</div>
+        <div class="ac-tag">Emprendimiento</div>
+      </div>
+      <div class="ac" style="--ac:#4a7cb5" onclick="selAmbito(this,'doctoral')">
+        <div class="ac-icon">🎓</div>
+        <div class="ac-name">Investigación SWBTS</div>
+        <div class="ac-desc">Ensayos, reseñas, disertación, Turabian.</div>
+        <div class="ac-tag">Doctoral</div>
+      </div>
+      <div class="ac" style="--ac:#bf9a39" onclick="selAmbito(this,'devocional')">
+        <div class="ac-icon">🕯️</div>
+        <div class="ac-name">Devocional personal</div>
+        <div class="ac-desc">Reflexiones, voz liderazgo, blog devocional.</div>
+        <div class="ac-tag">Devocional</div>
+      </div>
+    </div>
+    <button class="btn-entrar" id="btn-entrar" onclick="entrar()">Entrar →</button>
+  </div>
+
+  <!-- ═══ ESCRITORIO ═══ -->
+  <div id="screen-escritorio">
+    <div class="tabs-bar">
+      <button class="tb-btn active" id="tab0" onclick="showTab(0)"><div class="tb-n">1</div><span>Explorar</span></button>
+      <button class="tb-btn" id="tab1" onclick="showTab(1)"><div class="tb-n">2</div><span>Estructurar</span></button>
+      <button class="tb-btn" id="tab2" onclick="showTab(2)"><div class="tb-n">3</div><span>Escribir</span></button>
+      <button class="tb-btn" id="tab3" onclick="showTab(3)"><div class="tb-n">4</div><span>Guardar en Wix</span></button>
+    </div>
+
+    <!-- TAB 1 — EXPLORAR -->
+    <div class="panel active" id="panel0">
+      <div><div class="sec-label">Módulo creativo · 3 modos</div>
+        <div class="panel-h" id="p0h">Explorar el tema</div>
+      </div>
+      <div class="modo-chips">
+        <div class="mc active" id="mc-kw"       onclick="setModo('kw')">🔑 Palabra / emoción</div>
+        <div class="mc"        id="mc-tension"  onclick="setModo('tension')">⚡ Tensión</div>
+        <div class="mc"        id="mc-mapa"     onclick="setModo('mapa')">🗺️ Mapa de temas</div>
+      </div>
+
+      <!-- MODO KW -->
+      <div class="mpanel active" id="mp-kw">
+        <div class="nota nota-v"><strong>Modo Palabra:</strong> una palabra, emoción o imagen suelta. Claude genera 8 ángulos de escritura desde ese punto.</div>
+        <div><label class="fl">Palabra, emoción o imagen</label>
+          <input type="text" id="kw-in" placeholder="traición, hambre, el momento en que decidí...">
+        </div>
+        <button class="btn bv" onclick="genKW()" id="btn-kw"><span>Generar ángulos</span></button>
+        <div class="out-box" id="out-kw"><span class="oe">Los ángulos aparecerán aquí.</span></div>
+        <div class="btn-row">
+          <button class="ghost" onclick="usarIdea('out-kw')">Usar esta idea →</button>
+          <button class="ghost" onclick="cp('out-kw')">Copiar</button>
+        </div>
+      </div>
+
+      <!-- MODO TENSION -->
+      <div class="mpanel" id="mp-tension">
+        <div class="nota nota-v"><strong>Modo Tensión:</strong> un dilema real, una contradicción que no se resuelve fácil. El mejor contenido nace de ahí.</div>
+        <div><label class="fl">La tensión o dilema</label>
+          <textarea id="ten-in" rows="3" placeholder="Quiero liderar pero también necesito que me lideren..."></textarea>
+        </div>
+        <button class="btn bv" onclick="genTension()" id="btn-ten"><span>Explorar tensión</span></button>
+        <div class="out-box" id="out-ten"><span class="oe">Los ángulos desde la tensión aparecerán aquí.</span></div>
+        <div class="btn-row">
+          <button class="ghost" onclick="usarIdea('out-ten')">Usar esta idea →</button>
+          <button class="ghost" onclick="cp('out-ten')">Copiar</button>
+        </div>
+      </div>
+
+      <!-- MODO MAPA -->
+      <div class="mpanel" id="mp-mapa">
+        <div class="nota nota-v"><strong>Modo Mapa:</strong> un tema central amplio genera 10 temas derivados con ángulos distintos.</div>
+        <div><label class="fl">Tema central</label>
+          <input type="text" id="mapa-in" placeholder="el liderazgo servant, la oración en el matrimonio...">
+        </div>
+        <button class="btn bv" onclick="genMapa()" id="btn-mapa"><span>Generar mapa</span></button>
+        <div class="out-box" id="out-mapa"><span class="oe">El mapa de temas aparecerá aquí.</span></div>
+        <div class="btn-row">
+          <button class="ghost" onclick="usarIdea('out-mapa')">Usar esta idea →</button>
+          <button class="ghost" onclick="cp('out-mapa')">Copiar</button>
+        </div>
+      </div>
+
+      <button class="btn-next" onclick="nextTab(0)">Tengo mi tema — estructurar →</button>
+    </div>
+
+    <!-- TAB 2 — ESTRUCTURAR -->
+    <div class="panel" id="panel1">
+      <div><div class="sec-label">Etapa 2 · Definir y estructurar</div>
+        <div class="panel-h">Definir y estructurar</div>
+      </div>
+      <div class="ses-box"><div class="ses-head">Idea desde exploración</div>
+        <div class="ses-body" id="ses-idea">— completa la Etapa 1 —</div>
+      </div>
+      <div><label class="fl">Tu tema (escribe o edita)</label>
+        <textarea id="def-tema" rows="3" placeholder="Describe con tus palabras el tema. Sin estructura todavía."></textarea>
+      </div>
+      <div class="row2">
+        <div><label class="fl">Formato</label>
+          <select id="def-fmt">
+            <option value="">— elige —</option>
+            <option>Artículo de blog</option>
+            <option>Ensayo académico</option>
+            <option>Devocional breve</option>
+            <option>Capítulo de libro</option>
+            <option>Escena narrativa</option>
+            <option>Post Instagram</option>
+            <option>Esquema de sermón</option>
+            <option>Hilo / thread</option>
+            <option>Guión de video</option>
+          </select>
+        </div>
+        <div><label class="fl">Extensión</label>
+          <select id="def-ext">
+            <option value="corto">Corto (300-500 palabras)</option>
+            <option value="medio">Medio (600-1000 palabras)</option>
+            <option value="largo" selected>Largo (1200-2000 palabras)</option>
+            <option value="completo">Completo (2000+)</option>
+          </select>
+        </div>
+      </div>
+      <div><label class="fl">Audiencia</label>
+        <input type="text" id="def-aud" placeholder="¿Para quién escribes?">
+      </div>
+      <div><label class="fl">¿Qué debe llevarse el lector?</label>
+        <input type="text" id="def-take" placeholder="Una decisión, una nueva forma de ver algo...">
+      </div>
+      <button class="btn bg" onclick="genEsquema()" id="btn-esq"><span>Generar esquema con Claude</span></button>
+      <div class="out-box" id="out-esq"><span class="oe">El esquema aparecerá aquí.</span></div>
+      <div class="btn-row">
+        <button class="ghost" onclick="cp('out-esq')">Copiar</button>
+        <button class="ghost" onclick="pasarEsquema()">Llevar a escritura →</button>
+      </div>
+      <button class="btn-next" onclick="nextTab(1)">Esquema listo — escribir →</button>
+    </div>
+
+    <!-- TAB 3 — ESCRIBIR -->
+    <div class="panel" id="panel2">
+      <div><div class="sec-label">Etapa 3 · Escritura</div>
+        <div class="panel-h">Escribir con Claude</div>
+      </div>
+      <div class="ses-box"><div class="ses-head">Esquema de sesión</div>
+        <div class="ses-body" id="ses-esq">— completa la Etapa 2 —</div>
+      </div>
+      <div class="row2">
+        <div><label class="fl">Tipo de texto</label>
+          <select id="esc-tipo">
+            <option value="completo">Texto completo según esquema</option>
+            <option value="apertura">Solo apertura</option>
+            <option value="cuerpo">Solo sección de cuerpo</option>
+            <option value="cierre">Solo cierre</option>
+            <option value="titulos">3 opciones de título</option>
+            <option value="humanizar">Humanizar (quitar marcas IA)</option>
+            <option value="condensar">Condensar</option>
+          </select>
+        </div>
+        <div><label class="fl">Voz</label>
+          <select id="esc-voz">
+            <option value="danilo">Danilo — natural, contracciones</option>
+            <option value="academica">Académica SWBTS · Turabian</option>
+            <option value="devocional">Devocional liderazgo</option>
+            <option value="yarros">Yarros × Han Kang · máxima inmersión</option>
+          </select>
+        </div>
+      </div>
+      <div><label class="fl">Material de entrada (esquema, notas o borrador)</label>
+        <textarea id="esc-in" rows="5" placeholder="Pega tu esquema o cualquier material. Si está vacío, Claude usa el esquema generado."></textarea>
+      </div>
+      <div class="row2">
+        <div><label class="fl">Versículo ancla</label>
+          <select id="esc-vers">
+            <option value="no">Sin versículo</option>
+            <option value="pr">Proverbios 22:29</option>
+            <option value="custom">Personalizado</option>
+          </select>
+        </div>
+        <div><label class="fl">Versículo personalizado</label>
+          <input type="text" id="esc-vers-c" placeholder="Fil 4:13, Rom 12:2...">
+        </div>
+      </div>
+      <button class="btn bg" onclick="genEscritura()" id="btn-esc"><span>Generar texto</span></button>
+      <div class="out-box" id="out-esc"><span class="oe">El texto aparecerá aquí.</span></div>
+      <div class="btn-row">
+        <button class="ghost" onclick="cp('out-esc')">Copiar todo</button>
+        <button class="ghost" onclick="pasarWix()">Llevar a Wix →</button>
+      </div>
+      <button class="btn-next" onclick="nextTab(2)">Texto listo — guardar en Wix →</button>
+    </div>
+
+    <!-- TAB 4 — WIX -->
+    <div class="panel" id="panel3">
+      <div><div class="sec-label">Etapa 4 · Wix CMS</div>
+        <div class="panel-h">Guardar en Wix</div>
+      </div>
+
+      <div class="nota nota-v">
+        <strong>Cómo funciona:</strong> el motor de escritura llama directo a Gemini con tu clave (la pegas arriba, en "Clave Gemini"; queda guardada en este navegador). No necesita Velo ni servidor. El <strong>guardado en Wix</strong> de abajo es opcional y usa el código de página (instrucciones al final). Si la generación no responde, pulsa <strong>⚡ Probar conexión</strong> para ver la respuesta cruda de Gemini.
+      </div>
+
+      <div><label class="fl">Colección destino</label>
+        <div class="col-chips" id="col-chips">
+          <div class="cc" data-col="Escritos_Teologia">Teología</div>
+          <div class="cc" data-col="Escritos_Liderazgo">Liderazgo</div>
+          <div class="cc" data-col="Escritos_Narrativa">Narrativa</div>
+          <div class="cc" data-col="Escritos_Matrimonio">Matrimonio</div>
+          <div class="cc" data-col="Escritos_Emprendimiento">Emprendimiento</div>
+          <div class="cc" data-col="Escritos_Doctoral">Doctoral</div>
+          <div class="cc" data-col="Escritos_Devocional">Devocional</div>
+        </div>
+      </div>
+
+      <div class="row2">
+        <div><label class="fl">Título</label>
+          <input type="text" id="wx-titulo" placeholder="Título del escrito...">
+        </div>
+        <div><label class="fl">Slug</label>
+          <input type="text" id="wx-slug" placeholder="titulo-del-escrito">
+        </div>
+      </div>
+      <div><label class="fl">Extracto / resumen</label>
+        <textarea id="wx-extracto" rows="2" placeholder="1-2 frases para SEO y vista previa..."></textarea>
+      </div>
+      <div class="row2">
+        <div><label class="fl">Estado</label>
+          <select id="wx-estado">
+            <option value="borrador">Borrador</option>
+            <option value="publicado">Publicado</option>
+          </select>
+        </div>
+        <div><label class="fl">Etiquetas (separadas por coma)</label>
+          <input type="text" id="wx-tags" placeholder="liderazgo, fe, Líder 4×4...">
+        </div>
+      </div>
+
+      <div><label class="fl">Vista previa del cuerpo</label>
+        <div class="out-box" id="wx-preview" style="max-height:180px;overflow-y:auto;font-size:13px;color:var(--muted);">
+          <span class="oe">Aquí verás el texto que se enviará.</span>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn bv" onclick="guardarWix()" id="btn-wix"><span>Guardar en Wix</span></button>
+        <button class="ghost" onclick="probarConexion()" style="border-color:rgba(74,124,111,.5);color:var(--sage);">⚡ Probar conexión</button>
+        <button class="ghost" onclick="genExtracto()">Generar extracto</button>
+        <button class="ghost" onclick="genSlug()">Generar slug</button>
+        <button class="ghost" onclick="cp('wx-preview')">Copiar texto</button>
+      </div>
+
+      <div class="wix-log" id="wix-log">Listo. Si la generación no responde, pulsa "Probar conexión" para diagnosticar el endpoint.</div>
+
+      <!-- INSTRUCCIONES -->
+      <details>
+        <summary>Instalación en Wix</summary>
+        <div class="detail-body">
+
+          <div class="nota nota-v"><strong>El motor de escritura: 2 pasos.</strong> No necesita Velo, ni Secrets, ni funciones de servidor.</div>
+
+          <div class="nota"><strong>Paso 1 — Insertar el HTML</strong><br>
+          Editor Wix &rarr; A&ntilde;adir &rarr; Embed &rarr; HTML personalizado (iframe) &rarr; pega TODO el contenido de este archivo. Publica el sitio.</div>
+
+          <div class="nota nota-s"><strong>Paso 2 — Tu clave de Gemini</strong><br>
+          Abre el Escritorio publicado, escribe el PIN, y en la barra de arriba pega tu clave en el campo <code>Clave Gemini</code> y pulsa <strong>Activar</strong>. Queda guardada en tu navegador. Ya puedes generar.<br><br>
+          &iquest;Sin clave? <code>aistudio.google.com/app/apikey</code> &rarr; Crear clave. Sirve tanto <code>AQ.</code> como <code>AIza</code>.<br><br>
+          Si al generar sale <strong>401/403</strong>: entra a <code>console.cloud.google.com</code> &rarr; "APIs y servicios" &rarr; habilita <strong>Generative Language API</strong> en el proyecto de esa clave. Esa es la causa real, no el formato.</div>
+
+          <div class="nota"><strong>Diagn&oacute;stico</strong><br>
+          En la Etapa 4 pulsa <strong>&#9889; Probar conexi&oacute;n</strong>. <code>HTTP 200 &mdash; la clave SIRVE</code> = todo listo. Si sale otro n&uacute;mero, el mensaje crudo de Google dice exactamente qu&eacute; falta.</div>
+
+          <hr style="border:none;border-top:1px solid rgba(255,255,255,.1);margin:18px 0;">
+
+          <div class="nota nota-v"><strong>Guardar en Wix (opcional).</strong> El motor funciona sin esto. S&oacute;lo si quieres archivar los textos en el CMS:</div>
+
+          <div class="nota"><strong>A &mdash; Colecciones</strong><br>
+          CMS &rarr; una colecci&oacute;n por &aacute;mbito, nombres exactos: <code>Escritos_Teologia</code> &middot; <code>Escritos_Liderazgo</code> &middot; <code>Escritos_Narrativa</code> &middot; <code>Escritos_Matrimonio</code> &middot; <code>Escritos_Emprendimiento</code> &middot; <code>Escritos_Doctoral</code> &middot; <code>Escritos_Devocional</code><br><br>
+          Campos: <code>titulo</code> (Texto) &middot; <code>cuerpo</code> (Texto largo) &middot; <code>extracto</code> &middot; <code>slug</code> &middot; <code>ambito</code> &middot; <code>formato</code> &middot; <code>tags</code> &middot; <code>estado</code> &middot; <code>fechaEscrito</code> (Fecha). En permisos de cada colecci&oacute;n, permite insertar.</div>
+
+          <div class="nota"><strong>B &mdash; C&oacute;digo de p&aacute;gina</strong><br>
+          Activa Velo (Dev Mode). En el c&oacute;digo de <strong>la p&aacute;gina</strong> donde est&aacute; el Embed, pega esto. Cambia <code>#html1</code> por el ID real de tu elemento HTML (clic en el Embed &rarr; Propiedades &rarr; ID):</div>
+
+<pre><span class="c">// Codigo de pagina (la pagina del Embed)</span>
+<span class="k">import</span> wixData <span class="k">from</span> <span class="s">'wix-data'</span>;
+
+$w.<span class="f">onReady</span>(<span class="k">function</span> () {
+  $w(<span class="s">'#html1'</span>).<span class="f">onMessage</span>(<span class="k">async</span> (ev) =&gt; {
+    <span class="k">const</span> m = ev.data;
+    <span class="k">if</span> (!m || m.tipo !== <span class="s">'guardarEscrito'</span>) <span class="k">return</span>;
+    <span class="k">const</span> d = m.datos;
+    <span class="k">try</span> {
+      <span class="k">const</span> item = {
+        titulo: d.titulo, cuerpo: d.cuerpo,
+        extracto: d.extracto || <span class="s">''</span>, slug: d.slug || <span class="s">''</span>,
+        ambito: d.ambito, formato: d.formato || <span class="s">''</span>,
+        tags: d.tags || <span class="s">''</span>, estado: d.estado || <span class="s">'borrador'</span>,
+        fechaEscrito: <span class="k">new</span> Date()
+      };
+      <span class="k">const</span> res = <span class="k">await</span> wixData.<span class="f">insert</span>(<span class="s">'Escritos_'</span> + d.ambito, item);
+      $w(<span class="s">'#html1'</span>).<span class="f">postMessage</span>({ tipo: <span class="s">'escritoGuardado'</span>, ok: <span class="k">true</span>, id: res._id });
+    } <span class="k">catch</span> (err) {
+      $w(<span class="s">'#html1'</span>).<span class="f">postMessage</span>({ tipo: <span class="s">'escritoGuardado'</span>, ok: <span class="k">false</span>, error: err.message });
+    }
+  });
+});</pre>
+
+          <div class="nota nota-s">Publica. Al pulsar "Guardar en Wix" ver&aacute;s la confirmaci&oacute;n con el ID aqu&iacute; mismo.</div>
+
+        </div>
+      </details>
+
+      <button class="btn-next" onclick="resetEscritura()" style="background:var(--gold);color:var(--ink);">
+        ✓ Escribir otro →
+      </button>
+    </div>
+
+  </div><!-- /screen-escritorio -->
+</div><!-- /app -->
+
+<script>
+// ══════════════════════════════════════
+//  CONFIG — CAMBIA ESTOS VALORES
+// ══════════════════════════════════════
+const PIN_CORRECTO = '2229';   // ← Tu PIN. Cámbialo antes de publicar.
+
+// Motor IA: Gemini DIRECTO desde el navegador (como el original de ChatGPT).
+// La clave la pegas en el campo "Clave Gemini" arriba — se guarda en este
+// navegador. Se envía por ?key= (NO Bearer). Si un modelo da 404, cambia
+// GEMINI_MODEL (ej. 'gemini-1.5-flash').
+//
+// NOTA DE CUOTA (junio 2026): si gemini-2.0-flash devuelve 429 con
+// "free_tier_requests, limit: 0" pese a tener facturación activa (Tier 1),
+// es el bug de enrutamiento de cuota de Google. El único cambio útil dentro
+// de esta arquitectura (fetch directo desde el navegador) es probar otro
+// modelo aquí abajo: 2.5-flash suele enrutar a la cuota de pago. Cámbialo en
+// una sola línea y reactiva.
+const GEMINI_MODEL = 'gemini-2.5-flash';
+const GEMINI_URL   = 'https://generativelanguage.googleapis.com/v1beta/models/' + GEMINI_MODEL + ':generateContent';
+// ══════════════════════════════════════
+
+// ── STATE ──
+let pinActual = '';
+let ambitoId  = null;
+let colSel    = '';
+let modoActual = 'kw';
+let sesion = {};
+let apiKey = '';
+
+// ══ PIN ══
+function pinKey(k) {
+  const err = document.getElementById('pin-error');
+  err.textContent = '';
+  if (k === 'del') { pinActual = pinActual.slice(0,-1); actualizarDots(); return; }
+  if (k === 'ok')  { verificarPin(); return; }
+  if (pinActual.length >= 4) return;
+  pinActual += k;
+  actualizarDots();
+  if (pinActual.length === 4) setTimeout(verificarPin, 120);
+}
+function actualizarDots() {
+  for (let i = 0; i < 4; i++) {
+    document.getElementById('pd'+i).classList.toggle('filled', i < pinActual.length);
+  }
+}
+function verificarPin() {
+  if (pinActual === PIN_CORRECTO) {
+    document.getElementById('pin-screen').style.display = 'none';
+    document.getElementById('app').classList.add('visible');
+  } else {
+    document.getElementById('pin-error').textContent = 'PIN incorrecto';
+    pinActual = '';
+    actualizarDots();
+    // Vibración en móvil
+    if (navigator.vibrate) navigator.vibrate([100,50,100]);
+  }
+}
+// Teclado físico
+document.addEventListener('keydown', e => {
+  if (!document.getElementById('pin-screen').style.display ||
+       document.getElementById('pin-screen').style.display !== 'none') {
+    if (e.key >= '0' && e.key <= '9') pinKey(e.key);
+    if (e.key === 'Backspace') pinKey('del');
+    if (e.key === 'Enter') pinKey('ok');
+  }
+});
+
+// ══ ÁMBITO ══
+const AMBITOS = {
+  teologia:      { nombre:'Teología bíblica',      color:'#c9a84c', col:'Teologia'      },
+  liderazgo:     { nombre:'Liderazgo · Líder 4×4', color:'#bf5239', col:'Liderazgo'     },
+  narrativa:     { nombre:'Narrativa inmersiva',   color:'#7c5cbf', col:'Narrativa'     },
+  matrimonio:    { nombre:'Matrimonio y familia',  color:'#c06080', col:'Matrimonio'    },
+  emprendimiento:{ nombre:'Emprendimiento',        color:'#4a7c6f', col:'Emprendimiento'},
+  doctoral:      { nombre:'Investigación SWBTS',   color:'#4a7cb5', col:'Doctoral'      },
+  devocional:    { nombre:'Devocional personal',   color:'#bf9a39', col:'Devocional'    },
+};
+
+function selAmbito(el, id) {
+  document.querySelectorAll('.ac').forEach(c => c.classList.remove('sel'));
+  el.classList.add('sel');
+  ambitoId = id;
+  const btn = document.getElementById('btn-entrar');
+  btn.classList.add('v');
+  btn.textContent = 'Entrar a ' + AMBITOS[id].nombre + ' →';
+}
+
+function entrar() {
+  if (!ambitoId) return;
+  const m = AMBITOS[ambitoId];
+  document.getElementById('tb-nombre').textContent = m.nombre;
+  document.getElementById('tb-dot').style.background = m.color;
+  colSel = 'Escritos_' + m.col;
+  actualizarColChips();
+  document.getElementById('screen-ambito').classList.remove('visible');
+  document.getElementById('screen-escritorio').classList.add('visible');
+  showTab(0);
+}
+
+function volverAmbito() {
+  document.getElementById('screen-escritorio').classList.remove('visible');
+  document.getElementById('screen-ambito').classList.add('visible');
+}
+
+// ══ TABS ══
+function showTab(n) {
+  for (let i = 0; i < 4; i++) {
+    document.getElementById('tab'+i).classList.remove('active');
+    document.getElementById('panel'+i).classList.remove('active');
+  }
+  document.getElementById('tab'+n).classList.add('active');
+  document.getElementById('panel'+n).classList.add('active');
+}
+function nextTab(from) {
+  document.getElementById('tab'+from).classList.add('done');
+  showTab(from + 1);
+}
+
+// ══ MODOS ══
+function setModo(m) {
+  modoActual = m;
+  ['kw','tension','mapa'].forEach(id => {
+    document.getElementById('mc-'+id).classList.toggle('active', id === m);
+    document.getElementById('mp-'+id).classList.toggle('active', id === m);
+  });
+}
+
+// ══ VOZ DEL SISTEMA (se envía al backend; no es secreta) ══
+function sysPrompt() {
+  const base = `Eres el asistente personal de Danilo Carrillo: teólogo, autor y emprendedor venezolano en Florida. MDiv en SWBTS. Creador del Método Líder 4×4 (9 autos con términos griegos: σωφροσύνη, ἐγκράτεια, δοκιμάζω, προαίρεσις, ἐνέργεια, σπλαγχνίζομαι, παρρησία, ὑπακοή, κενόω). Concepto central: unicidad funcional — fe, trabajo, familia y llamado en una sola pieza. Verso ancla: Proverbios 22:29. Responde siempre en español.`;
+  const voces = {
+    teologia:      base + ' Voz teológica exegética, rigor académico, perspectiva evangélica.',
+    liderazgo:     base + ' Voz Líder 4×4: autos griegos, 4 esferas. Sin "sino".',
+    narrativa:     base + ' Voz Yarros × Han Kang: inmediatez adictiva, contención, lo concreto. Sin "sino". Sin lección explícita.',
+    matrimonio:    base + ' Voz matrimonial honesta, desde 21+ años con Rina Yadira. Sin dicotomía sagrado/secular.',
+    emprendimiento:base + ' El usuario define el contexto — no asumas negocios específicos. Unicidad funcional. Sin "sino".',
+    doctoral:      base + ' Voz académica SWBTS: Turabian Notes-Bibliography, sin primera persona en argumentación.',
+    devocional:    base + ' Voz devocional liderazgo: primera persona, oraciones cortas, datos como ancla. Sin "sino".',
+  };
+  return voces[ambitoId] || base;
+}
+
+// ══ MOTOR IA · Gemini DIRECTO (clave por ?key=, nunca Bearer) ══
+
+// Espera ms milisegundos sin bloquear la interfaz (Promise + setTimeout).
+function esperar(ms) { return new Promise(function(res){ setTimeout(res, ms); }); }
+
+// Hace el POST a Gemini reintentando SOLO ante 429 transitorios.
+// Máximo 2 reintentos, con backoff exponencial (1s, luego 2s). Devuelve la
+// Response sin leer su cuerpo (cada quien lee .json()/.text() según necesite).
+// OJO: si el 429 es "limit: 0" (cuota cero del bug de plataforma), el reintento
+// NO lo resuelve; solo ayuda con límites de tasa transitorios reales.
+async function fetchGemini(body) {
+  const maxReintentos = 2;
+  let r;
+  for (let intento = 0; intento <= maxReintentos; intento++) {
+    r = await fetch(GEMINI_URL + '?key=' + encodeURIComponent(apiKey), {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+    if (r.status !== 429 || intento === maxReintentos) return r;
+    // 429 transitorio: espera con backoff exponencial antes de reintentar.
+    await esperar(1000 * Math.pow(2, intento));
+  }
+  return r;
+}
+
+async function claude(prompt) {
+  if (!apiKey) return 'Falta tu clave de Gemini. Pégala arriba (campo "Clave Gemini") y pulsa Activar.';
+  try {
+    const r = await fetchGemini({
+      systemInstruction: { parts: [{ text: sysPrompt() }] },
+      contents: [{ role: 'user', parts: [{ text: prompt }] }],
+      generationConfig: { maxOutputTokens: 4096, temperature: 0.85 }
+    });
+    const d = await r.json().catch(function(){ return null; });
+    if (!r.ok) {
+      const msg = (d && d.error && d.error.message) ? d.error.message : ('HTTP ' + r.status);
+      if (r.status === 401 || r.status === 403)
+        return 'Gemini rechazó la clave (' + r.status + '): ' + msg + '\n\nEntra a console.cloud.google.com → "APIs y servicios" → habilita "Generative Language API" en el proyecto de esta clave. Esa suele ser la causa, no el formato de la clave.';
+      if (r.status === 404)
+        return 'Modelo no encontrado (404). Cambia GEMINI_MODEL en el código por ' + "'gemini-2.0-flash'" + ' o ' + "'gemini-flash-latest'" + '.';
+      if (r.status === 429) {
+        if (msg.indexOf('limit: 0') !== -1 || msg.indexOf('free_tier') !== -1)
+          return 'Gemini 429 (cuota): ' + msg + '\n\nEsto es el bug de enrutamiento de cuota de Google: el proyecto está en Tier 1 (prepago) pero las peticiones siguen yendo al free tier con limit 0. NO se arregla desde el código. Opciones: (1) prueba otro modelo cambiando GEMINI_MODEL; (2) espera la propagación del prepago (hasta ~24h); (3) abre ticket en Google Cloud.';
+        return 'Gemini 429 (cuota o límite de tasa): ' + msg + '\n\nSe reintentó automáticamente sin éxito. Espera unos segundos y vuelve a intentar.';
+      }
+      return 'Gemini ' + r.status + ': ' + msg;
+    }
+    if (!d) return 'Respuesta no válida de Gemini.';
+    const text = d.candidates && d.candidates[0] && d.candidates[0].content
+      && d.candidates[0].content.parts && d.candidates[0].content.parts[0]
+      && d.candidates[0].content.parts[0].text;
+    return text || '(Sin respuesta de Gemini)';
+  } catch (e) {
+    return 'No se pudo conectar con Gemini (' + e.message + '). Revisa tu conexión a internet.';
+  }
+}
+
+// ══ UI HELPERS ══
+function setBtn(id, loading, label) {
+  const b = document.getElementById(id);
+  if (!b) return;
+  b.disabled = loading;
+  b.innerHTML = loading
+    ? '<span class="sp"></span><span>Generando...</span>'
+    : '<span>' + label + '</span>';
+}
+function setOut(id, text) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.textContent = text;
+  el.classList.add('lit');
+}
+function cp(id) {
+  const el = document.getElementById(id);
+  if (!el || el.querySelector('.oe')) return;
+  navigator.clipboard.writeText(el.textContent).then(() => {
+    const o = el.style.borderColor;
+    el.style.borderColor = 'var(--gold)';
+    setTimeout(() => el.style.borderColor = o||'', 700);
+  });
+}
+function usarIdea(id) {
+  const el = document.getElementById(id);
+  if (!el || el.querySelector('.oe')) return;
+  sesion.idea = el.textContent.trim();
+  document.getElementById('ses-idea').textContent = sesion.idea.slice(0,400) + (sesion.idea.length>400?'...':'');
+  nextTab(0);
+}
+function pasarEsquema() {
+  const el = document.getElementById('out-esq');
+  if (!el || el.querySelector('.oe')) return;
+  sesion.esquema = el.textContent.trim();
+  document.getElementById('ses-esq').textContent = sesion.esquema.slice(0,400) + (sesion.esquema.length>400?'...':'');
+  document.getElementById('esc-in').value = sesion.esquema;
+  nextTab(1);
+}
+function pasarWix() {
+  const el = document.getElementById('out-esc');
+  if (!el || el.querySelector('.oe')) return;
+  sesion.texto = el.textContent.trim();
+  document.getElementById('wx-preview').textContent = sesion.texto;
+  const tema = document.getElementById('def-tema').value.trim();
+  if (tema && !document.getElementById('wx-titulo').value)
+    document.getElementById('wx-titulo').value = tema.slice(0,80);
+  nextTab(2);
+}
+function resetEscritura() {
+  sesion = {};
+  showTab(0);
+  document.querySelectorAll('.out-box').forEach(b => {
+    b.innerHTML = '<span class="oe">—</span>';
+    b.classList.remove('lit');
+  });
+  document.querySelectorAll('textarea').forEach(t => { t.value = ''; });
+  document.querySelectorAll('input[type="text"]').forEach(i => i.value = '');
+  document.getElementById('ses-idea').textContent = '— completa la Etapa 1 —';
+  document.getElementById('ses-esq').textContent  = '— completa la Etapa 2 —';
+  document.getElementById('wix-log').textContent  = 'Listo para guardar.';
+}
+
+// ══ GENERADORES ══
+async function genKW() {
+  const kw = document.getElementById('kw-in').value.trim();
+  if (!kw) { alert('Escribe una palabra, emoción o imagen.'); return; }
+  setBtn('btn-kw', true, '');
+  const r = await claude(
+    `Ámbito: ${AMBITOS[ambitoId]?.nombre}.\nPunto de partida: "${kw}"\n\nGenera 8 ángulos de escritura concretos. Cada ángulo:\n- Título atractivo y específico\n- Una frase que explique el ángulo único\n- Tipo de texto recomendado\n\nFormato: 1. [TÍTULO] — [ángulo] / Tipo: [formato]\n\nSin "sino". Original y específico.`
+  );
+  setOut('out-kw', r);
+  setBtn('btn-kw', false, 'Generar ángulos');
+}
+
+async function genTension() {
+  const t = document.getElementById('ten-in').value.trim();
+  if (!t) { alert('Describe la tensión o dilema.'); return; }
+  setBtn('btn-ten', true, '');
+  const r = await claude(
+    `Ámbito: ${AMBITOS[ambitoId]?.nombre}.\nTensión real: "${t}"\n\nGenera 6 ángulos de escritura que nazcan honestamente de esta tensión. No la aplanes. No la resuelvas antes de tiempo. Para cada ángulo: título que no resuelva de antemano, argumento central, a quién le llegaría. Sin "sino".`
+  );
+  setOut('out-ten', r);
+  setBtn('btn-ten', false, 'Explorar tensión');
+}
+
+async function genMapa() {
+  const m = document.getElementById('mapa-in').value.trim();
+  if (!m) { alert('Escribe el tema central.'); return; }
+  setBtn('btn-mapa', true, '');
+  const r = await claude(
+    `Ámbito: ${AMBITOS[ambitoId]?.nombre}.\nTema central: "${m}"\n\nGenera 10 temas derivados concretos con ángulos distintos. Deben cubrir: personal y estructural, práctico y teórico, esperanzador e incómodo, exegético y vivencial. Cada uno: título que ya diga algo + frase que explique qué lo hace único.`
+  );
+  setOut('out-mapa', r);
+  setBtn('btn-mapa', false, 'Generar mapa');
+}
+
+async function genEsquema() {
+  const tema = document.getElementById('def-tema').value.trim() || sesion.idea || '';
+  if (!tema) { alert('Describe tu tema primero.'); return; }
+  setBtn('btn-esq', true, '');
+  const fmt  = document.getElementById('def-fmt').value;
+  const ext  = document.getElementById('def-ext').value;
+  const aud  = document.getElementById('def-aud').value.trim();
+  const take = document.getElementById('def-take').value.trim();
+  const r = await claude(
+    `Ámbito: ${AMBITOS[ambitoId]?.nombre}\nTema: ${tema}\nFormato: ${fmt||'artículo'}\nExtensión: ${ext}\nAudiencia: ${aud||'lectores de danilocarrillo.com'}\nTakeaway: ${take||'no especificado'}\n\nGenera un esquema usable como guía de escritura. Incluye: título propuesto, apertura (escena o pregunta), 3-4 secciones con idea central, cierre, notas de voz y tono.`
+  );
+  setOut('out-esq', r);
+  sesion.esquema = r;
+  setBtn('btn-esq', false, 'Generar esquema');
+}
+
+async function genEscritura() {
+  const input = document.getElementById('esc-in').value.trim() || sesion.esquema || '';
+  if (!input) { alert('Pega material o genera un esquema primero.'); return; }
+  setBtn('btn-esc', true, '');
+  const tipo = document.getElementById('esc-tipo').value;
+  const voz  = document.getElementById('esc-voz').value;
+  const vers = document.getElementById('esc-vers').value;
+  const vc   = document.getElementById('esc-vers-c').value.trim();
+
+  const tipos = {
+    completo:  'Escribe el texto completo siguiendo el esquema',
+    apertura:  'Escribe solo el párrafo de apertura — engancha desde la primera línea',
+    cuerpo:    'Escribe solo la sección central con la idea principal',
+    cierre:    'Escribe solo el párrafo de cierre — sella sin cerrar del todo',
+    titulos:   'Genera 3 opciones de título: impactantes, específicos, no genéricos',
+    humanizar: 'Humaniza este texto: elimina "en esencia", "en última instancia", "es importante señalar", "cabe destacar". Varía estructuras de oración. Mantén el argumento. Que suene a escritor humano con voz propia.',
+    condensar: 'Condensa a su versión más poderosa — elimina lo que no agrega, mantén lo que ilumina',
+  };
+  const voces = {
+    danilo:    'Voz Danilo: natural, contracciones en español, primera persona, cero "sino".',
+    academica: 'Voz académica SWBTS Turabian: formal, sin primera persona argumentativa.',
+    devocional:'Voz devocional liderazgo: primera persona, oraciones cortas, pregunta final abierta.',
+    yarros:    'Voz Yarros × Han Kang máxima: inmediatez, contención, silencios que pesan. Sin moralizar.',
+  };
+  let vNote = '';
+  if (vers === 'pr') vNote = '\nIncluye Proverbios 22:29 de forma orgánica, no decorativa.';
+  if (vers === 'custom' && vc) vNote = `\nIncluye "${vc}" de forma orgánica.`;
+
+  const r = await claude(
+    `${tipos[tipo]}. ${voces[voz]}${vNote}\n\nMaterial:\n${input}`
+  );
+  setOut('out-esc', r);
+  sesion.texto = r;
+  setBtn('btn-esc', false, 'Generar texto');
+}
+
+// ══ WIX ══
+function actualizarColChips() {
+  document.querySelectorAll('#col-chips .cc').forEach(c => {
+    c.classList.toggle('sel', c.dataset.col === colSel);
+  });
+}
+document.querySelectorAll('#col-chips .cc').forEach(c => {
+  c.addEventListener('click', () => {
+    document.querySelectorAll('#col-chips .cc').forEach(x => x.classList.remove('sel'));
+    c.classList.add('sel');
+    colSel = c.dataset.col;
+  });
+});
+
+async function genExtracto() {
+  const texto = sesion.texto || '';
+  if (!texto) { alert('Genera el texto primero (Etapa 3).'); return; }
+  const r = await claude(`En máximo 2 frases (30-40 palabras), escribe un extracto/resumen SEO para este texto:\n\n${texto.slice(0,600)}`);
+  document.getElementById('wx-extracto').value = r.trim();
+}
+
+function genSlug() {
+  const t = document.getElementById('wx-titulo').value.trim();
+  if (!t) { alert('Escribe el título primero.'); return; }
+  const s = t.toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+    .replace(/[^a-z0-9\s-]/g,'').trim()
+    .replace(/\s+/g,'-').slice(0,60);
+  document.getElementById('wx-slug').value = s;
+}
+
+async function guardarWix() {
+  const titulo   = document.getElementById('wx-titulo').value.trim();
+  const cuerpo   = sesion.texto || document.getElementById('wx-preview').textContent.trim();
+  const extracto = document.getElementById('wx-extracto').value.trim();
+  const slug     = document.getElementById('wx-slug').value.trim();
+  const estado   = document.getElementById('wx-estado').value;
+  const tags     = document.getElementById('wx-tags').value.trim();
+  const log      = document.getElementById('wix-log');
+
+  if (!titulo || !cuerpo || cuerpo.includes('Aquí verás')) {
+    log.textContent = '⚠️ Falta título o contenido. Genera el texto en Etapa 3 primero.';
+    return;
+  }
+
+  log.textContent = 'Enviando a Wix...';
+  try {
+    window.parent.postMessage({
+      tipo: 'guardarEscrito',
+      datos: {
+        titulo: titulo, cuerpo: cuerpo, extracto: extracto, slug: slug,
+        ambito:  colSel.replace('Escritos_',''),
+        formato: document.getElementById('def-fmt').value || '',
+        tags: tags, estado: estado
+      }
+    }, '*');
+    log.textContent = 'Enviado a ' + colSel + '. Si el código de página está puesto, verás la confirmación abajo en un momento.\n(Si no aparece nada, falta el código de página — el guardado es opcional; el motor de escritura funciona sin él.)';
+  } catch (e) {
+    log.textContent = '✗ No se pudo enviar a Wix: ' + e.message;
+  }
+}
+
+// ══ PROBAR CONEXIÓN · diagnóstico (Gemini directo) ══
+async function probarConexion() {
+  const log = document.getElementById('wix-log');
+  if (!apiKey) { log.textContent = 'Primero pega tu clave de Gemini arriba y pulsa Activar.'; return; }
+  log.textContent = 'Probando Gemini (' + GEMINI_MODEL + ')...';
+  try {
+    // Usa el mismo fetch con reintento que la generación, para diagnosticar
+    // exactamente el mismo camino (incluye backoff ante 429 transitorios).
+    const r = await fetchGemini({ contents: [{ role: 'user', parts: [{ text: 'di OK' }] }] });
+    const txt = await r.text();
+    let estado;
+    if (r.ok) estado = ' — ✓ la clave SIRVE';
+    else if (r.status === 429) estado = ' — 429: cuota agotada o límite de tasa (mira el cuerpo: si dice "limit: 0" es el bug de cuota de Google)';
+    else estado = ' — la clave fue rechazada o falta habilitar la API';
+    log.textContent = 'HTTP ' + r.status + estado + '\n\nRespuesta cruda:\n' + txt.slice(0, 900);
+  } catch (e) {
+    log.textContent = 'No conectó: ' + e.message + '\n(Problema de red, no de la clave.)';
+  }
+}
+
+// ══ CLAVE GEMINI · guardar en este navegador ══
+function guardarClave() {
+  const inp = document.getElementById('apiKey');
+  apiKey = (inp && inp.value ? inp.value : '').trim();
+  try { localStorage.setItem('dc_gemini_key', apiKey); } catch (e) {}
+  pintarClave();
+}
+function pintarClave() {
+  const dot = document.getElementById('motor-dot');
+  const txt = document.getElementById('motor-txt');
+  if (apiKey) { if (txt) txt.textContent = 'Clave activa'; if (dot) dot.style.background = '#5a9a6b'; }
+  else { if (txt) txt.textContent = 'Sin clave'; if (dot) dot.style.background = ''; }
+}
+(function restaurarClave(){
+  try {
+    const k = localStorage.getItem('dc_gemini_key');
+    if (k) { apiKey = k; const inp = document.getElementById('apiKey'); if (inp) inp.value = k; }
+  } catch (e) {}
+  pintarClave();
+})();
+
+// ══ Respuesta del código de página de Wix (confirmación de guardado) ══
+window.addEventListener('message', function(ev){
+  const m = ev.data;
+  if (m && m.tipo === 'escritoGuardado') {
+    const log = document.getElementById('wix-log');
+    if (log) log.textContent = m.ok
+      ? ('✓ Guardado en ' + colSel + ' · ID ' + (m.id || '—') + '\nFecha: ' + new Date().toLocaleString('es'))
+      : ('✗ Error al guardar: ' + (m.error || 'desconocido'));
+  }
+});
+</script>
+</body>
+</html>
