@@ -811,11 +811,11 @@ const PIN_CORRECTO = '2229';   // ← Tu PIN. Cámbialo antes de publicar.
 // Motor IA: Gemini DIRECTO desde el navegador. La clave la pegas en el campo
 // "Clave Gemini" arriba — se guarda en este navegador. Sin servidor ni Bearer.
 //
-// HAY DOS ENDPOINTS POSIBLES, según el tipo de clave:
+// HAY DOS ENDPOINTS POSIBLES, según el tipo de clave. EN AMBOS la clave va por
+// ?key= en la URL (el header x-goog-api-key NO funciona en Express: da 401):
 //  - NATIVO  (generativelanguage.googleapis.com): claves clásicas "AIza".
-//             La clave va por ?key=.
-//  - EXPRESS (aiplatform.googleapis.com, Vertex AI Express Mode): claves nuevas
-//             "AQ.". La clave va por header x-goog-api-key (NO requiere OAuth).
+//  - EXPRESS (aiplatform.googleapis.com/v1/publishers/..., Vertex AI Express
+//             Mode global): claves nuevas "AQ.". Acepta API key por ?key=.
 //
 // IMPORTANTE (junio 2026): si tu clave empieza por "AQ." y el endpoint NATIVO
 // devuelve 429 "free_tier_requests, limit: 0" pese a tener facturación (Tier 1),
@@ -958,15 +958,12 @@ function sysPrompt() {
 // Espera ms milisegundos sin bloquear la interfaz (Promise + setTimeout).
 function esperar(ms) { return new Promise(function(res){ setTimeout(res, ms); }); }
 
-// Arma URL + headers según el modo: 'express' (clave por header x-goog-api-key)
-// o 'nativo' (clave por ?key=). Devuelve { url, headers }.
+// Arma URL + headers. IMPORTANTE: tanto el endpoint NATIVO como el EXPRESS
+// (global) aceptan la clave por ?key= en la URL. El header x-goog-api-key NO
+// funciona en Express (devuelve 401 "Expected OAuth 2 access token"). Por eso
+// ambos modos van por ?key=; lo único que cambia es la URL base (la elige
+// fetchGemini según MODO_API).
 function endpointGemini(modo, urlBase) {
-  if (modo === 'express') {
-    return {
-      url: urlBase,
-      headers: { 'Content-Type': 'application/json', 'x-goog-api-key': apiKey }
-    };
-  }
   return {
     url: urlBase + '?key=' + encodeURIComponent(apiKey),
     headers: { 'Content-Type': 'application/json' }
@@ -1009,7 +1006,7 @@ async function claude(prompt) {
     if (!r.ok) {
       const msg = (d && d.error && d.error.message) ? d.error.message : ('HTTP ' + r.status);
       if (r.status === 401 || r.status === 403)
-        return 'Gemini rechazó la clave (' + r.status + '): ' + msg + '\n\nEntra a console.cloud.google.com → "APIs y servicios" → habilita "Generative Language API" en el proyecto de esta clave. Esa suele ser la causa, no el formato de la clave.';
+        return 'Gemini rechazó la clave (' + r.status + '): ' + msg + '\n\nEstás en modo ' + MODO_API + '. Si el mensaje dice "Expected OAuth 2 access token", el endpoint no acepta la clave así: usa "⚡ Probar conexión" y deja MODO_API en el camino que dé 200 (para claves AQ. suele ser EXPRESS por ?key=). Si es modo nativo, habilita "Generative Language API" en console.cloud.google.com para el proyecto de la clave.';
       if (r.status === 404)
         return 'Modelo no encontrado (404). Cambia GEMINI_MODEL en el código por ' + "'gemini-2.0-flash'" + ' o ' + "'gemini-flash-latest'" + '.';
       if (r.status === 429) {
@@ -1250,10 +1247,12 @@ async function probarConexion() {
   const cuerpo = { contents: [{ role: 'user', parts: [{ text: 'di OK' }] }] };
 
   // Cada combinación a probar: etiqueta + cómo construir url/headers.
+  // El header x-goog-api-key se incluye solo para documentar que Express lo
+  // rechaza (401); el camino que suele funcionar para claves AQ. es EXPRESS ?key=.
   const pruebas = [
-    { etq: '(a) NATIVO  ?key=',        url: URL_NATIVO + '?key=' + encodeURIComponent(apiKey), headers: { 'Content-Type': 'application/json' } },
-    { etq: '(b) NATIVO  header',       url: URL_NATIVO,  headers: { 'Content-Type': 'application/json', 'x-goog-api-key': apiKey } },
-    { etq: '(c) EXPRESS header',       url: URL_EXPRESS, headers: { 'Content-Type': 'application/json', 'x-goog-api-key': apiKey } },
+    { etq: '(a) NATIVO  ?key=',  url: URL_NATIVO  + '?key=' + encodeURIComponent(apiKey), headers: { 'Content-Type': 'application/json' } },
+    { etq: '(b) EXPRESS ?key=',  url: URL_EXPRESS + '?key=' + encodeURIComponent(apiKey), headers: { 'Content-Type': 'application/json' } },
+    { etq: '(c) EXPRESS header', url: URL_EXPRESS, headers: { 'Content-Type': 'application/json', 'x-goog-api-key': apiKey } },
   ];
 
   log.textContent = 'Probando 3 caminos con ' + GEMINI_MODEL + '...\n';
