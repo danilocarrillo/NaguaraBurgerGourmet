@@ -1,0 +1,21 @@
+{
+  "name": "naguara-whatsapp-agent",
+  "version": "1.0.0",
+  "description": "Agente de WhatsApp para Naguará Burger Gourmet — gestión de pedidos y publicidad",
+  "type": "commonjs",
+  "main": "src/bot.js",
+  "scripts": {
+    "start": "node src/bot.js",
+    "bot": "node src/bot.js",
+    "publicidad": "node src/broadcast.js",
+    "pedidos": "node src/report.js"
+  },
+  "keywords": ["whatsapp", "bot", "naguara", "burger", "pedidos", "food-truck"],
+  "author": "Naguará Burger Gourmet",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "qrcode-terminal": "^0.12.0",
+    "whatsapp-web.js": "^1.26.0"
+  }
+}

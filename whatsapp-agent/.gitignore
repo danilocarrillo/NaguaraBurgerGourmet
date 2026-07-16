@@ -1,0 +1,17 @@
+# Dependencias
+node_modules/
+
+# Sesión de WhatsApp (¡NUNCA subir esto! da acceso a tu WhatsApp)
+.wwebjs_auth/
+.wwebjs_cache/
+
+# Datos de pedidos y clientes (privados)
+data/pedidos.json
+data/clientes.json
+
+# Variables de entorno
+.env
+
+# Sistema
+.DS_Store
+*.log
